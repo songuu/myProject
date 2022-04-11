@@ -1,26 +1,32 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 
+const path = require('path')
+
 let mainWindow: BrowserWindow | null
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
-// const assetsPath =
-//   process.env.NODE_ENV === 'production'
-//     ? process.resourcesPath
-//     : app.getAppPath()
+const assetsPath =
+  process.env.NODE_ENV === 'production'
+    ? process.resourcesPath
+    : app.getAppPath()
 
-function createWindow () {
+const Icon = path.join(assetsPath, 'assets', 'icon.png')
+
+function createWindow() {
   mainWindow = new BrowserWindow({
-    // icon: path.join(assetsPath, 'assets', 'icon.png'),
+    icon: Icon,
     width: 1100,
     height: 700,
-    backgroundColor: '#191622',
+    titleBarStyle: 'hidden',
+    backgroundColor: 'none',
     webPreferences: {
-      nodeIntegration: false,
+      scrollBounce: true,
+      nodeIntegration: true,
       contextIsolation: true,
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
-    }
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+    },
   })
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
@@ -28,9 +34,11 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  mainWindow.webContents.openDevTools()
 }
 
-async function registerListeners () {
+async function registerListeners() {
   /**
    * This comes from bridge integration, check bridge.ts
    */
@@ -39,7 +47,18 @@ async function registerListeners () {
   })
 }
 
-app.on('ready', createWindow)
+app.setAppUserModelId('软件管理')
+
+app.name = '软件管理'
+
+app.dock && app.dock.setIcon(Icon)
+
+app.commandLine.appendSwitch('max-active-webgl-contexts', '32') // 设置webgl最大值
+
+app.commandLine.appendSwitch('ignore-gpu-blacklist') // 忽略gpu黑名单
+
+app
+  .on('ready', createWindow)
   .whenReady()
   .then(registerListeners)
   .catch(e => console.error(e))

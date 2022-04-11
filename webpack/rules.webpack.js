@@ -17,14 +17,36 @@ module.exports = [
     test: /\.(js|ts|tsx)$/,
     exclude: /node_modules/,
     use: {
-      loader: 'babel-loader'
-    }
+      loader: 'babel-loader',
+    },
+  },
+  {
+    test: /\.less$/,
+    use: [
+      'cache-loader',
+      'style-loader',
+      'css-loader',
+      'postcss-loader',
+      {
+        loader: 'less-loader',
+        options: {
+          lessOptions: {
+            javascriptEnabled: true,
+          },
+        },
+      },
+    ],
   },
   {
     test: /\.(png|jpe?g|gif)$/i,
-    loader: 'file-loader',
-    options: {
-      name: '[path][name].[ext]',
+    type: 'asset',
+    generator: {
+      filename: 'images/[name].[hash:8][ext]', // 局部指定输出位置
     },
-  }
+    parser: {
+      dataUrlCondition: {
+        maxSize: 8 * 1024, // 限制于 8kb
+      },
+    },
+  },
 ]

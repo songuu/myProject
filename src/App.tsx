@@ -1,9 +1,11 @@
-import { Greetings } from './components/Greetings'
+import { FC } from 'react'
 
-export function App() {
-  return (
-    <>
-      <Greetings />
-    </>
-  )
+import Router from '@router/index'
+
+interface IAppProps {}
+
+const App: FC<IAppProps> = () => {
+  return <Router />
 }
+
+export default App

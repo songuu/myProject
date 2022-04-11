@@ -5,6 +5,7 @@
   "description": "use electron to manage emoji",
   "main": "./.webpack/main/index.js",
   "scripts": {
+    "dev": "electron-forge start",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -15,10 +16,21 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "antd": "^4.19.5",
+    "cache-loader": "^4.1.0",
+    "classnames": "^2.3.1",
+    "css-loader": "^6.7.1",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
+    "postcss-loader": "^6.2.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-hot-loader": "4.13.0",
-    "styled-components": "5.3.5"
+    "react-redux": "^7.2.8",
+    "react-router-dom": "^6.3.0",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
+    "style-loader": "^3.3.1"
   },
   "devDependencies": {
     "@babel/core": "7.17.9",
@@ -39,7 +51,6 @@
     "@types/jest": "27.4.1",
     "@types/react": "18.0.0",
     "@types/react-dom": "18.0.0",
-    "@types/styled-components": "5.1.25",
     "@typescript-eslint/eslint-plugin": "5.18.0",
     "@typescript-eslint/parser": "5.18.0",
     "babel-loader": "8.2.4",
