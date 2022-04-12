@@ -1,22 +1,23 @@
-import React, { Suspense } from 'react'
+import React, { FC, lazy } from 'react'
 
-import { Routes, Route, BrowserRouter } from 'react-router-dom'
+import { useRoutes, useLocation } from 'react-router-dom'
 
-import { AppLoading } from '@components/index'
+const BaseLayout = lazy(() => import('@layout/index'))
+
+import { NotFound } from '@components/index'
 
 type IRouterProps = {}
 
-const Router: React.FC<IRouterProps> = props => {
-  return (
-    <BrowserRouter>
-      <Suspense fallback={<AppLoading />}>
-        <Routes>
-          <Route path="/" element={<div>首页</div>} />
-          <Route path="/about" element={<div>关于</div>} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
-  )
+const Routers: FC<IRouterProps> = props => {
+  const location = useLocation()
+
+  return useRoutes([
+    {
+      path: '/main_window',
+      element: <BaseLayout />,
+    },
+    { path: '*', element: <NotFound /> },
+  ])
 }
 
-export default Router
+export default Routers

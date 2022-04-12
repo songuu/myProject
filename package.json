@@ -16,7 +16,6 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "antd": "^4.19.5",
     "cache-loader": "^4.1.0",
     "classnames": "^2.3.1",
     "css-loader": "^6.7.1",
@@ -26,7 +25,7 @@
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-hot-loader": "4.13.0",
-    "react-redux": "^7.2.8",
+    "react-redux": "^8.0.0-beta.1",
     "react-router-dom": "^6.3.0",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
@@ -51,6 +50,7 @@
     "@types/jest": "27.4.1",
     "@types/react": "18.0.0",
     "@types/react-dom": "18.0.0",
+    "@types/react-router-dom": "5.3.3",
     "@typescript-eslint/eslint-plugin": "5.18.0",
     "@typescript-eslint/parser": "5.18.0",
     "babel-loader": "8.2.4",
@@ -76,8 +76,8 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "name": "Electron starter",
-        "executableName": "electron-starter",
+        "name": "软件管理",
+        "executableName": "软件管理",
         "icon": "assets/icon",
         "extraResource": [
           "assets"
@@ -108,7 +108,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "Electron Starter"
+            "name": "软件管理"
           }
         },
         {
