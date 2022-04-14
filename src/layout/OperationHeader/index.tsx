@@ -1,12 +1,27 @@
 import React from 'react'
 
+import { APPCATIONTITLE } from '@config/index'
+
 import styles from './index.module.less'
 
 function OperationHeader() {
+  // 关闭窗口
+  const close = () => {
+    window.Main.closeWindow()
+  }
+  // 最小化窗口
+  const min = () => {
+    window.Main.minWindow()
+  }
+  // 切换窗口状态：如果当前状态是最大化则取消最大化，否则最大化
+  const toggle = () => {
+    window.Main.toggleWindow()
+  }
   return (
     <div className={styles.header}>
+      <div className={styles['header-title']}>{APPCATIONTITLE}</div>
       <div className={styles['header-main']}>
-        <p>
+        <p onClick={min}>
           <svg
             viewBox="0 0 1024 1024"
             version="1.1"
@@ -22,7 +37,7 @@ function OperationHeader() {
             ></path>
           </svg>
         </p>
-        <p>
+        <p onClick={toggle}>
           <svg
             viewBox="0 0 1024 1024"
             version="1.1"
@@ -38,8 +53,7 @@ function OperationHeader() {
             ></path>
           </svg>
         </p>
-
-        <p>
+        <p onClick={close}>
           <svg
             viewBox="0 0 1024 1024"
             version="1.1"

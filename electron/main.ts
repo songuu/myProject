@@ -45,6 +45,33 @@ async function registerListeners() {
   ipcMain.on('message', (_, message) => {
     console.log(message)
   })
+
+  ipcMain.on("min-window", (event) => {
+    mainWindow?.minimize();
+  })
+
+  ipcMain.on("unmax-window", (event) => {
+    mainWindow?.unmaximize();
+  })
+
+  ipcMain.on("close-window", (event) => {
+    if (mainWindow?.isFullScreen()) {
+      mainWindow?.once("leave-full-screen", () => mainWindow?.hide());
+      mainWindow?.setFullScreen(false);
+    } else {
+      mainWindow?.hide();
+    }
+  });
+
+  ipcMain.on("toggle-max", (event) => {
+    var isMax = mainWindow?.isMaximized();
+
+    if (isMax) {
+      mainWindow?.unmaximize();
+    } else {
+      mainWindow?.maximize();
+    }
+  });
 }
 
 app.setAppUserModelId('软件管理')

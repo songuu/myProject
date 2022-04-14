@@ -39,7 +39,10 @@
       ],
       "@layout/*": [
         "src/layout/*"
-      ]
+      ],
+      "@config/*": [
+        "config/*"
+      ],
     },
     "types": [
       "react/next",

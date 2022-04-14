@@ -12,6 +12,7 @@ module.exports = {
       '@views': path.resolve(__dirname, '../src/views'),
       '@router': path.resolve(__dirname, '../src/router'),
       '@styles': path.resolve(__dirname, '../src/styles'),
+      '@config': path.resolve(__dirname, '../config'),
     },
   },
   module: {
