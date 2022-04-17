@@ -2,6 +2,8 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 
 const path = require('path')
 
+import { makeTray } from './tray'
+
 let mainWindow: BrowserWindow | null
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
@@ -74,9 +76,11 @@ async function registerListeners() {
   });
 }
 
-app.setAppUserModelId('软件管理')
+app.setAppUserModelId('表情管理')
 
-app.name = '软件管理'
+app.name = '表情管理'
+
+app.dock && app.dock.setIcon(Icon)
 
 app.dock && app.dock.setIcon(Icon)
 
@@ -85,7 +89,10 @@ app.commandLine.appendSwitch('max-active-webgl-contexts', '32') // 设置webgl�
 app.commandLine.appendSwitch('ignore-gpu-blacklist') // 忽略gpu黑名单
 
 app
-  .on('ready', createWindow)
+  .on('ready', () => {
+    createWindow()
+    if (mainWindow) { makeTray(mainWindow) };
+  })
   .whenReady()
   .then(registerListeners)
   .catch(e => console.error(e))
@@ -101,3 +108,11 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+// 单例程序
+if (!app.requestSingleInstanceLock()) {
+  app.quit()
+  process.exit(0)
+}
+
+app.setAsDefaultProtocolClient('applycations')

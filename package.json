@@ -21,6 +21,7 @@
     "css-loader": "^6.7.1",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
+    "nprogress": "^0.2.0",
     "postcss-loader": "^6.2.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
@@ -76,8 +77,8 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "name": "软件管理",
-        "executableName": "软件管理",
+        "name": "表情管理",
+        "executableName": "表情管理",
         "icon": "assets/icon",
         "extraResource": [
           "assets"
@@ -108,7 +109,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "软件管理"
+            "name": "表情管理"
           }
         },
         {

@@ -13,6 +13,7 @@ module.exports = {
       '@router': path.resolve(__dirname, '../src/router'),
       '@styles': path.resolve(__dirname, '../src/styles'),
       '@config': path.resolve(__dirname, '../config'),
+      '@imgs': path.resolve(__dirname, '../src/static/imgs'),
     },
   },
   module: {

@@ -43,6 +43,9 @@
       "@config/*": [
         "config/*"
       ],
+      "@imgs/*": [
+        "src/imgs/*"
+      ],
     },
     "types": [
       "react/next",

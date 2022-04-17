@@ -3,7 +3,6 @@ import React from 'react'
 import OperationHeader from './OperationHeader'
 import Header from './Header'
 import Content from './Content'
-import Sider from './Sider'
 
 import styles from './index.module.less'
 
@@ -22,11 +21,8 @@ const BaseLayout: React.FC<IBaseLayoutProps> = () => {
     >
       <OperationHeader />
       <div className={styles.innerContainer}>
-        <Sider></Sider>
-        <div className={styles.innerContainerMain}>
           <Header></Header>
           <Content></Content>
-        </div>
       </div>
     </div>
   )
