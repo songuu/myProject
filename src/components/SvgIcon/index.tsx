@@ -1,25 +1,27 @@
 import React, { useMemo } from 'react'
 
-import searchIcon from '@icons/search.svg'
+import classnames from 'classnames'
+
+// require('../../static/icons/search.svg')
 
 import styles from './index.module.less'
 
-interface Iprops {
+type Iprops = {
   iconClass?: string
   iconName: string
-}
+  mystyle?: React.CSSProperties
+} & React.SVGAttributes<SVGElement>
 
-const icons: { [K in string]: any } = { search: searchIcon }
-
-const SvgIcon: React.FC<Iprops> = ({ iconName, iconClass }) => {
+const SvgIcon: React.FC<Iprops> = ({ iconName, iconClass, mystyle }) => {
   const myIconName = useMemo(() => {
-    return icons[iconName]
-  }, [iconClass])
-
-  console.log(myIconName)
+    return `#${iconName}`
+  }, [iconName])
 
   return (
-    <svg className={styles['svg-icon']} aria-hidden="true">
+    <svg
+      className={classnames(styles['svg-icon'], iconClass)}
+      aria-hidden="true"
+    >
       <use xlinkHref={myIconName} />
     </svg>
   )

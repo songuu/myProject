@@ -31,7 +31,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
     <div className={styles['header-right']}>
       <div className={styles['header-right-search']}>
         <div className={`${styles.container} ${inputFocus ? styles.active : ''}`}>
-          <SvgIcon iconName='search' />
+          <SvgIcon iconName='search' iconClass={styles['svg-icon']} />
           <div className={styles.input}>
             <input
               type="search"

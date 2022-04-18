@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = [
   {
     test: /\.node$/,
@@ -38,7 +40,8 @@ module.exports = [
     ],
   },
   {
-    test: /\.(png|jpe?g|gif|svg)$/i,
+    test: /\.(png|jpe?g|gif)$/i,
+    include: [path.resolve(__dirname, '../src')],
     type: 'asset',
     generator: {
       filename: 'images/[name].[hash:8][ext]', // 局部指定输出位置
@@ -48,5 +51,29 @@ module.exports = [
         maxSize: 8 * 1024, // 限制于 8kb
       },
     },
+  },
+  {
+    test: /\.(mp3|ogg|html|xlsx|xls|ico)$/,
+    include: [path.resolve(__dirname, '../src')],
+    type: 'asset/resource',
+    generator: {
+      filename: 'file/[name].[hash:8][ext]', // 局部指定输出位置
+    },
+  },
+  {
+    test: /\.(svg)$/,
+    include: [path.resolve(__dirname, '../src')],
+    use: [
+      {
+        loader: 'svg-sprite-loader',
+      },
+      {
+        loader: 'svgo-loader'
+      },
+    ],
+    /* type: 'asset/resource',
+    generator: {
+      filename: 'file/[name].[hash:8][ext]', // 局部指定输出位置
+    }, */
   },
 ]

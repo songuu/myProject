@@ -52,7 +52,9 @@
     },
     "types": [
       "react/next",
-      "react-dom/next"
+      "react-dom/next",
+      "node",
+      "webpack-env"
     ]
   }
 }
