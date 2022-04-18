@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import { ContextMenu, SvgIcon } from '@components/index'
+
+import { MenuImperativeProps, ContextItem } from '@components/ContextMenu/index'
 
 import defaultAvatar from '@imgs/default-avatar.png'
 
@@ -12,6 +14,8 @@ interface IBaseHeaderProps {}
 
 const Header: React.FC<IBaseHeaderProps> = () => {
   const [inputFocus, setInputFocus] = useState<boolean>(false)
+
+  const contextRef = useRef<MenuImperativeProps>(null)
 
   return (
     <div className={styles.header}>
@@ -55,9 +59,28 @@ const Header: React.FC<IBaseHeaderProps> = () => {
             </div>
           </div>
         </div>
-        <img className={styles['header-right-avatar']} src={defaultAvatar} />
+        <img
+          className={styles['header-right-avatar']}
+          src={defaultAvatar}
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+            contextRef.current?.openMenu(e)
+          }}
+        />
       </div>
-      <ContextMenu />
+      <ContextMenu ref={contextRef}>
+        <ContextItem>
+          <SvgIcon iconName="settings" iconClass={styles['svg-icon']} />
+          <span>设置</span>
+        </ContextItem>
+        <ContextItem>
+          <SvgIcon iconName="login" iconClass={styles['svg-icon']} />
+          <span>登录</span>
+        </ContextItem>
+        <ContextItem>
+          <SvgIcon iconName="logout" iconClass={styles['svg-icon']} />
+          <span>登出</span>
+        </ContextItem>
+      </ContextMenu>
     </div>
   )
 }
