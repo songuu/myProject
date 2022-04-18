@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, session } from 'electron'
 
 const path = require('path')
 
@@ -92,6 +92,14 @@ app
   .on('ready', () => {
     createWindow()
     if (mainWindow) { makeTray(mainWindow) };
+    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+      callback({
+        responseHeaders: Object.assign({
+          ...details.responseHeaders,
+          "Content-Security-Policy": ["default-src 'self' 'unsafe-inline' data:"]
+        }, details.responseHeaders)
+      });
+    });
   })
   .whenReady()
   .then(registerListeners)

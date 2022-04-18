@@ -38,7 +38,7 @@ module.exports = [
     ],
   },
   {
-    test: /\.(png|jpe?g|gif)$/i,
+    test: /\.(png|jpe?g|gif|svg)$/i,
     type: 'asset',
     generator: {
       filename: 'images/[name].[hash:8][ext]', // 局部指定输出位置

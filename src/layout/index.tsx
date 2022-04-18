@@ -8,11 +8,6 @@ import styles from './index.module.less'
 
 interface IBaseLayoutProps {}
 
-/*
- * 目前的展示形式是：
- *  1. 左侧是应用列表，右侧是应用详情和管理
- *
- */
 const BaseLayout: React.FC<IBaseLayoutProps> = () => {
   return (
     <div

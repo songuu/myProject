@@ -46,6 +46,9 @@
       "@imgs/*": [
         "src/imgs/*"
       ],
+      "@icons/*": [
+        "src/icons/*"
+      ],
     },
     "types": [
       "react/next",

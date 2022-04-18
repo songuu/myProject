@@ -1,3 +1,3 @@
-const APPCATIONTITLE = '表情管理';
+const APPCATIONTITLE = '管理';
 
 export { APPCATIONTITLE }
