@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 import { ContextMenu, SvgIcon } from '@components/index'
 
@@ -13,6 +13,7 @@ import styles from './index.module.less'
 interface IBaseHeaderProps {}
 
 const Header: React.FC<IBaseHeaderProps> = () => {
+  const navigate = useNavigate()
   const [inputFocus, setInputFocus] = useState<boolean>(false)
 
   const contextRef = useRef<MenuImperativeProps>(null)
@@ -68,7 +69,13 @@ const Header: React.FC<IBaseHeaderProps> = () => {
         />
       </div>
       <ContextMenu ref={contextRef}>
-        <ContextItem>
+        <ContextItem
+          onclick={() =>
+            navigate({
+              pathname: '/main_window/setting',
+            })
+          }
+        >
           <SvgIcon iconName="settings" iconClass={styles['svg-icon']} />
           <span>设置</span>
         </ContextItem>

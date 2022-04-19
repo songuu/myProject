@@ -10,7 +10,8 @@ export interface MenuImperativeProps {
 }
 
 interface IPropsItem {
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  onclick?: () => void
 }
 interface IProps {
   ref: any
@@ -77,8 +78,8 @@ const ContextMenu: React.FC<IProps> = forwardRef((props, ref) => {
   )
 })
 
-const ContextItem: React.FC<IPropsItem> = ({ children }) => {
-  return <div className={styles['menu-item']}>{children}</div>
+const ContextItem: React.FC<IPropsItem> = ({ children, onclick }) => {
+  return <div className={styles['menu-item']} onClick={onclick}>{children}</div>
 }
 
 export { ContextItem }
