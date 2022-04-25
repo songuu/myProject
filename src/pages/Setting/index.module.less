@@ -5,6 +5,7 @@
 
   .setting-page-container {
     margin-top: 24px;
+    margin-bottom: 64px;
     width: 720px;
 
     button {
@@ -209,10 +210,11 @@
           min-width: 146px;
           min-height: 34px;
           box-sizing: border-box;
-          &.active {
-            color: #335eea;
-            background-color: #eaeffd;
-          }
+        }
+
+        .keyboard-input-active {
+          color: #335eea;
+          background-color: #eaeffd;
         }
       }
 
@@ -224,6 +226,15 @@
 
       .restore-default-shortcut {
         margin-top: 12px;
+      }
+    }
+
+    .shortcut-table-enable {
+      .shortcut-table-row .shortcut-table-col:last-child {
+        opacity: 0.48;
+      }
+      .shortcut-table-row-head .shortcut-table-col:last-child {
+        opacity: 1;
       }
     }
   }

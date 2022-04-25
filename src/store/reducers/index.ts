@@ -1,11 +1,19 @@
+import { RootActions } from './../actions'
 import { AnyAction, combineReducers, ReducersMapObject, Reducer } from 'redux'
 
-export type StoreActions = AnyAction
+import settings, { SettingsStateProps } from './settings'
 
-export interface StoreStateProps { }
+export type StoreActions = AnyAction | RootActions
 
-const reducers: ReducersMapObject<StoreStateProps, StoreActions> = {}
+export interface StoreStateProps {
+  settings: SettingsStateProps
+}
 
-const reducer: Reducer<StoreStateProps, StoreActions> = combineReducers(reducers)
+const reducers: ReducersMapObject<StoreStateProps, StoreActions> = {
+  settings,
+}
 
-export default reducer;
+const reducer: Reducer<StoreStateProps, StoreActions> =
+  combineReducers(reducers)
+
+export default reducer

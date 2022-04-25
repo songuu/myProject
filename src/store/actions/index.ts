@@ -2,6 +2,12 @@ import { Types } from '../action-types'
 import { Dispatch } from 'react'
 import { Action, AnyAction } from 'redux'
 
+import {
+  resetShortcuts,
+  changeEnableGlobalShortcut,
+  updateShortcut,
+} from './settings'
+
 /** 自定义通用同步Action */
 export interface CommonAction<T = any> {
   type: Types
@@ -13,12 +19,12 @@ export interface CommonActionCreator<T = any> {
   (options?: T): CommonAction<T>
 }
 
-/** 自定义通用异步ActionCreator*/
+/** 自定义通用异步ActionCreator */
 export interface CommonAsyncActionCreator<
   T = any,
   R = any,
-  A extends Action = AnyAction,
-  > {
+  A extends Action = AnyAction
+> {
   (options?: T): (dispatch: Dispatch<A>) => R
 }
 
@@ -29,3 +35,5 @@ export interface RootActionsCreator {
 
 /** 应用Actions */
 export type RootActions = any
+
+export { resetShortcuts, changeEnableGlobalShortcut, updateShortcut }

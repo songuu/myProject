@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { SvgIcon } from '@components/index'
 
@@ -8,52 +8,62 @@ import styles from './index.module.less'
 
 import defaultAvatar from '@imgs/default-avatar.png'
 
-const shorts = [
-  {
-    id: 'play',
-    name: '播放/暂停',
-    shortcut: 'CommandOrControl+P',
-    globalShortcut: 'Alt+CommandOrControl+P',
-  },
-  {
-    id: 'next',
-    name: '下一首',
-    shortcut: 'CommandOrControl+Right',
-    globalShortcut: 'Alt+CommandOrControl+Right',
-  },
-  {
-    id: 'previous',
-    name: '上一首',
-    shortcut: 'CommandOrControl+Left',
-    globalShortcut: 'Alt+CommandOrControl+Left',
-  },
-  {
-    id: 'increaseVolume',
-    name: '增加音量',
-    shortcut: 'CommandOrControl+Up',
-    globalShortcut: 'Alt+CommandOrControl+Up',
-  },
-  {
-    id: 'decreaseVolume',
-    name: '减少音量',
-    shortcut: 'CommandOrControl+Down',
-    globalShortcut: 'Alt+CommandOrControl+Down',
-  },
-  {
-    id: 'like',
-    name: '喜欢歌曲',
-    shortcut: 'CommandOrControl+L',
-    globalShortcut: 'Alt+CommandOrControl+L',
-  },
-  {
-    id: 'minimize',
-    name: '隐藏/显示播放器',
-    shortcut: 'CommandOrControl+M',
-    globalShortcut: 'Alt+CommandOrControl+M',
-  },
-]
+import { useAppSelector, useAppDispatch } from '@root/store/index'
+
+import { ShortcutType } from '@root/store/reducer/settings'
+
+import { changeEnableGlobalShortcut } from '@root/store/actions'
 
 const Setting = () => {
+  const dispatch = useAppDispatch()
+  const shortcuts = useAppSelector(state => state.settings.shortcuts)
+
+  const enableGlobalShortcut = useAppSelector(
+    state => state.settings.enableGlobalShortcut
+  )
+
+  const [shortcutInput, setShortcutInput] = useState({
+    id: '',
+    type: '',
+    recording: false,
+  })
+
+  const [recordedShortcut, setRecordedShortcut] = useState([])
+
+  const handleToggle = () => {
+    dispatch(changeEnableGlobalShortcut())
+  }
+
+  const readyToRecordShortcut = (id: string, type: string) => {
+    if (type === 'globalShortcut' && !enableGlobalShortcut) {
+      return
+    }
+
+    setShortcutInput({
+      id,
+      type,
+      recording: true,
+    })
+  }
+
+  const formatShortcut = (shortcut: any) => {
+    shortcut = shortcut
+      .replaceAll('+', ' + ')
+      .replace('Up', '↑')
+      .replace('Down', '↓')
+      .replace('Right', '→')
+      .replace('Left', '←')
+    /* if (process.platform === 'darwin') {
+      return shortcut
+        .replace('CommandOrControl', '⌘')
+        .replace('Command', '⌘')
+        .replace('Alt', '⌥')
+        .replace('Control', '⌃')
+        .replace('Shift', '⇧')
+    } */
+    return shortcut.replace('CommandOrControl', 'Ctrl')
+  }
+
   return (
     <div className={styles['setting-page']}>
       <div className={styles['setting-page-container']}>
@@ -83,9 +93,11 @@ const Setting = () => {
             <div className={styles['setting-page-right']}>
               <div className={styles.toggle}>
                 <input
+                  checked={enableGlobalShortcut}
                   id="enable-enable-global-shortcut"
                   type="checkbox"
                   name="enable-enable-global-shortcut"
+                  onChange={handleToggle}
                 />
                 <label htmlFor="enable-enable-global-shortcut"></label>
               </div>
@@ -93,7 +105,10 @@ const Setting = () => {
           </div>
           <div
             id="shortcut-table"
-            className={styles['shortcut-table']}
+            className={classnames(
+              styles['shortcut-table'],
+              !enableGlobalShortcut ? styles['shortcut-table-enable'] : ''
+            )}
             tabIndex={0}
             onKeyDown={() => {}}
           >
@@ -107,20 +122,34 @@ const Setting = () => {
               <div className={styles['shortcut-table-col']}>快捷键</div>
               <div className={styles['shortcut-table-col']}>全局快捷键</div>
             </div>
-            {shorts.map(short => {
+            {shortcuts.map((shortcut: ShortcutType) => {
               return (
-                <div className={styles['shortcut-table-row']} key={short.id}>
+                <div className={styles['shortcut-table-row']} key={shortcut.id}>
                   <div className={styles['shortcut-table-col']}>
-                    {short.name}
+                    {shortcut.name}
                   </div>
                   <div className={styles['shortcut-table-col']}>
-                    <div className={classnames(styles['keyboard-input'])}>
-                      {short.shortcut}
+                    <div
+                      onClick={() =>
+                        readyToRecordShortcut(shortcut.id, 'shortcut')
+                      }
+                      className={classnames(
+                        styles['keyboard-input'],
+                        shortcutInput.id === shortcut.id &&
+                          shortcutInput.type === 'shortcut'
+                          ? styles['keyboard-input-active']
+                          : ''
+                      )}
+                    >
+                      {shortcutInput.id === shortcut.id &&
+                      shortcutInput.type === 'shortcut'
+                        ? formatShortcut(shortcut.shortcut)
+                        : formatShortcut(shortcut.shortcut)}
                     </div>
                   </div>
                   <div className={styles['shortcut-table-col']}>
                     <div className={classnames(styles['keyboard-input'])}>
-                      {short.shortcut}
+                      {shortcut.shortcut}
                     </div>
                   </div>
                 </div>
