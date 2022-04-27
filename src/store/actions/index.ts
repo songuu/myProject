@@ -27,13 +27,11 @@ export interface CommonAsyncActionCreator<
 > {
   (options?: T): (dispatch: Dispatch<A>) => R
 }
-
+/** 应用Actions */
+export type RootActions = any
 /** 应用ActionCreator */
 export interface RootActionsCreator {
   (): RootActions
 }
-
-/** 应用Actions */
-export type RootActions = any
 
 export { resetShortcuts, changeEnableGlobalShortcut, updateShortcut }

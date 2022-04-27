@@ -3,16 +3,9 @@ import { RootActions } from '../actions'
 
 import shortcuts from '@root/constants/shortcuts'
 
-export type ShortcutType = {
-  id: string
-  name: string
-  shortcut: string
-  globalShortcut: string
-}
-
 export interface SettingsStateProps {
   enableGlobalShortcut: boolean
-  shortcuts: ShortcutType[]
+  shortcuts: types.ShortcutType[]
 }
 
 const initialState: SettingsStateProps = {
@@ -36,6 +29,7 @@ export default (
         enableGlobalShortcut: !state.enableGlobalShortcut,
       }
     case types.UPDATE_SHORTCUT:
+      console.log(action)
       return {
         ...state,
         shortcuts: state.shortcuts.map(item => {

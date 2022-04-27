@@ -1,10 +1,5 @@
 import * as types from '../action-types'
 
-type ShortcutType = {
-  id: string
-  value: string
-}
-
 export interface ResetShortcutsAction {
   type: types.RESET_SHORTCUTS_TYPE
 }
@@ -15,7 +10,7 @@ export interface ChangeEnableGlobalShortcutAction {
 
 export interface UpdateShortcutAction {
   type: types.UPDATE_SHORTCUT_TYPE
-  payload: ShortcutType
+  payload: types.UpdatecutType
 }
 
 export const resetShortcuts = (): ResetShortcutsAction => ({
@@ -28,7 +23,7 @@ export const changeEnableGlobalShortcut =
   })
 
 export const updateShortcut = (
-  payload: ShortcutType
+  payload: types.UpdatecutType
 ): UpdateShortcutAction => ({
   type: types.UPDATE_SHORTCUT,
   payload,

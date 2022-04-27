@@ -9,4 +9,17 @@ export type CHANGE_ENABLE_GLOBAL_SHORTCUT_TYPE =
 export const UPDATE_SHORTCUT = 'UPDATE_SHORTCUT'
 export type UPDATE_SHORTCUT_TYPE = typeof UPDATE_SHORTCUT
 
+export type ShortcutType = {
+  id: string
+  name: string
+  shortcut: string
+  globalShortcut: string
+}
+
+export type UpdatecutType = {
+  id: string
+  type: string
+  shortcut: string
+}
+
 export enum Types {}
