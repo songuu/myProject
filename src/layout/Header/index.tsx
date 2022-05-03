@@ -2,9 +2,13 @@ import React, { useRef, useState } from 'react'
 
 import { NavLink, useNavigate } from 'react-router-dom'
 
+import { useAppDispatch } from '@root/store/index'
+
 import { ContextMenu, SvgIcon } from '@components/index'
 
 import { MenuImperativeProps, ContextItem } from '@components/ContextMenu/index'
+
+import { setShowLogin } from '@root/store/actions'
 
 import defaultAvatar from '@imgs/default-avatar.png'
 
@@ -14,6 +18,8 @@ interface IBaseHeaderProps {}
 
 const Header: React.FC<IBaseHeaderProps> = () => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
   const [inputFocus, setInputFocus] = useState<boolean>(false)
 
   const contextRef = useRef<MenuImperativeProps>(null)
@@ -79,7 +85,11 @@ const Header: React.FC<IBaseHeaderProps> = () => {
           <SvgIcon iconName="settings" iconClass={styles['svg-icon']} />
           <span>设置</span>
         </ContextItem>
-        <ContextItem>
+        <ContextItem
+          onclick={() => {
+            dispatch(setShowLogin())
+          }}
+        >
           <SvgIcon iconName="login" iconClass={styles['svg-icon']} />
           <span>登录</span>
         </ContextItem>
