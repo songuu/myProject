@@ -1,8 +1,25 @@
-import { app, BrowserWindow, ipcMain, session } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  session,
+  globalShortcut
+} from 'electron'
+
+import Store from 'electron-store'
+
+import { registerGlobalShortcut } from './globalShortcut'
+
+import { getCapture } from './screen'
+
+import { makeTray } from './tray'
 
 const path = require('path')
 
-import { makeTray } from './tray'
+const clc = require('cli-color')
+const log = (text: string) => {
+  console.log(`${clc.blueBright('[ipcMain.js]')} ${text}`)
+}
 
 let mainWindow: BrowserWindow | null
 
@@ -24,9 +41,10 @@ function createWindow() {
     titleBarStyle: 'hidden',
     backgroundColor: 'none',
     webPreferences: {
+      webSecurity: false, // 解决接口的跨域的问题
       scrollBounce: true,
       nodeIntegration: true,
-      contextIsolation: true,
+      // contextIsolation: false,
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   })
@@ -41,46 +59,69 @@ function createWindow() {
 }
 
 async function registerListeners() {
-  /**
-   * This comes from bridge integration, check bridge.ts
-   */
   ipcMain.on('message', (_, message) => {
     console.log(message)
   })
 
-  ipcMain.on("min-window", (event) => {
-    mainWindow?.minimize();
+  ipcMain.on('min-window', event => {
+    mainWindow?.minimize()
   })
 
-  ipcMain.on("unmax-window", (event) => {
-    mainWindow?.unmaximize();
+  ipcMain.on('unmax-window', event => {
+    mainWindow?.unmaximize()
   })
 
-  ipcMain.on("close-window", (event) => {
+  ipcMain.on('close-window', event => {
     if (mainWindow?.isFullScreen()) {
-      mainWindow?.once("leave-full-screen", () => mainWindow?.hide());
-      mainWindow?.setFullScreen(false);
+      mainWindow?.once('leave-full-screen', () => mainWindow?.hide())
+      mainWindow?.setFullScreen(false)
     } else {
-      mainWindow?.hide();
+      mainWindow?.hide()
     }
-  });
+  })
 
-  ipcMain.on("toggle-max", (event) => {
-    var isMax = mainWindow?.isMaximized();
+  ipcMain.on('toggle-max', event => {
+    var isMax = mainWindow?.isMaximized()
 
     if (isMax) {
-      mainWindow?.unmaximize();
+      mainWindow?.unmaximize()
     } else {
-      mainWindow?.maximize();
+      mainWindow?.maximize()
     }
-  });
+  })
+
+  ipcMain.on('switchGlobalShortcutStatusTemporary', (_, status) => {
+    log('switchGlobalShortcutStatusTemporary')
+    if (status === 'disable') {
+      globalShortcut.unregisterAll()
+    } else {
+      if (mainWindow) {
+        registerGlobalShortcut(mainWindow, store)
+      }
+    }
+  })
+
+  ipcMain.on('updateShortcut', (_, payload) => {
+    log('updateShortcut')
+  })
+
+  ipcMain.on('restoreDefaultShortcuts', _ => {
+    log('restoreDefaultShortcuts')
+    globalShortcut.unregisterAll()
+  })
+
+  // * 截屏
+  ipcMain.on('captureScreen', _ => {
+    log('captureScreen')
+    if (mainWindow) {
+      getCapture(mainWindow)
+    }
+  })
 }
 
-app.setAppUserModelId('表情管理')
+app.setAppUserModelId('管理')
 
-app.name = '表情管理'
-
-app.dock && app.dock.setIcon(Icon)
+app.name = '管理'
 
 app.dock && app.dock.setIcon(Icon)
 
@@ -88,18 +129,34 @@ app.commandLine.appendSwitch('max-active-webgl-contexts', '32') // 设置webgl�
 
 app.commandLine.appendSwitch('ignore-gpu-blacklist') // 忽略gpu黑名单
 
+// * 初始化store
+const store = new Store()
+
 app
   .on('ready', () => {
     createWindow()
-    if (mainWindow) { makeTray(mainWindow) };
+    if (mainWindow) {
+      makeTray(mainWindow)
+
+      if (store.get('settings.enableGlobalShortcut') !== false) {
+        registerGlobalShortcut(mainWindow, store)
+      }
+    }
+
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+      // eslint-disable-next-line node/no-callback-literal
       callback({
-        responseHeaders: Object.assign({
-          ...details.responseHeaders,
-          "Content-Security-Policy": ["default-src 'self' 'unsafe-inline' data:"]
-        }, details.responseHeaders)
-      });
-    });
+        responseHeaders: Object.assign(
+          {
+            ...details.responseHeaders,
+            'Content-Security-Policy': [
+              "default-src 'self' 'unsafe-inline' data:",
+            ],
+          },
+          details.responseHeaders
+        ),
+      })
+    })
   })
   .whenReady()
   .then(registerListeners)

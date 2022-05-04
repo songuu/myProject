@@ -58,8 +58,12 @@ const Setting = () => {
     useState<string>('')
 
   useEffect(() => {
+    if (!recordedShortcut.length) {
+      return
+    }
     let shortcut: any = []
 
+    // eslint-disable-next-line array-callback-return
     recordedShortcut.map((e: KeyItem) => {
       if (e.keyCode >= 65 && e.keyCode <= 90) {
         // A-Z
@@ -85,14 +89,19 @@ const Setting = () => {
       }
     })
 
+    /*
+     * 首先快捷键的设置需要考虑主要的功能键和其他的键
+     * 功能键的设置的优先级更高
+     */
     const sortTable: any = {
       Control: 1,
       Shift: 2,
       Alt: 3,
       Command: 4,
     }
+
     shortcut = shortcut.sort((a: string, b: number) => {
-      if (!sortTable[a] || !sortTable[b]) return 0
+      if (!sortTable[a] || !sortTable[b]) return -1
       if (sortTable[a] - sortTable[b] <= -1) {
         return -1
       } else if (sortTable[a] - sortTable[b] >= 1) {
@@ -103,8 +112,6 @@ const Setting = () => {
     })
 
     shortcut = shortcut.join('+')
-
-    console.log(shortcut)
 
     setRecordedShortcutComputed(shortcut)
   }, [recordedShortcut])
@@ -125,6 +132,8 @@ const Setting = () => {
     })
 
     setRecordedShortcut([])
+
+    window.Main.switchGlobalShortcutStatusTemporary('disable')
   }
 
   const formatShortcut = (shortcut: any) => {
@@ -142,7 +151,9 @@ const Setting = () => {
         .replace('Control', '⌃')
         .replace('Shift', '⇧')
     } */
-    return shortcut.replace('CommandOrControl', 'Ctrl')
+    return shortcut
+      .replace('CommandOrControl', 'Ctrl')
+      .replace('Control', 'Ctrl')
   }
 
   const saveShortcut = () => {
@@ -155,6 +166,8 @@ const Setting = () => {
     }
 
     dispatch(updateShortcut(payload))
+
+    window.Main.updateShortcut(payload)
 
     setTimeout(() => {
       setRecordedShortcut([])
@@ -196,8 +209,27 @@ const Setting = () => {
     } */
   }
 
+  const restoreDefaultShortcuts = () => {
+    dispatch(resetShortcuts())
+    window.Main.restoreDefaultShortcuts()
+  }
+
+  const clickOutside = () => {
+    if (!shortcutInput.recording) return
+
+    setShortcutInput({
+      id: '',
+      type: '',
+      recording: false,
+    })
+
+    setRecordedShortcut([])
+
+    window.Main.switchGlobalShortcutStatusTemporary('enable')
+  }
+
   return (
-    <div className={styles['setting-page']}>
+    <div className={styles['setting-page']} onClick={clickOutside}>
       <div className={styles['setting-page-container']}>
         <div className={styles['setting-page-useinfo']}>
           <div className={styles['setting-page-left']}>
@@ -307,9 +339,7 @@ const Setting = () => {
             })}
             <button
               className={styles['restore-default-shortcut']}
-              onClick={() => {
-                dispatch(resetShortcuts())
-              }}
+              onClick={restoreDefaultShortcuts}
             >
               恢复默认快捷键
             </button>

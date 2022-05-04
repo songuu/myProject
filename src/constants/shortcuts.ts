@@ -41,4 +41,10 @@ export default [
     shortcut: 'CommandOrControl+M',
     globalShortcut: 'Alt+CommandOrControl+M',
   },
+  {
+    id: 'getCapture',
+    name: '截屏',
+    shortcut: 'CommandOrControl+P',
+    globalShortcut: 'Alt+CommandOrControl+P',
+  },
 ]

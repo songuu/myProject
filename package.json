@@ -16,10 +16,13 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@types/lodash": "^4.14.182",
     "@types/node": "^17.0.24",
     "cache-loader": "^4.1.0",
     "classnames": "^2.3.1",
+    "cli-color": "^2.0.2",
     "css-loader": "^6.7.1",
+    "electron-store": "^8.0.1",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
     "nprogress": "^0.2.0",
@@ -80,8 +83,8 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "name": "表情管理",
-        "executableName": "表情管理",
+        "name": "管理",
+        "executableName": "管理",
         "icon": "assets/icon",
         "extraResource": [
           "assets"
@@ -112,7 +115,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "表情管理"
+            "name": "管理"
           }
         },
         {
