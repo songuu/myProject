@@ -1,14 +1,10 @@
-import {
-  app,
-  BrowserWindow,
-  ipcMain,
-  session,
-  globalShortcut
-} from 'electron'
+import { app, BrowserWindow, ipcMain, session, globalShortcut } from 'electron'
 
 import Store from 'electron-store'
 
 import { registerGlobalShortcut } from './globalShortcut'
+
+import Screenshots from './pages/screenshots'
 
 import { getCapture } from './screen'
 
@@ -22,6 +18,8 @@ const log = (text: string) => {
 }
 
 let mainWindow: BrowserWindow | null
+
+let screenshots: any = null
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -58,7 +56,8 @@ function createWindow() {
   mainWindow.webContents.openDevTools()
 }
 
-async function registerListeners() {
+function registerListeners() {
+  log('registerListeners')
   ipcMain.on('message', (_, message) => {
     console.log(message)
   })
@@ -81,7 +80,7 @@ async function registerListeners() {
   })
 
   ipcMain.on('toggle-max', event => {
-    var isMax = mainWindow?.isMaximized()
+    const isMax = mainWindow?.isMaximized()
 
     if (isMax) {
       mainWindow?.unmaximize()
@@ -96,7 +95,7 @@ async function registerListeners() {
       globalShortcut.unregisterAll()
     } else {
       if (mainWindow) {
-        registerGlobalShortcut(mainWindow, store)
+        registerGlobalShortcut(mainWindow, store, updateSystemShortcut)
       }
     }
   })
@@ -109,14 +108,33 @@ async function registerListeners() {
     log('restoreDefaultShortcuts')
     globalShortcut.unregisterAll()
   })
+}
 
-  // * 截屏
-  ipcMain.on('captureScreen', _ => {
-    log('captureScreen')
-    if (mainWindow) {
-      getCapture(mainWindow)
-    }
-  })
+// * 系统层面的功能
+const updateSystemShortcut = (id: string) => {
+  switch (id) {
+    case 'getCapture':
+      /* if (mainWindow) {
+        getCapture(mainWindow)
+      } */
+      screenshots.startCapture()
+      screenshots.$view.webContents.openDevTools()
+
+      screenshots.on('cancel', (e: any) => {
+        log('cancel')
+      })
+
+      screenshots.on('ok', (e: any) => {
+        log('ok')
+      })
+
+      screenshots.on('save', (e: any) => {
+        log('save')
+      })
+      break
+    default:
+      break
+  }
 }
 
 app.setAppUserModelId('管理')
@@ -133,15 +151,10 @@ app.commandLine.appendSwitch('ignore-gpu-blacklist') // 忽略gpu黑名单
 const store = new Store()
 
 app
-  .on('ready', () => {
+  .on('ready', async () => {
     createWindow()
-    if (mainWindow) {
-      makeTray(mainWindow)
 
-      if (store.get('settings.enableGlobalShortcut') !== false) {
-        registerGlobalShortcut(mainWindow, store)
-      }
-    }
+    registerListeners()
 
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
       // eslint-disable-next-line node/no-callback-literal
@@ -159,7 +172,17 @@ app
     })
   })
   .whenReady()
-  .then(registerListeners)
+  .then(() => {
+    screenshots = new Screenshots()
+
+    if (mainWindow) {
+      makeTray(mainWindow)
+
+      if (store.get('settings.enableGlobalShortcut') !== false) {
+        registerGlobalShortcut(mainWindow, store, updateSystemShortcut)
+      }
+    }
+  })
   .catch(e => console.error(e))
 
 app.on('window-all-closed', () => {

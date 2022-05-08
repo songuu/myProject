@@ -2,7 +2,7 @@
   "name": "electron-react",
   "author": "1101309860@qq.com",
   "version": "1.0.0",
-  "description": "use electron to manage emoji",
+  "description": "use electron to manage info",
   "main": "./.webpack/main/index.js",
   "scripts": {
     "dev": "electron-forge start",
@@ -32,6 +32,7 @@
     "react-hot-loader": "4.13.0",
     "react-redux": "^8.0.0-beta.1",
     "react-router-dom": "^6.3.0",
+    "react-screenshots": "^0.3.1",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "style-loader": "^3.3.1",
@@ -62,7 +63,7 @@
     "@typescript-eslint/parser": "5.18.0",
     "babel-loader": "8.2.4",
     "cross-env": "7.0.3",
-    "electron": "18.0.3",
+    "electron": "17.4.3",
     "eslint": "8.13.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-standard": "16.0.3",
@@ -94,6 +95,7 @@
         [
           "@electron-forge/plugin-webpack",
           {
+            "devContentSecurityPolicy": "`default-src 'self' 'unsafe-inline' data:;`",
             "mainConfig": "./webpack/main.webpack.js",
             "renderer": {
               "config": "./webpack/renderer.webpack.js",

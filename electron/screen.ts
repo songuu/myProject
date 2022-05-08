@@ -7,6 +7,7 @@ const log = (text: string) => {
   console.log(`${clc.blueBright('[globalShortcut.js]')} ${text}`)
 }
 
+// 未做任何处理的情况下，默认的系统截屏
 const getCapture = async (win: BrowserWindow) => {
   log('getCapture')
 
@@ -31,7 +32,6 @@ const getCapture = async (win: BrowserWindow) => {
       (error: Error) => {
         if (error) {
           console.log(error)
-          return
         }
       }
     )

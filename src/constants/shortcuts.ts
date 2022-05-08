@@ -44,7 +44,8 @@ export default [
   {
     id: 'getCapture',
     name: '截屏',
-    shortcut: 'CommandOrControl+P',
-    globalShortcut: 'Alt+CommandOrControl+P',
+    shortcut: 'CommandOrControl+C',
+    globalShortcut: 'Alt+CommandOrControl+C',
+    type: 'system',
   },
 ]

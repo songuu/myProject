@@ -6,20 +6,20 @@ import shortcuts from '../src/constants/shortcuts'
 
 const { globalShortcut } = require('electron')
 
-const clc = require('cli-color')
-const log = (text: string) => {
-  console.log(`${clc.blueBright('[globalShortcut.js]')} ${text}`)
-}
-
 type shortcutsType = {
   id: string
   name: string
   shortcut: string
   globalShortcut: string
+  type?: 'system' | 'applycation'
 }
 
-const registerGlobalShortcut = (win: BrowserWindow, store: Store) => {
-  log('registerGlobalShortcut')
+// * 针对于渲染进程
+const registerGlobalShortcut = (
+  win: BrowserWindow,
+  store: Store,
+  callback: (id: string) => void
+) => {
   let oldShortcuts: any = store.get('settings.shortcuts')
 
   if (oldShortcuts === undefined) {
@@ -29,6 +29,10 @@ const registerGlobalShortcut = (win: BrowserWindow, store: Store) => {
   if (oldShortcuts.length) {
     oldShortcuts.forEach((shortcut: shortcutsType) => {
       globalShortcut.register(shortcut.globalShortcut, () => {
+        if (shortcut.type === 'system') {
+          callback && callback(shortcut.id)
+          return
+        }
         win.webContents.send(shortcut.id)
       })
     })
