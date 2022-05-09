@@ -29,6 +29,8 @@ export interface ScreenshotsOpts {
   lang: Partial<Lang>
 }
 
+declare const SCREENSHOTS_WEBPACK_ENTRY: string
+
 /*
  * 需要首先定义一个窗口
  * 主进程发布事件，窗口订阅执行
@@ -42,7 +44,7 @@ class Screenshots extends Events {
       preload: require.resolve('./preload.ts'),
       nodeIntegration: false,
       contextIsolation: true,
-      // nativeWindowOpen: false,
+      nativeWindowOpen: false,
     },
   })
 
@@ -51,10 +53,7 @@ class Screenshots extends Events {
 
     this.listenIpc()
 
-    // eslint-disable-next-line node/no-path-concat
-    this.$view.webContents.loadURL(
-      `file://${require.resolve('./electron.html')}`
-    )
+    this.$view.webContents.loadURL(SCREENSHOTS_WEBPACK_ENTRY)
   }
 
   /*

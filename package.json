@@ -95,7 +95,7 @@
         [
           "@electron-forge/plugin-webpack",
           {
-            "devContentSecurityPolicy": "`default-src 'self' 'unsafe-inline' data:;`",
+            "devContentSecurityPolicy": "default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;",
             "mainConfig": "./webpack/main.webpack.js",
             "renderer": {
               "config": "./webpack/renderer.webpack.js",
@@ -104,6 +104,14 @@
                   "html": "./public/index.html",
                   "js": "./src/index.tsx",
                   "name": "main_window",
+                  "preload": {
+                    "js": "./electron/bridge.ts"
+                  }
+                },
+                {
+                  "html": "./react-screenshots/index.html",
+                  "js": "./react-screenshots/index.tsx",
+                  "name": "screenshots",
                   "preload": {
                     "js": "./electron/bridge.ts"
                   }
