@@ -1,18 +1,18 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
-// import { Display } from './getBoundAndDisplay'
-import { Bounds } from 'react-screenshots'
+import { Display } from './app'
+import { Bounds } from './Screenshots/types'
 
 type IpcRendererListener = (event: IpcRendererEvent, ...args: unknown[]) => void
 type ScreenshotsListener = (...args: unknown[]) => void
 
 export interface ScreenshotsData {
   bounds: Bounds
-  //   display: Display
+  display: Display
 }
 
 const map = new Map<ScreenshotsListener, Record<string, IpcRendererListener>>()
 
-contextBridge.exposeInMainWorld('screenshots', {
+export const api = {
   ready: () => {
     console.log('contextBridge ready')
 
@@ -33,11 +33,10 @@ contextBridge.exposeInMainWorld('screenshots', {
 
     ipcRenderer.send('SCREENSHOTS:ok', Buffer.from(arrayBuffer), data)
   },
-  on: (channel: string, fn: ScreenshotsListener) => {
-    console.log('contextBridge on', fn)
+  on: (channel: string, fn: any) => {
+    console.log('contextBridge on', channel, fn)
 
-    const listener = (event: IpcRendererEvent, ...args: unknown[]) =>
-      fn(...args)
+    const listener = (event: any, ...args: any[]) => fn(...args)
 
     const listeners = map.get(fn) ?? {}
     listeners[channel] = listener
@@ -54,4 +53,6 @@ contextBridge.exposeInMainWorld('screenshots', {
 
     ipcRenderer.off(`SCREENSHOTS:${channel}`, listener)
   },
-})
+}
+
+contextBridge.exposeInMainWorld('screenshots', api)

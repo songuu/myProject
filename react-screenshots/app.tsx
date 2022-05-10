@@ -1,9 +1,9 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import Screenshots from './Screenshots'
 import { Bounds } from './Screenshots/types'
-import { Lang } from './Screenshots/zh_CN'
 import './app.less'
 
+interface IAppProps {}
 export interface Display {
   id: number
   x: number
@@ -12,12 +12,11 @@ export interface Display {
   height: number
 }
 
-export default function App() {
+const App: React.FC<IAppProps> = () => {
   const [url, setUrl] = useState<string | undefined>(undefined)
   const [width, setWidth] = useState(window.innerWidth)
   const [height, setHeight] = useState(window.innerHeight)
   const [display, setDisplay] = useState<Display | undefined>(undefined)
-  const [lang, setLang] = useState<Lang | undefined>(undefined)
 
   const onSave = useCallback(
     async (blob: Blob | null, bounds: Bounds) => {
@@ -44,27 +43,22 @@ export default function App() {
   )
 
   useEffect(() => {
-    const onSetLang = (lang: Lang) => {
-      setLang(lang)
-    }
-
     const onCapture = async (display: Display, dataURL: string) => {
       setDisplay(display)
       setUrl(dataURL)
     }
 
-    window.screenshots.on('setLang', onSetLang)
     window.screenshots.on('capture', onCapture)
     // 告诉主进程页面准备完成
     window.screenshots.ready()
     return () => {
       window.screenshots.off('capture', onCapture)
-      window.screenshots.off('setLang', onSetLang)
     }
   }, [])
 
   useEffect(() => {
     const onResize = () => {
+      console.log(window.innerWidth)
       setWidth(window.innerWidth)
       setHeight(window.innerHeight)
     }
@@ -89,7 +83,6 @@ export default function App() {
         url={url}
         width={width}
         height={height}
-        lang={lang}
         onSave={onSave}
         onCancel={onCancel}
         onOk={onOk}
@@ -97,3 +90,5 @@ export default function App() {
     </div>
   )
 }
+
+export default App
