@@ -4,6 +4,8 @@ import App from './app'
 
 const div = document.getElementById('screenshotsDiv')
 
+console.log(div)
+
 const root = createRoot(div as Element)
 
 root.render(

@@ -114,9 +114,6 @@ function registerListeners() {
 const updateSystemShortcut = (id: string) => {
   switch (id) {
     case 'getCapture':
-      /* if (mainWindow) {
-        getCapture(mainWindow)
-      } */
       screenshots.startCapture()
       screenshots.$view.webContents.openDevTools()
 

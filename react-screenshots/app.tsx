@@ -43,22 +43,24 @@ const App: React.FC<IAppProps> = () => {
   )
 
   useEffect(() => {
+    // 告诉主进程页面准备完成
+    window.screenshots.ready()
+    // display: Display, dataURL: string
     const onCapture = async (display: Display, dataURL: string) => {
+      console.log('onCapture', display, dataURL)
       setDisplay(display)
       setUrl(dataURL)
     }
 
     window.screenshots.on('capture', onCapture)
-    // 告诉主进程页面准备完成
-    window.screenshots.ready()
+
     return () => {
-      window.screenshots.off('capture', onCapture)
+      // window.screenshots.off('capture', onCapture)
     }
   }, [])
 
   useEffect(() => {
     const onResize = () => {
-      console.log(window.innerWidth)
       setWidth(window.innerWidth)
       setHeight(window.innerHeight)
     }

@@ -1949,10 +1949,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.24.tgz#20ba1bf69c1b4ab405c7a01e950c4f446b05029f"
   integrity sha512-aveCYRQbgTH9Pssp1voEP7HiuWlD2jW2BO56w+bVrJn04i61yh6mRfoKO6hEYQD9vF+W8Chkwc6j1M36uPkx4g==
 
-"@types/node@^14.6.2":
-  version "14.18.16"
-  resolved "https://registry.npmmirror.com/@types/node/-/node-14.18.16.tgz#878f670ba3f00482bf859b6550b6010610fc54b5"
-  integrity sha512-X3bUMdK/VmvrWdoTkz+VCn6nwKwrKCFTHtqwBIaQJNx4RUIBBUFXM00bqPz/DsDd+Icjmzm6/tyYZzeGVqb6/Q==
+"@types/node@^16.11.26":
+  version "16.11.34"
+  resolved "https://registry.npmmirror.com/@types/node/-/node-16.11.34.tgz#520224e4be4448c279ecad09639ab460cc441a50"
+  integrity sha512-UrWGDyLAlQ2Z8bNOGWTsqbP9ZcBeTYBVuTRNxXTztBy5KhWUFI3BaeDWoCP/CzV/EVGgO1NTYzv9ZytBI9GAEw==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -4168,13 +4168,13 @@ electron-winstaller@^5.0.0:
     lodash.template "^4.2.2"
     temp "^0.9.0"
 
-electron@17.4.3:
-  version "17.4.3"
-  resolved "https://registry.npmmirror.com/electron/-/electron-17.4.3.tgz#5f3c26cb211f9267d2becee717f34e3ce564a6bf"
-  integrity sha512-WQggyCgNUOzoOn+wJKe+xFhYy56gyrn/jIa/l7dyD3TxPb8lddSc86OAqPnP5EugcNXQ0yIu8b+SIE8duKozSw==
+electron@18.2.2:
+  version "18.2.2"
+  resolved "https://registry.npmmirror.com/electron/-/electron-18.2.2.tgz#5b1cd0efb14302fe3b658ec88f5624c1e9c3e1b4"
+  integrity sha512-o9/9+ntxZ0RoVtllH1e9FDLiCLVg00EO8AJZoCR1cVt7l7AVpRgynZdSczaUtTb9XJpWv7U02R6hoWALl55opQ==
   dependencies:
     "@electron/get" "^1.13.0"
-    "@types/node" "^14.6.2"
+    "@types/node" "^16.11.26"
     extract-zip "^1.0.3"
 
 emittery@^0.8.1:
@@ -8584,11 +8584,6 @@ react-router@6.3.0:
   integrity sha512-7Wh1DzVQ+tlFjkeo+ujvjSqSJmkt1+8JO+T5xklPlgrh70y7ogx75ODRW0ThWhY7S+6yEDks8TYrtQe/aoboBQ==
   dependencies:
     history "^5.2.0"
-
-react-screenshots@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.npmmirror.com/react-screenshots/-/react-screenshots-0.3.1.tgz#c5c6422533da3b611557aeb8111adbc53cc8c9c3"
-  integrity sha512-tJch9Ac/JcKlaQWzY+/WU3QthAK8iCUfjh7VElzeK1axYENCNwqIfGsuP7wIE69avx32LMRVtNdjlWZs6a/OQA==
 
 react@18.0.0:
   version "18.0.0"

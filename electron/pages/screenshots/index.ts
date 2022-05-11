@@ -13,8 +13,6 @@ import Event from './event'
 
 import Events from 'events'
 
-import { Bounds } from 'react-screenshots'
-
 import getBoundAndDisplay, { BoundAndDisplay } from './getBoundAndDisplay'
 
 import padStart from './padStart'
@@ -23,6 +21,13 @@ const clc = require('cli-color')
 
 const log = (text: string) => {
   console.log(`${clc.blueBright('[screenshots]')} ${text}`)
+}
+
+interface Bounds {
+  x: number
+  y: number
+  width: number
+  height: number
 }
 
 declare const SCREENSHOTS_WEBPACK_ENTRY: string
@@ -41,7 +46,6 @@ class Screenshots extends Events {
       preload: SCREENSHOTS_PRELOAD_WEBPACK_ENTRY,
       nodeIntegration: false,
       contextIsolation: true,
-      nativeWindowOpen: false,
     },
   })
 
@@ -74,27 +78,24 @@ class Screenshots extends Events {
   private listenIpc(): void {
     log('listenIpc')
 
-    ipcMain.on(
-      'SCREENSHOTS:capture:ok',
-      (e, buffer: Buffer, bounds: Bounds) => {
-        log('SCREENSHOTS:capture:ok')
+    ipcMain.on('SCREENSHOTS:ok', (e, buffer: Buffer, bounds: Bounds) => {
+      log('SCREENSHOTS:ok')
 
-        const event = new Event()
+      const event = new Event()
 
-        this.emit('ok', event, buffer, bounds)
+      this.emit('ok', event, buffer, bounds)
 
-        if (event.defaultPrevented) {
-          return
-        }
-
-        clipboard.writeImage(nativeImage.createFromBuffer(buffer))
-
-        this.endCapture()
+      if (event.defaultPrevented) {
+        return
       }
-    )
 
-    ipcMain.on('SCREENSHOTS:capture:cancel', () => {
-      log('SCREENSHOTS:capture:cancel')
+      clipboard.writeImage(nativeImage.createFromBuffer(buffer))
+
+      this.endCapture()
+    })
+
+    ipcMain.on('SCREENSHOTS:cancel', () => {
+      log('SCREENSHOTS:cancel')
       const event = new Event()
       this.emit('cancel', event)
       if (event.defaultPrevented) {
@@ -104,9 +105,9 @@ class Screenshots extends Events {
     })
 
     ipcMain.on(
-      'SCREENSHOTS:capture:save',
+      'SCREENSHOTS:save',
       async (e, buffer: Buffer, bounds: Bounds) => {
-        log('SCREENSHOTS:capture:save')
+        log('SCREENSHOTS:save')
 
         const event = new Event()
         this.emit('save', event, buffer, bounds)
