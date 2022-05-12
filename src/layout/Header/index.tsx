@@ -41,7 +41,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
         </NavLink>
         <NavLink
           style={status => ({ color: status.isActive ? '#335eea' : '#000' })}
-          to="/main_window/library"
+          to="/main_window/library?category=全部应用"
         >
           我的
         </NavLink>

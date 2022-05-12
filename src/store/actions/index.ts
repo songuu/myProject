@@ -8,9 +8,9 @@ import {
   updateShortcut,
 } from './settings'
 
-import {
-  setShowLogin
-} from './app'
+import { setShowLogin } from './app'
+
+import { updateApplycation } from './application'
 
 /** 自定义通用同步Action */
 export interface CommonAction<T = any> {
@@ -28,7 +28,7 @@ export interface CommonAsyncActionCreator<
   T = any,
   R = any,
   A extends Action = AnyAction
-  > {
+> {
   (options?: T): (dispatch: Dispatch<A>) => R
 }
 /** 应用Actions */
@@ -38,4 +38,10 @@ export interface RootActionsCreator {
   (): RootActions
 }
 
-export { resetShortcuts, changeEnableGlobalShortcut, updateShortcut, setShowLogin }
+export {
+  resetShortcuts,
+  changeEnableGlobalShortcut,
+  updateShortcut,
+  setShowLogin,
+  updateApplycation,
+}

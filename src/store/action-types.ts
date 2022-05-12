@@ -1,5 +1,8 @@
+// * applycation
 export const SET_APPLYCATIONS = 'SET_APPLYCATIONS'
 export type SET_APPLYCATIONS_TYPE = typeof SET_APPLYCATIONS
+export const UPDATE_APPLYCATIONS = 'UPDATE_APPLYCATIONS'
+export type UPDATE_APPLYCATIONS_TYPE = typeof UPDATE_APPLYCATIONS
 
 // * setting
 export const RESET_SHORTCUTS = 'RESET_SHORTCUTS'
@@ -14,7 +17,6 @@ export type UPDATE_SHORTCUT_TYPE = typeof UPDATE_SHORTCUT
 export const SHOW_LOGIN = 'SHOW_LOGIN'
 export type SHOW_LOGIN_TYPE = typeof SHOW_LOGIN
 
-
 export type ShortcutType = {
   id: string
   name: string
@@ -28,4 +30,4 @@ export type UpdatecutType = {
   shortcut: string
 }
 
-export enum Types { }
+export enum Types {}

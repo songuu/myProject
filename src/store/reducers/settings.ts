@@ -3,14 +3,20 @@ import { RootActions } from '../actions'
 
 import shortcuts from '@root/constants/shortcuts'
 
+import { list } from '@root/constants/categorylist'
+
+const enabledPlaylistCategories = list.filter(c => c.enable).map(c => c.name)
+
 export interface SettingsStateProps {
   enableGlobalShortcut: boolean
   shortcuts: types.ShortcutType[]
+  enabledPlaylistCategories: string[]
 }
 
 const initialState: SettingsStateProps = {
   enableGlobalShortcut: true,
   shortcuts: shortcuts,
+  enabledPlaylistCategories,
 }
 
 export default (
@@ -29,7 +35,6 @@ export default (
         enableGlobalShortcut: !state.enableGlobalShortcut,
       }
     case types.UPDATE_SHORTCUT:
-      console.log(action)
       return {
         ...state,
         shortcuts: state.shortcuts.map(item => {
