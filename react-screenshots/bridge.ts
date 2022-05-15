@@ -3,7 +3,7 @@ import { Display } from './app'
 import { Bounds } from './Screenshots/types'
 
 type IpcRendererListener = (event: IpcRendererEvent, ...args: unknown[]) => void
-type ScreenshotsListener = (...args: unknown[]) => void
+type ScreenshotsListener = (...args: any[]) => void
 
 export interface ScreenshotsData {
   bounds: Bounds
@@ -33,7 +33,7 @@ export const api = {
 
     ipcRenderer.send('SCREENSHOTS:ok', Buffer.from(arrayBuffer), data)
   },
-  on: (channel: string, fn: any) => {
+  on: (channel: string, fn: ScreenshotsListener) => {
     console.log('contextBridge on', channel, fn)
 
     const listener = (event: any, ...args: any[]) => fn(...args)

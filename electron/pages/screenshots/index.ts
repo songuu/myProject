@@ -226,7 +226,7 @@ class Screenshots extends Events {
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: false,
-        nativeWindowOpen: false,
+        // nativeWindowOpen: false,
       },
     })
 

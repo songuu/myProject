@@ -47,7 +47,6 @@ const App: React.FC<IAppProps> = () => {
     window.screenshots.ready()
     // display: Display, dataURL: string
     const onCapture = async (display: Display, dataURL: string) => {
-      console.log('onCapture', display, dataURL)
       setDisplay(display)
       setUrl(dataURL)
     }

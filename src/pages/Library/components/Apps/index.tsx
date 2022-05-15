@@ -1,24 +1,54 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+import { SvgIcon } from '@components/index'
 
 import styles from './index.module.less'
 
+type applyType = {
+  name: string
+  category: string[]
+  cover: string
+}
 interface IProps {
-  apps: string[]
+  apps: applyType[]
 }
 
 const Apps: React.FC<IProps> = ({ apps }) => {
+  const [focusName, setFocusName] = useState<string>('')
+  const handleOver = (name: string) => {
+    setFocusName(name)
+  }
+
+  const handleLeave = () => {
+    setFocusName('')
+  }
+
   return apps.length ? (
     <div className={styles.apps}>
-      {apps.map((app: string) => {
+      {apps.map((app: applyType) => {
         return (
-          <div className={styles['apps-item']} key={app}>
-            {app}
+          <div className={styles['app-item']} key={app.name}>
+            <div
+              className={styles['app-item-container']}
+              onMouseOver={() => handleOver(app.name)}
+              onMouseLeave={handleLeave}
+            >
+              <img src={app.cover} alt={app.name} />
+              {focusName === app.name && (
+                <div className={styles.shade}>
+                  <button className={styles['shade-play']} title="执行">
+                    <SvgIcon iconName="play" iconClass={styles['svg-icon']} />
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className={styles['app-item-title']}>{app.name}</div>
           </div>
         )
       })}
     </div>
   ) : (
-    <div>empty</div>
+    <div></div>
   )
 }
 

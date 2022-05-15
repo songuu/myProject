@@ -5,14 +5,15 @@ import { list } from '@root/constants/application'
 type applyType = {
   name: string
   category: string[]
+  cover: string
 }
 
-const initApp = list
-  .filter((item: applyType) => item.category.includes('全部应用'))
-  .map((item: applyType) => item.name)
+const initApp = list.filter((item: applyType) =>
+  item.category.includes('全部应用')
+)
 
 export interface ApplycationsStateProps {
-  applycations: string[]
+  applycations: applyType[]
 }
 
 const initialState: ApplycationsStateProps = {
@@ -32,9 +33,9 @@ export default (
     case types.UPDATE_APPLYCATIONS:
       return {
         ...state,
-        applycations: list
-          .filter((item: applyType) => item.category.includes(action.payload))
-          .map((item: applyType) => item.name),
+        applycations: list.filter((item: applyType) =>
+          item.category.includes(action.payload)
+        ),
       }
     default:
       return state

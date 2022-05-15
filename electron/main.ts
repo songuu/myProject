@@ -6,7 +6,7 @@ import { registerGlobalShortcut } from './globalShortcut'
 
 import Screenshots from './pages/screenshots'
 
-import { getCapture } from './screen'
+// import { getCapture } from './screen'
 
 import { makeTray } from './tray'
 
@@ -114,6 +114,7 @@ function registerListeners() {
 const updateSystemShortcut = (id: string) => {
   switch (id) {
     case 'getCapture':
+      console.log(screenshots)
       screenshots.startCapture()
       screenshots.$view.webContents.openDevTools()
 
