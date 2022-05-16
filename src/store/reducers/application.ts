@@ -6,6 +6,8 @@ type applyType = {
   name: string
   category: string[]
   cover: string
+  local: string
+  short: string
 }
 
 const initApp = list.filter((item: applyType) =>

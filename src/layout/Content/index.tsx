@@ -5,7 +5,10 @@ import { Route, Routes, useLocation, Navigate } from 'react-router-dom'
 import { PageLoading } from '@root/components'
 
 import styles from './index.module.less'
-
+import Book from '@views/Book'
+import Daybook from '@views/Daybook'
+import Snapshot from '@views/Snapshot'
+import Uploader from '@views/Uploader'
 const Home = lazy(() => import('@pages/Home'))
 const Explore = lazy(() => import('@pages/Explore'))
 const Library = lazy(() => import('@pages/Library'))
@@ -15,14 +18,20 @@ interface IBaseContentProps {}
 
 const Content: React.FC<IBaseContentProps> = () => {
   const location = useLocation()
-
+  
   return (
     <div className={styles.content_outer}>
       <Suspense fallback={<PageLoading />}>
         <Routes location={location}>
           <Route path="home" element={<Home />} />
           <Route path="explore" element={<Explore />} />
-          <Route path="library" element={<Library />} />
+          <Route path="library">
+            <Route index element={<Library />} />
+            <Route path="book" element={<Book />} />
+            <Route path="daybook" element={<Daybook />} />
+            <Route path="snapshot" element={<Snapshot />} />
+            <Route path="uploader" element={<Uploader />} />
+          </Route>
           <Route path="setting" element={<Setting />} />
           <Route path="*" element={<Navigate to="home" />} />
         </Routes>

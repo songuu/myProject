@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from '@root/store/index'
 
-import { ContextMenu, SvgIcon } from '@components/index'
+import { ContextMenu, SvgIcon, ButtonIcon } from '@components/index'
 
 import { MenuImperativeProps, ContextItem } from '@components/ContextMenu/index'
 
@@ -26,6 +26,14 @@ const Header: React.FC<IBaseHeaderProps> = () => {
 
   return (
     <div className={styles.header}>
+      <div className={styles['navigation-buttons']}>
+        <ButtonIcon onclick={() => navigate(-1)}>
+          <SvgIcon iconName="arrow-left" iconClass={styles['svg-icon']} />
+        </ButtonIcon>
+        <ButtonIcon onclick={() => navigate(1)}>
+          <SvgIcon iconName="arrow-right" iconClass={styles['svg-icon']} />
+        </ButtonIcon>
+      </div>
       <div className={styles['header-links']}>
         <NavLink
           style={status => ({ color: status.isActive ? '#335eea' : '#000' })}

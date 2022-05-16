@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { useNavigate } from 'react-router-dom'
+
 import { SvgIcon } from '@components/index'
 
 import styles from './index.module.less'
@@ -8,12 +10,16 @@ type applyType = {
   name: string
   category: string[]
   cover: string
+  local: string
+  short: string
 }
 interface IProps {
   apps: applyType[]
 }
 
 const Apps: React.FC<IProps> = ({ apps }) => {
+  const navigate = useNavigate()
+
   const [focusName, setFocusName] = useState<string>('')
   const handleOver = (name: string) => {
     setFocusName(name)
@@ -42,7 +48,12 @@ const Apps: React.FC<IProps> = ({ apps }) => {
                 </div>
               )}
             </div>
-            <div className={styles['app-item-title']}>{app.name}</div>
+            <div
+              className={styles['app-item-title']}
+              onClick={() => navigate(app.short)}
+            >
+              {app.name}
+            </div>
           </div>
         )
       })}

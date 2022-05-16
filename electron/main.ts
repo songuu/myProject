@@ -114,9 +114,8 @@ function registerListeners() {
 const updateSystemShortcut = (id: string) => {
   switch (id) {
     case 'getCapture':
-      console.log(screenshots)
       screenshots.startCapture()
-      screenshots.$view.webContents.openDevTools()
+      // screenshots.$view.webContents.openDevTools()
 
       screenshots.on('cancel', (e: any) => {
         log('cancel')
@@ -172,6 +171,8 @@ app
   .whenReady()
   .then(() => {
     screenshots = new Screenshots()
+
+    // screenshots.$view.webContents.openDevTools()
 
     if (mainWindow) {
       makeTray(mainWindow)

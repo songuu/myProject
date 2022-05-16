@@ -6,7 +6,7 @@ import store from './store'
 import App from './App'
 import '@styles/index.less'
 
-let importAll = (requireContext: __WebpackModuleApi.RequireContext) =>
+const importAll = (requireContext: __WebpackModuleApi.RequireContext) =>
   requireContext.keys().forEach(requireContext)
 try {
   importAll(require.context('./static/icons', true, /\.svg$/))
