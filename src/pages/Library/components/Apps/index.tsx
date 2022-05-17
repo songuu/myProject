@@ -12,6 +12,7 @@ type applyType = {
   cover: string
   local: string
   short: string
+  handler: () => void
 }
 interface IProps {
   apps: applyType[]
@@ -42,7 +43,11 @@ const Apps: React.FC<IProps> = ({ apps }) => {
               <img src={app.cover} alt={app.name} />
               {focusName === app.name && (
                 <div className={styles.shade}>
-                  <button className={styles['shade-play']} title="执行">
+                  <button
+                    className={styles['shade-play']}
+                    title="执行"
+                    onClick={app.handler}
+                  >
                     <SvgIcon iconName="play" iconClass={styles['svg-icon']} />
                   </button>
                 </div>

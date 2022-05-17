@@ -9,5 +9,21 @@ import Brush from './Brush'
 import Arrow from './Arrow'
 import Ellipse from './Ellipse'
 import Rectangle from './Rectangle'
+import Upload from './Upload'
 
-export default [Rectangle, Ellipse, Arrow, Brush, Text, Mosaic, '|', Undo, Redo, '|', Save, Cancel, Ok]
+export default [
+  Rectangle,
+  Ellipse,
+  Arrow,
+  Brush,
+  Text,
+  Mosaic,
+  '|',
+  Undo,
+  Redo,
+  '|',
+  Save,
+  Cancel,
+  Ok,
+  Upload,
+]

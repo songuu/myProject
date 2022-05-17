@@ -5,6 +5,7 @@ export const list = [
     cover: 'http://rbutnqgzz.bkt.gdipper.com/shortcut.png',
     local: '@views/Snapshot',
     short: 'snapshot',
+    handler: () => window.Main.captureScreen(),
   },
   {
     name: '上传文件',

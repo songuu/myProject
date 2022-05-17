@@ -42,6 +42,16 @@ const App: React.FC<IAppProps> = () => {
     [display]
   )
 
+  const onUpload = useCallback(
+    async (blob: Blob | null, bounds: Bounds) => {
+      if (!display || !blob) {
+        return
+      }
+      window.screenshots.upload(await blob.arrayBuffer(), { bounds, display })
+    },
+    [display]
+  )
+
   useEffect(() => {
     // 告诉主进程页面准备完成
     window.screenshots.ready()
@@ -87,6 +97,7 @@ const App: React.FC<IAppProps> = () => {
         onSave={onSave}
         onCancel={onCancel}
         onOk={onOk}
+        onUpload={onUpload}
       />
     </div>
   )

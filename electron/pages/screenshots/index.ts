@@ -144,6 +144,21 @@ class Screenshots extends Events {
         this.endCapture()
       }
     )
+
+    ipcMain.on(
+      'SCREENSHOTS:upload',
+      async (e, buffer: Buffer, bounds: Bounds) => {
+        log('SCREENSHOTS:upload')
+        const event = new Event()
+        this.emit('upload', event, buffer, bounds)
+
+        if (event.defaultPrevented || !this.$win) {
+          return
+        }
+
+        this.endCapture()
+      }
+    )
   }
 
   /*

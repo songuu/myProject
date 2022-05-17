@@ -11,13 +11,13 @@ export interface ScreenshotsButtonProps {
   onClick?: (e: PointerEvent) => unknown
 }
 
-export default function ScreenshotsButton ({
+export default function ScreenshotsButton({
   title,
   icon,
   checked,
   disabled,
   option,
-  onClick
+  onClick,
 }: ScreenshotsButtonProps): ReactElement {
   const classNames = ['screenshots-button']
 
@@ -40,7 +40,11 @@ export default function ScreenshotsButton ({
 
   return (
     <ScreenshotsOption open={checked} content={option}>
-      <div className={classNames.join(' ')} title={title} onClick={onButtonClick}>
+      <div
+        className={classNames.join(' ')}
+        title={title}
+        onClick={onButtonClick}
+      >
         <span className={icon} />
       </div>
     </ScreenshotsOption>

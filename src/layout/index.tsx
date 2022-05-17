@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import OperationHeader from './OperationHeader'
 import Header from './Header'
@@ -11,6 +11,11 @@ import styles from './index.module.less'
 interface IBaseLayoutProps {}
 
 const BaseLayout: React.FC<IBaseLayoutProps> = () => {
+  useEffect(() => {
+    window.Main.on('upload-screenshots', (data: Buffer) => {
+      console.log('on', data)
+    })
+  }, [])
   return (
     <div
       className={styles.outContainer}

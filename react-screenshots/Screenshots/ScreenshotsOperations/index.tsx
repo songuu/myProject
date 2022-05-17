@@ -1,4 +1,11 @@
-import React, { MouseEvent, ReactElement, useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  MouseEvent,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import useBounds from '../hooks/useBounds'
 import OperationButtons from '../operations'
 import './index.less'
@@ -7,7 +14,7 @@ import { Bounds, Position } from '../types'
 
 export const ScreenshotsOperationsCtx = React.createContext<Bounds | null>(null)
 
-export default function ScreenshotsOperations (): ReactElement | null {
+export default function ScreenshotsOperations(): ReactElement | null {
   const { width, height } = useStore()
   const [bounds] = useBounds()
   const [operationsRect, setOperationsRect] = useState<Bounds | null>(null)
@@ -23,7 +30,6 @@ export default function ScreenshotsOperations (): ReactElement | null {
     e.stopPropagation()
   }, [])
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!bounds || !elRef.current) {
       return
@@ -49,7 +55,7 @@ export default function ScreenshotsOperations (): ReactElement | null {
     if (position?.x !== x || position.y !== y) {
       setPosition({
         x,
-        y
+        y,
       })
     }
 
@@ -63,7 +69,7 @@ export default function ScreenshotsOperations (): ReactElement | null {
         x: elRect.x,
         y: elRect.y,
         width: elRect.width,
-        height: elRect.height
+        height: elRect.height,
       })
     }
   })
@@ -76,19 +82,21 @@ export default function ScreenshotsOperations (): ReactElement | null {
     <ScreenshotsOperationsCtx.Provider value={operationsRect}>
       <div
         ref={elRef}
-        className='screenshots-operations'
+        className="screenshots-operations"
         style={{
           visibility: position ? 'visible' : 'hidden',
           left: position?.x,
-          top: position?.y
+          top: position?.y,
         }}
         onDoubleClick={onDoubleClick}
         onContextMenu={onContextMenu}
       >
-        <div className='screenshots-operations-buttons'>
+        <div className="screenshots-operations-buttons">
           {OperationButtons.map((OperationButton, index) => {
             if (OperationButton === '|') {
-              return <div key={index} className='screenshots-operations-divider' />
+              return (
+                <div key={index} className="screenshots-operations-divider" />
+              )
             } else {
               return <OperationButton key={index} />
             }

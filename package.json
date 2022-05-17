@@ -28,6 +28,7 @@
     "node-screenshots": "^0.0.2",
     "nprogress": "^0.2.0",
     "postcss-loader": "^6.2.1",
+    "re-resizable": "^6.9.9",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-hot-loader": "4.13.0",

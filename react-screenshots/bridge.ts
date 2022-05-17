@@ -18,6 +18,11 @@ export const api = {
 
     ipcRenderer.send('SCREENSHOTS:ready')
   },
+  upload: (arrayBuffer: ArrayBuffer, data: ScreenshotsData) => {
+    console.log('contextBridge upload', arrayBuffer, data)
+
+    ipcRenderer.send('SCREENSHOTS:upload', Buffer.from(arrayBuffer), data)
+  },
   save: (arrayBuffer: ArrayBuffer, data: ScreenshotsData) => {
     console.log('contextBridge save', arrayBuffer, data)
 

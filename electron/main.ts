@@ -108,6 +108,11 @@ function registerListeners() {
     log('restoreDefaultShortcuts')
     globalShortcut.unregisterAll()
   })
+
+  ipcMain.on('captureScreen', _ => {
+    log('captureScreen')
+    screenshots.startCapture()
+  })
 }
 
 // * 系统层面的功能
@@ -116,18 +121,6 @@ const updateSystemShortcut = (id: string) => {
     case 'getCapture':
       screenshots.startCapture()
       // screenshots.$view.webContents.openDevTools()
-
-      screenshots.on('cancel', (e: any) => {
-        log('cancel')
-      })
-
-      screenshots.on('ok', (e: any) => {
-        log('ok')
-      })
-
-      screenshots.on('save', (e: any) => {
-        log('save')
-      })
       break
     default:
       break
@@ -172,7 +165,24 @@ app
   .then(() => {
     screenshots = new Screenshots()
 
-    // screenshots.$view.webContents.openDevTools()
+    screenshots.on('cancel', (e: any) => {
+      log('cancel')
+    })
+
+    screenshots.on('ok', (e: any) => {
+      log('ok')
+    })
+
+    screenshots.on('save', (e: any) => {
+      log('save')
+    })
+
+    screenshots.on('upload', (data: Buffer) => {
+      log('upload')
+      mainWindow?.webContents.send('upload-screenshots', data)
+    })
+
+    screenshots.$view.webContents.openDevTools()
 
     if (mainWindow) {
       makeTray(mainWindow)
