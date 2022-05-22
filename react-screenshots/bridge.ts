@@ -33,10 +33,10 @@ export const api = {
 
     ipcRenderer.send('SCREENSHOTS:cancel')
   },
-  ok: (arrayBuffer: ArrayBuffer, data: ScreenshotsData) => {
-    console.log('contextBridge ok', arrayBuffer, data)
+  ok: (arrayBuffer: ArrayBuffer, data: ScreenshotsData, name?: string) => {
+    console.log('contextBridge ok', arrayBuffer, data, name)
 
-    ipcRenderer.send('SCREENSHOTS:ok', Buffer.from(arrayBuffer), data)
+    ipcRenderer.send('SCREENSHOTS:ok', Buffer.from(arrayBuffer), data, name)
   },
   on: (channel: string, fn: ScreenshotsListener) => {
     console.log('contextBridge on', channel, fn)

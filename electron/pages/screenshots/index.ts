@@ -1,4 +1,5 @@
 import {
+  app,
   dialog,
   ipcMain,
   clipboard,
@@ -9,6 +10,7 @@ import {
 } from 'electron'
 
 import fs from 'fs/promises'
+
 import Event from './event'
 
 import Events from 'events'
@@ -16,6 +18,8 @@ import Events from 'events'
 import getBoundAndDisplay, { BoundAndDisplay } from './getBoundAndDisplay'
 
 import padStart from './padStart'
+
+const userData = app.getPath('userData')
 
 const clc = require('cli-color')
 
@@ -78,18 +82,28 @@ class Screenshots extends Events {
   private listenIpc(): void {
     log('listenIpc')
 
-    ipcMain.on('SCREENSHOTS:ok', (e, buffer: Buffer, bounds: Bounds) => {
+    ipcMain.on('SCREENSHOTS:ok', async (e, buffer: Buffer, bounds: Bounds) => {
       log('SCREENSHOTS:ok')
 
       const event = new Event()
 
-      this.emit('ok', event, buffer, bounds)
+      const name = `${new Date().getTime()}`
 
-      if (event.defaultPrevented) {
+      this.emit('ok', event, buffer, bounds, name)
+
+      if (event.defaultPrevented || !this.$win) {
         return
       }
 
       clipboard.writeImage(nativeImage.createFromBuffer(buffer))
+
+      try {
+        await fs.stat(`${userData}/screenshots`)
+      } catch (err) {
+        await fs.mkdir(`${userData}/screenshots`)
+      }
+
+      await fs.writeFile(`${userData}/screenshots/${name}.png`, buffer)
 
       this.endCapture()
     })

@@ -2,11 +2,13 @@ import { app, BrowserWindow, ipcMain, session, globalShortcut } from 'electron'
 
 import Store from 'electron-store'
 
+import cloneDeep from 'lodash/cloneDeep'
+
+import shortcuts from '../src/constants/shortcuts'
+
 import { registerGlobalShortcut } from './globalShortcut'
 
 import Screenshots from './pages/screenshots'
-
-// import { getCapture } from './screen'
 
 import { makeTray } from './tray'
 
@@ -16,6 +18,8 @@ const clc = require('cli-color')
 const log = (text: string) => {
   console.log(`${clc.blueBright('[ipcMain.js]')} ${text}`)
 }
+
+const userData = app.getPath('userData')
 
 let mainWindow: BrowserWindow | null
 
@@ -100,13 +104,24 @@ function registerListeners() {
     }
   })
 
-  ipcMain.on('updateShortcut', (_, payload) => {
+  ipcMain.on('updateShortcut', (_, { id, type, shortcut }) => {
     log('updateShortcut')
+    const shortcuts: any = store.get('settings.shortcuts')
+    const newShortcut = shortcuts.find((s: any) => s.id === id)
+    newShortcut[type] = shortcut
+    store.set('settings.shortcuts', shortcuts)
   })
 
   ipcMain.on('restoreDefaultShortcuts', _ => {
     log('restoreDefaultShortcuts')
+
+    store.set('settings.shortcuts', cloneDeep(shortcuts))
+
     globalShortcut.unregisterAll()
+
+    if (mainWindow) {
+      registerGlobalShortcut(mainWindow, store, updateSystemShortcut)
+    }
   })
 
   ipcMain.on('captureScreen', _ => {
@@ -165,24 +180,33 @@ app
   .then(() => {
     screenshots = new Screenshots()
 
-    screenshots.on('cancel', (e: any) => {
+    screenshots.on('cancel', () => {
       log('cancel')
     })
 
-    screenshots.on('ok', (e: any) => {
-      log('ok')
-    })
+    screenshots.on(
+      'ok',
+      (e: Event, data: Buffer, bounds: any, name?: string) => {
+        log('ok')
+        const shortcuts: any = store.get('shortcuts.storage') ?? []
 
-    screenshots.on('save', (e: any) => {
+        const newShortcut = shortcuts.concat([name])
+
+        store.set('shortcuts.storage', newShortcut)
+      }
+    )
+
+    screenshots.on('save', (e: Event, data: Buffer) => {
       log('save')
+      console.log(userData)
     })
 
-    screenshots.on('upload', (data: Buffer) => {
+    screenshots.on('upload', (e: Event, data: Buffer) => {
       log('upload')
       mainWindow?.webContents.send('upload-screenshots', data)
     })
 
-    screenshots.$view.webContents.openDevTools()
+    // screenshots.$view.webContents.openDevTools()
 
     if (mainWindow) {
       makeTray(mainWindow)

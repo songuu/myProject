@@ -16,6 +16,7 @@ module.exports = {
       '@imgs': path.resolve(__dirname, '../src/static/imgs'),
       '@icons': path.resolve(__dirname, '../src/static/icons'),
       '@constants': path.resolve(__dirname, '../src/constants'),
+      '@mytypes': path.resolve(__dirname, '../src/types'),
     },
   },
   module: {

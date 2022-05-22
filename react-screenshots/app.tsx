@@ -56,7 +56,8 @@ const App: React.FC<IAppProps> = () => {
     // 告诉主进程页面准备完成
     window.screenshots.ready()
     // display: Display, dataURL: string
-    const onCapture = async (display: Display, dataURL: string) => {
+
+    const onCapture =  (display: Display, dataURL: string) => {
       setDisplay(display)
       setUrl(dataURL)
     }

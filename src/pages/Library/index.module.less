@@ -1,7 +1,23 @@
 .content_outer {
   h1 {
+    position: relative;
     color: #000;
     font-size: 56px;
+    width: max-content;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      height: 12px;
+      background: #ff2a14;
+      background: linear-gradient(90deg, #ff9800, #ff2a14) !important;
+      opacity: 0.1;
+      width: 100%;
+      border-radius: 18px;
+      z-index: -1;
+    }
   }
 
   .btns {
