@@ -1,0 +1,105 @@
+.services-loading {
+  height: 100%;
+
+  .services-wrapper {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+    .apps-main-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: auto;
+      padding: 18px 0;
+
+      & > span {
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      button {
+        width: 150px;
+        color: #000;
+        background: #f5f5f7;
+        padding: 8px 12px 8px 12px;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: 0.2s;
+        &:hover {
+          transform: scale(1.06);
+        }
+        &:active {
+          transform: scale(0.94);
+        }
+      }
+
+      .apps-main-wrapper-box {
+        .apps-main-wrapper-box-row {
+          display: flex;
+          padding: 15px 0px;
+
+          .apps-main-wrapper-box-col {
+            width: 120px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+          }
+
+          .apps-main-wrapper-box-input {
+            display: flex;
+            justify-content: flex-end;
+            color: #000;
+
+            .apps-main-wrapper-box-input-container {
+              display: flex;
+              align-items: center;
+              height: 46px;
+              background: #f5f5f7;
+              border-radius: 8px;
+              width: 300px;
+
+              .apps-main-wrapper-box-input-container-input {
+                display: flex;
+                width: 85%;
+
+                input {
+                  font-size: 20px;
+                  border: none;
+                  background: transparent;
+                  width: 100%;
+                  font-weight: 600;
+                  margin-top: -1px;
+                  color: #000;
+                  padding-left: 5px;
+                }
+
+                input::placeholder {
+                  color: #000;
+                  opacity: 0.38;
+                }
+
+                input#countryCode {
+                  flex: 3;
+                }
+                input#phoneNumber {
+                  flex: 12;
+                }
+              }
+            }
+
+            .apps-main-wrapper-box-input-active {
+              background: #eaeffd;
+
+              input {
+                color: #335eea;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
