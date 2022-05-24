@@ -12,6 +12,8 @@ import Screenshots from './pages/screenshots'
 
 import { makeTray } from './tray'
 
+import initOssIpcMain from './ipcMain/oss'
+
 const path = require('path')
 
 const clc = require('cli-color')
@@ -38,6 +40,8 @@ const Icon = path.join(assetsPath, 'assets', 'icon.png')
 function createWindow() {
   mainWindow = new BrowserWindow({
     icon: Icon,
+    minWidth: 800,
+    minHeight: 600,
     width: 1100,
     height: 700,
     titleBarStyle: 'hidden',
@@ -128,6 +132,8 @@ function registerListeners() {
     log('captureScreen')
     screenshots.startCapture()
   })
+
+  initOssIpcMain()
 }
 
 // * 系统层面的功能

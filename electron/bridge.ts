@@ -1,4 +1,29 @@
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
+
+import { OssType, IpcResponse, AppStore } from './services/interface'
+
+const asyncSend = (eventName: string, options = {}): any => {
+  const data = options
+  const id = new Date().getTime()
+  const responseEvent = `${eventName}_res_${id}`
+  return new Promise<IpcResponse>((resolve, reject) => {
+    ipcRenderer.once(
+      responseEvent,
+      (event: IpcRendererEvent, response: { code: number; data: any }) => {
+        if (response.code === 200) {
+          const { code, msg, data: resData } = response.data
+          if (code !== 0) {
+            reject(new Error(msg))
+          }
+          resolve(resData)
+        } else {
+          reject(response.data)
+        }
+      }
+    )
+    ipcRenderer.send(eventName, { id, data })
+  })
+}
 
 export const api = {
   sendMessage: (message: string) => {
@@ -42,6 +67,31 @@ export const api = {
   // 截屏功能
   captureScreen: () => {
     ipcRenderer.send('captureScreen')
+  },
+
+  // 获取bucket列表
+  getBuckets(config?: {
+    type: OssType
+    ak: string
+    sk: string
+  }): Promise<string[]> {
+    return asyncSend('get-buckets', config)
+  },
+
+  // 添加应用[绑定应用]
+  addApp(
+    name: string,
+    type: OssType,
+    ak: string,
+    sk: string
+  ): Promise<AppStore> {
+    const app = { name, type, ak, sk }
+    return asyncSend('add-app', app)
+  },
+
+  // 初始化oss应用
+  initOss(id?: string): Promise<AppStore> {
+    return asyncSend('init-app', { id })
   },
 }
 

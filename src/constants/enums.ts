@@ -12,3 +12,20 @@ export enum Direction {
   left = 'left',
   right = 'right',
 }
+
+export enum OssType {
+  qiniu,
+  ali,
+  tencent,
+}
+
+export enum TaskType {
+  download,
+  upload,
+}
+
+export enum TransferStatus {
+  default,
+  done,
+  failed,
+}

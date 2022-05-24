@@ -79,13 +79,19 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
 
   const renderIcon = (type: OssType) => {}
 
-  const submit = () => {
+  const submit = async () => {
     if (Object.keys(forms.current).every((item: any) => !forms.current[item])) {
       alert('请完善信息')
       return
     }
 
-    console.log(213)
+    const aa = await window.Main.getBuckets({
+      type: OssType.qiniu,
+      ak: forms.current.AK,
+      sk: forms.current.SK,
+    })
+
+    console.log(aa)
   }
 
   const renderSwitch = (param: ServicesPage) => {
