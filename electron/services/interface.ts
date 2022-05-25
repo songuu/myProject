@@ -111,3 +111,9 @@ export type AppStore = {
   uploadPrefix: string
   defaultDomain: string
 }
+
+export type BucketMeta = {
+  domains: string[]
+  files: VFile[]
+  type: OssType
+}

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import { UploaderPage, Direction } from '@constants/enums'
+import { UploaderPage } from '@constants/enums'
 
 import { getBgOffset } from '@utils/other'
 
-import { AppStore } from '@mytypes/common'
+import { AppStore, BucketMeta } from '@mytypes/common'
 
 import {
   SiderBar,
@@ -17,6 +17,14 @@ import {
 
 import styles from './index.module.less'
 
+enum OssType {
+  qiniu,
+}
+
+const OssTypeMap = {
+  [OssType.qiniu]: '七牛云',
+}
+
 function Uploader() {
   const getWidth = () => document.body.clientWidth - 225
 
@@ -24,11 +32,11 @@ function Uploader() {
     UploaderPage.bucket
   )
 
-  const [direction, setDirection] = useState<Direction>(Direction.down)
-
   const [bgOffset, setBgOffset] = useState<string>(getBgOffset())
 
   const [mainWrapperWidth, setMainWrapperWidth] = useState<number>(getWidth())
+
+  const [bucketMeta, setBucketMeta] = useState<BucketMeta>()
 
   const [bucketLoading, setBucketLoading] = useState<boolean>(false)
 
@@ -54,6 +62,8 @@ function Uploader() {
   }, [activePage])
 
   useEffect(() => {
+    initState().then(r => r)
+
     window.onresize = () => {
       setMainWrapperWidth(document.body.clientWidth - 225)
     }
@@ -63,6 +73,18 @@ function Uploader() {
       window.removeEventListener('resize', throttleFn)
     }
   }, [])
+
+  const initState = async () => {
+    try {
+      const buckets = await window.Main.getBuckets({
+        type: OssType.qiniu,
+        ak: 'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU',
+        sk: 'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y',
+      })
+
+      setBucketList(buckets)
+    } catch (err) {}
+  }
 
   const renderPage = (page: UploaderPage) => {
     switch (page) {
@@ -82,10 +104,23 @@ function Uploader() {
   }
 
   const tabChange = async (page: UploaderPage, bucket: string) => {
-    if (bucket && bucket !== activeBucket) {
-      setActiveBucket(bucket)
+    try {
+      if (bucket && bucket !== activeBucket) {
+        setBucketLoading(true)
+
+        const resp = await window.Main.switchBucket(bucket)
+
+        setActiveBucket(bucket)
+
+        setBucketMeta({ ...resp, name: bucket })
+
+        setBucketLoading(false)
+      }
+      setActivePage(page)
+    } catch (err) {
+    } finally {
+      setBucketLoading(false)
     }
-    setActivePage(page)
   }
 
   const onAppSwitch = async (app?: AppStore) => {

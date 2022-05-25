@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 
-import { getBuckets } from '../services/oss'
+import { getBuckets, switchBucket } from '../services/oss'
 
 import { IpcResponse } from '../services/interface'
 
@@ -12,6 +12,10 @@ const log = (text: string) => {
 
 export function success(data: any): IpcResponse {
   return { code: 0, msg: '成功', data }
+}
+
+export function fail(code: number, msg: string): IpcResponse {
+  return { code, msg, data: {} }
 }
 
 const registerIpc = (
@@ -38,6 +42,21 @@ const initOssIpcMain = () => {
     const buckets = await getBuckets(params)
 
     return success(buckets)
+  })
+
+  registerIpc('switch-bucket', async params => {
+    const { bucketName } = params
+
+    if (typeof bucketName !== 'string' || bucketName === '')
+      return fail(1, '参数错误')
+      const obj = switchBucket(bucketName)
+
+      success(obj)
+    try {
+      return success('')
+    } catch (err: any) {
+      return fail(1, err.message)
+    }
   })
 }
 

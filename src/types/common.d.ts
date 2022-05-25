@@ -13,3 +13,20 @@ export type AppStore = {
   uploadPrefix: string
   defaultDomain: string
 }
+
+declare class VFile {
+  name: string
+  webkitRelativePath: string
+  meta: any
+  type: string
+  size: number
+  lastModified: number
+  lastModifiedDate: Date
+  shortId: string
+}
+
+export type BucketMeta = {
+  name: string
+  domains: string[]
+  files: VFile[]
+}

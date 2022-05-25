@@ -44,11 +44,14 @@ const getBuckets = async (params?: {
     const { type, ak, sk } = params
     const app = OssService.create(type, ak, sk)
 
+    console.log("app", app)
+
     return app.getBucketList()
   }
-  // 返回当前上下文的 bucket 列表
-  //   const instance = this.oss.getService()
-  //   return instance.getBucketList()
 }
 
-export { getBuckets }
+const switchBucket = async (bucketName: string) => { 
+  // const instance = oss.getService()
+}
+
+export { getBuckets, switchBucket }

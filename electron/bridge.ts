@@ -1,6 +1,11 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
-import { OssType, IpcResponse, AppStore } from './services/interface'
+import {
+  OssType,
+  IpcResponse,
+  AppStore,
+  BucketMeta,
+} from './services/interface'
 
 const asyncSend = (eventName: string, options = {}): any => {
   const data = options
@@ -92,6 +97,11 @@ export const api = {
   // 初始化oss应用
   initOss(id?: string): Promise<AppStore> {
     return asyncSend('init-app', { id })
+  },
+
+  // 切换bucket
+  switchBucket(bucketName: string): Promise<BucketMeta> {
+    return asyncSend('switch-bucket', { bucketName })
   },
 }
 
