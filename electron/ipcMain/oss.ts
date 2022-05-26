@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 
-import { getBuckets, switchBucket } from '../services/oss'
+import IpcChannelsService from '../services/oss'
 
 import { IpcResponse } from '../services/interface'
 
@@ -37,27 +37,48 @@ const registerIpc = (
   })
 }
 
-const initOssIpcMain = () => {
-  registerIpc('get-buckets', async params => {
-    const buckets = await getBuckets(params)
+class InitOssIpcMain {
+  private appChannels = new IpcChannelsService()
 
-    return success(buckets)
-  })
+  init() {
+    registerIpc('init-app', async params => {
+      const appStore = await this.appChannels.initApp(params)
 
-  registerIpc('switch-bucket', async params => {
-    const { bucketName } = params
+      return success(appStore)
+    })
 
-    if (typeof bucketName !== 'string' || bucketName === '')
-      return fail(1, '参数错误')
-      const obj = switchBucket(bucketName)
+    registerIpc('add-app', async params => {
+      const data = await this.appChannels.addApp(params)
+
+      return success(data)
+    })
+
+    registerIpc('"get-apps', async () => {
+      const apps = await this.appChannels.getApps()
+      return success(apps)
+    })
+
+    registerIpc('get-buckets', async params => {
+      const buckets = await this.appChannels.getBuckets(params)
+
+      return success(buckets)
+    })
+
+    registerIpc('switch-bucket', async params => {
+      const { bucketName } = params
+
+      if (typeof bucketName !== 'string' || bucketName === '')
+        return fail(1, '参数错误')
+      const obj = this.appChannels.switchBucket(bucketName)
 
       success(obj)
-    try {
-      return success('')
-    } catch (err: any) {
-      return fail(1, err.message)
-    }
-  })
+      try {
+        return success('')
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
+  }
 }
 
-export default initOssIpcMain
+export default InitOssIpcMain

@@ -27,7 +27,7 @@ interface IProps {
 }
 
 const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
-  const [apps, setApps] = useState<AppStore[]>([])
+  const [apps, setApps] = useState<any[]>([])
   const [page, setPage] = useState<ServicesPage>(ServicesPage.add)
   // 是否为中正在编辑的状态
   const [isEdit, setIsEdit] = useState<boolean>(false)
@@ -80,18 +80,36 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
   const renderIcon = (type: OssType) => {}
 
   const submit = async () => {
-    if (Object.keys(forms.current).every((item: any) => !forms.current[item])) {
+    /*  if (Object.keys(forms.current).every((item: any) => !forms.current[item])) {
       alert('请完善信息')
       return
     }
+ */
+    setLoading(true)
 
-    const aa = await window.Main.getBuckets({
+    const params = {
       type: OssType.qiniu,
-      ak: forms.current.AK,
-      sk: forms.current.SK,
-    })
+      ak: 'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU', // forms.current.AK,
+      sk: 'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y', // forms.current.SK,
+    }
+    const buckets = await window.Main.getBuckets(params)
 
-    console.log(aa)
+    console.log(buckets)
+
+    const app = await window.Main.addApp(
+      '321321313', // forms.current.name,
+      OssType.qiniu,
+      'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU',
+      'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y'
+    )
+
+    console.log(app)
+
+    const allApps = await window.Main.getApp()
+
+    console.log(allApps)
+
+    // setApps(allApps)
   }
 
   const renderSwitch = (param: ServicesPage) => {

@@ -74,13 +74,13 @@ export const api = {
     ipcRenderer.send('captureScreen')
   },
 
-  // 获取bucket列表
-  getBuckets(config?: {
+  // 初始化应用
+  initApp(config?: {
     type: OssType
     ak: string
     sk: string
-  }): Promise<string[]> {
-    return asyncSend('get-buckets', config)
+  }): Promise<AppStore> {
+    return asyncSend('init-app', config)
   },
 
   // 添加应用[绑定应用]
@@ -94,9 +94,18 @@ export const api = {
     return asyncSend('add-app', app)
   },
 
-  // 初始化oss应用
-  initOss(id?: string): Promise<AppStore> {
-    return asyncSend('init-app', { id })
+  // 获取应用
+  getApp(): Promise<AppStore> {
+    return asyncSend('get-apps')
+  },
+
+  // 获取bucket列表
+  getBuckets(config?: {
+    type: OssType
+    ak: string
+    sk: string
+  }): Promise<string[]> {
+    return asyncSend('get-buckets', config)
   },
 
   // 切换bucket

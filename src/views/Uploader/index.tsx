@@ -44,6 +44,8 @@ function Uploader() {
 
   const [activeBucket, setActiveBucket] = useState<string>('')
 
+  const [activeApp, setActiveApp] = useState<AppStore>()
+
   const throttle = () => {
     let running = false
     return () => {
@@ -76,14 +78,34 @@ function Uploader() {
 
   const initState = async () => {
     try {
-      const buckets = await window.Main.getBuckets({
+      const app = await window.Main.initApp()
+
+      console.log(app)
+
+      // setActiveApp(app)
+
+      /* {
         type: OssType.qiniu,
         ak: 'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU',
         sk: 'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y',
-      })
+      } */
+
+      const buckets = await window.Main.getBuckets()
 
       setBucketList(buckets)
-    } catch (err) {}
+
+      if (buckets.length > 0) {
+        await tabChange(UploaderPage.bucket, buckets[0])
+      } else {
+        setActivePage(UploaderPage.services)
+      }
+    } catch (err) {
+      toService()
+    }
+  }
+
+  const toService = () => {
+    setActivePage(UploaderPage.services)
   }
 
   const renderPage = (page: UploaderPage) => {
@@ -125,7 +147,7 @@ function Uploader() {
 
   const onAppSwitch = async (app?: AppStore) => {
     try {
-      console.log(app)
+      //
     } catch (err: unknown) {}
   }
 

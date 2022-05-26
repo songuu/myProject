@@ -12,7 +12,7 @@ import Screenshots from './pages/screenshots'
 
 import { makeTray } from './tray'
 
-import initOssIpcMain from './ipcMain/oss'
+import InitOssIpcMain from './ipcMain/oss'
 
 const path = require('path')
 
@@ -133,7 +133,9 @@ function registerListeners() {
     screenshots.startCapture()
   })
 
-  initOssIpcMain()
+  const ossIpc = new InitOssIpcMain()
+
+  ossIpc.init()
 }
 
 // * 系统层面的功能
