@@ -78,19 +78,11 @@ function Uploader() {
 
   const initState = async () => {
     try {
-      const app = await window.Main.initApp()
+      const app = await window.Main.initOss()
 
-      console.log(app)
+      setActiveApp(app)
 
-      // setActiveApp(app)
-
-      /* {
-        type: OssType.qiniu,
-        ak: 'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU',
-        sk: 'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y',
-      } */
-
-      const buckets = await window.Main.getBuckets()
+      const buckets = (await window.Main.getBuckets()) || []
 
       setBucketList(buckets)
 
@@ -113,7 +105,7 @@ function Uploader() {
       case UploaderPage.bucket:
         return <Bucket />
       case UploaderPage.services:
-        return <Services onAppSwitch={onAppSwitch} />
+        return <Services activeApp={activeApp} onAppSwitch={onAppSwitch} />
       case UploaderPage.setting:
         return <Setting />
       case UploaderPage.transferDone:
@@ -147,8 +139,22 @@ function Uploader() {
 
   const onAppSwitch = async (app?: AppStore) => {
     try {
-      //
-    } catch (err: unknown) {}
+      if (app) {
+        const activeApp = await window.Main.initOss(app._id)
+
+        setActiveApp(activeApp)
+
+        const buckets = await window.Main.getBuckets()
+
+        setBucketList(buckets)
+      } else {
+        setActiveApp(undefined)
+
+        setBucketList([])
+      }
+    } catch (err: unknown) {
+      console.log('切换 app 时出错')
+    }
   }
 
   return (

@@ -74,13 +74,9 @@ export const api = {
     ipcRenderer.send('captureScreen')
   },
 
-  // 初始化应用
-  initApp(config?: {
-    type: OssType
-    ak: string
-    sk: string
-  }): Promise<AppStore> {
-    return asyncSend('init-app', config)
+  // 初始化oss
+  initOss(id?: string): Promise<AppStore> {
+    return asyncSend('init-app', { id })
   },
 
   // 添加应用[绑定应用]
@@ -111,6 +107,11 @@ export const api = {
   // 切换bucket
   switchBucket(bucketName: string): Promise<BucketMeta> {
     return asyncSend('switch-bucket', { bucketName })
+  },
+
+  // 修改设置
+  changeSetting(key: string, value?: string): Promise<void> {
+    return asyncSend('change-setting', { key, value })
   },
 }
 

@@ -3,15 +3,15 @@ enum OssType {
 }
 
 export type AppStore = {
-  type: OssType
+  type: number // OssType
   ak: string
   sk: string
   name: string
   _id?: string
-  bucket: string
-  uploadBucket: string
-  uploadPrefix: string
-  defaultDomain: string
+  bucket?: string
+  uploadBucket?: string
+  uploadPrefix?: string
+  defaultDomain?: string
 }
 
 declare class VFile {

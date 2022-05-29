@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 
 import { debounce, isEqual } from 'lodash'
 
@@ -27,8 +27,8 @@ interface IProps {
 }
 
 const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
-  const [apps, setApps] = useState<any[]>([])
-  const [page, setPage] = useState<ServicesPage>(ServicesPage.add)
+  const [apps, setApps] = useState<AppStore[]>([])
+  const [page, setPage] = useState<ServicesPage>(ServicesPage.list)
   // 是否为中正在编辑的状态
   const [isEdit, setIsEdit] = useState<boolean>(false)
   // update form 中的数据是否已经被修改
@@ -49,7 +49,6 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
   }
   const _toListPage = () => {
     setPage(ServicesPage.list)
-    setDirection(Direction.left)
   }
 
   const onFormChange = debounce((values: any, app: any) => {
@@ -67,17 +66,46 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
   const onBucketAdd = async (values: AddForm) => {}
 
   // 切换应用
-  const switchApp = async (id: string) => {}
+  const switchApp = async (id?: string) => {
+    try {
+      if (activeApp && activeApp._id === id) {
+        return
+      }
+
+      const selected = apps.find(item => item._id === id)
+
+      if (selected) {
+        onAppSwitch(selected)
+      }
+
+      await window.Main.changeSetting('currentAppId', id)
+    } catch (err) {}
+  }
 
   // 初始化应用
-  const initState = async () => {}
+  const initState = async () => {
+    const allApps = await window.Main.getApp()
+
+    setApps(allApps)
+  }
+
+  useEffect(() => {
+    initState().then(r => r)
+  }, [])
 
   const onBucketCancel = () => {
     setIsEdit(false)
     setEdited(false)
   }
 
-  const renderIcon = (type: OssType) => {}
+  const renderIcon = (type: OssType) => {
+    switch (type) {
+      case OssType.qiniu:
+        return <i className={classnames('iconfont', 'icon-qiniu')} />
+      default:
+        return null
+    }
+  }
 
   const submit = async () => {
     /*  if (Object.keys(forms.current).every((item: any) => !forms.current[item])) {
@@ -85,183 +113,223 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
       return
     }
  */
-    setLoading(true)
+    try {
+      setLoading(true)
 
-    const params = {
-      type: OssType.qiniu,
-      ak: 'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU', // forms.current.AK,
-      sk: 'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y', // forms.current.SK,
+      const params = {
+        type: OssType.qiniu,
+        ak: 'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU', // forms.current.AK,
+        sk: 'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y', // forms.current.SK,
+      }
+      const buckets = await window.Main.getBuckets(params)
+
+      const app = await window.Main.addApp(
+        'oversea1234', // forms.current.name,
+        OssType.qiniu,
+        'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU',
+        'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y'
+      )
+
+      const allApps = await window.Main.getApp()
+
+      setApps(allApps)
+
+      // const addedApp = [allApps].find(i => i.sk === sk)
+
+      onAppSwitch(allApps)
+
+      setPage(ServicesPage.list)
+    } catch (error) {
+    } finally {
+      setLoading(false)
     }
-    const buckets = await window.Main.getBuckets(params)
-
-    console.log(buckets)
-
-    const app = await window.Main.addApp(
-      '321321313', // forms.current.name,
-      OssType.qiniu,
-      'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU',
-      'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y'
-    )
-
-    console.log(app)
-
-    const allApps = await window.Main.getApp()
-
-    console.log(allApps)
-
-    // setApps(allApps)
   }
 
   const renderSwitch = (param: ServicesPage) => {
     switch (param) {
       case ServicesPage.list:
         return apps.length > 0 ? (
-          ''
+          <section className={styles['apps-main-wrapper']}>
+            <div className={styles['apps-main-wrapper-left']}>
+              <div className={styles['apps-main-wrapper-header']}>
+                <button onClick={_toAddPage}>添加</button>
+              </div>
+              <ul className={styles['apps-main-apps']}>
+                {apps.map((item: AppStore) => {
+                  return (
+                    <li
+                      className={styles['apps-main-apps-item']}
+                      key={item._id}
+                      onClick={() => {
+                        switchApp(item._id)
+                      }}
+                    >
+                      <div className={styles['apps-main-apps-item-icon']}>
+                        {renderIcon(item.type)}
+                      </div>
+                      <div className={styles['apps-main-apps-item-name']}>
+                        {item.name}
+                      </div>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+            <div className={styles['apps-main-wrapper-right']}></div>
+          </section>
         ) : (
           <section className={styles['apps-main-wrapper']}>
-            <span>没有配置app</span>
-            <button onClick={_toAddPage}>添加</button>
+            <div className={styles['apps-main-empty']}>
+              <span>没有配置app</span>
+              <button onClick={_toAddPage}>添加</button>
+            </div>
           </section>
         )
       case ServicesPage.add:
         return (
           <section className={styles['apps-main-wrapper']}>
-            <span>新增配置</span>
-            <div className={styles['apps-main-wrapper-box']}>
-              <div className={styles['apps-main-wrapper-box-row']}>
-                <div className={styles['apps-main-wrapper-box-col']}>名称:</div>
-                <div className={styles['apps-main-wrapper-box-input']}>
-                  <div
-                    className={classnames(
-                      styles['apps-main-wrapper-box-input-container'],
-                      inputFocus === 'name'
-                        ? styles['apps-main-wrapper-box-input-active']
-                        : ''
-                    )}
-                  >
+            <div className={styles['apps-main-wrapper-form']}>
+              <span>新增配置</span>
+              <div className={styles['apps-main-wrapper-box']}>
+                <div className={styles['apps-main-wrapper-box-row']}>
+                  <div className={styles['apps-main-wrapper-box-col']}>
+                    名称:
+                  </div>
+                  <div className={styles['apps-main-wrapper-box-input']}>
                     <div
-                      className={
-                        styles['apps-main-wrapper-box-input-container-input']
-                      }
+                      className={classnames(
+                        styles['apps-main-wrapper-box-input-container'],
+                        inputFocus === 'name'
+                          ? styles['apps-main-wrapper-box-input-active']
+                          : ''
+                      )}
                     >
-                      <input
-                        id="name"
-                        onFocus={() => {
-                          setInputFocus('name')
-                        }}
-                        onBlur={() => {
-                          setInputFocus('')
-                        }}
-                        onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                          forms.current.name = e.currentTarget.value
-                        }}
-                        placeholder="请输入名称"
-                      />
+                      <div
+                        className={
+                          styles['apps-main-wrapper-box-input-container-input']
+                        }
+                      >
+                        <input
+                          id="name"
+                          onFocus={() => {
+                            setInputFocus('name')
+                          }}
+                          onBlur={() => {
+                            setInputFocus('')
+                          }}
+                          onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                            forms.current.name = e.currentTarget.value
+                          }}
+                          placeholder="请输入名称"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles['apps-main-wrapper-box-row']}>
+                  <div className={styles['apps-main-wrapper-box-col']}>
+                    类型:
+                  </div>
+                  <div className={styles['apps-main-wrapper-box-input']}>
+                    <div
+                      className={classnames(
+                        styles['apps-main-wrapper-box-input-container'],
+                        inputFocus === 'type'
+                          ? styles['apps-main-wrapper-box-input-active']
+                          : ''
+                      )}
+                    >
+                      <div
+                        className={
+                          styles['apps-main-wrapper-box-input-container-input']
+                        }
+                      >
+                        <input
+                          id="type"
+                          onFocus={() => {
+                            setInputFocus('type')
+                          }}
+                          onBlur={() => {
+                            setInputFocus('')
+                          }}
+                          onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                            forms.current.type = e.currentTarget.value
+                          }}
+                          placeholder="请输入类型"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles['apps-main-wrapper-box-row']}>
+                  <div className={styles['apps-main-wrapper-box-col']}>AK:</div>
+                  <div className={styles['apps-main-wrapper-box-input']}>
+                    <div
+                      className={classnames(
+                        styles['apps-main-wrapper-box-input-container'],
+                        inputFocus === 'AK'
+                          ? styles['apps-main-wrapper-box-input-active']
+                          : ''
+                      )}
+                    >
+                      <div
+                        className={
+                          styles['apps-main-wrapper-box-input-container-input']
+                        }
+                      >
+                        <input
+                          id="AK"
+                          onFocus={() => {
+                            setInputFocus('AK')
+                          }}
+                          onBlur={() => {
+                            setInputFocus('')
+                          }}
+                          onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                            forms.current.AK = e.currentTarget.value
+                          }}
+                          placeholder="请输入AK"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles['apps-main-wrapper-box-row']}>
+                  <div className={styles['apps-main-wrapper-box-col']}>SK:</div>
+                  <div className={styles['apps-main-wrapper-box-input']}>
+                    <div
+                      className={classnames(
+                        styles['apps-main-wrapper-box-input-container'],
+                        inputFocus === 'SK'
+                          ? styles['apps-main-wrapper-box-input-active']
+                          : ''
+                      )}
+                    >
+                      <div
+                        className={
+                          styles['apps-main-wrapper-box-input-container-input']
+                        }
+                      >
+                        <input
+                          id="SK"
+                          onFocus={() => {
+                            setInputFocus('SK')
+                          }}
+                          onBlur={() => {
+                            setInputFocus('')
+                          }}
+                          onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                            forms.current.SK = e.currentTarget.value
+                          }}
+                          placeholder="请输入SK"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className={styles['apps-main-wrapper-box-row']}>
-                <div className={styles['apps-main-wrapper-box-col']}>类型:</div>
-                <div className={styles['apps-main-wrapper-box-input']}>
-                  <div
-                    className={classnames(
-                      styles['apps-main-wrapper-box-input-container'],
-                      inputFocus === 'type'
-                        ? styles['apps-main-wrapper-box-input-active']
-                        : ''
-                    )}
-                  >
-                    <div
-                      className={
-                        styles['apps-main-wrapper-box-input-container-input']
-                      }
-                    >
-                      <input
-                        id="type"
-                        onFocus={() => {
-                          setInputFocus('type')
-                        }}
-                        onBlur={() => {
-                          setInputFocus('')
-                        }}
-                        onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                          forms.current.type = e.currentTarget.value
-                        }}
-                        placeholder="请输入类型"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles['apps-main-wrapper-box-row']}>
-                <div className={styles['apps-main-wrapper-box-col']}>AK:</div>
-                <div className={styles['apps-main-wrapper-box-input']}>
-                  <div
-                    className={classnames(
-                      styles['apps-main-wrapper-box-input-container'],
-                      inputFocus === 'AK'
-                        ? styles['apps-main-wrapper-box-input-active']
-                        : ''
-                    )}
-                  >
-                    <div
-                      className={
-                        styles['apps-main-wrapper-box-input-container-input']
-                      }
-                    >
-                      <input
-                        id="AK"
-                        onFocus={() => {
-                          setInputFocus('AK')
-                        }}
-                        onBlur={() => {
-                          setInputFocus('')
-                        }}
-                        onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                          forms.current.AK = e.currentTarget.value
-                        }}
-                        placeholder="请输入AK"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles['apps-main-wrapper-box-row']}>
-                <div className={styles['apps-main-wrapper-box-col']}>SK:</div>
-                <div className={styles['apps-main-wrapper-box-input']}>
-                  <div
-                    className={classnames(
-                      styles['apps-main-wrapper-box-input-container'],
-                      inputFocus === 'SK'
-                        ? styles['apps-main-wrapper-box-input-active']
-                        : ''
-                    )}
-                  >
-                    <div
-                      className={
-                        styles['apps-main-wrapper-box-input-container-input']
-                      }
-                    >
-                      <input
-                        id="SK"
-                        onFocus={() => {
-                          setInputFocus('SK')
-                        }}
-                        onBlur={() => {
-                          setInputFocus('')
-                        }}
-                        onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                          forms.current.SK = e.currentTarget.value
-                        }}
-                        placeholder="请输入SK"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <button onClick={submit}>确定</button>
             </div>
-            <button onClick={submit}>确定</button>
           </section>
         )
       default:

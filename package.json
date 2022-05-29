@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/lodash": "^4.14.182",
+    "@types/nedb": "^1.8.12",
     "@types/node": "^17.0.24",
     "@types/react-transition-group": "^4.4.4",
     "cache-loader": "^4.1.0",
@@ -26,6 +27,7 @@
     "electron-store": "^8.0.1",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
+    "nedb": "^1.8.0",
     "node-screenshots": "^0.0.2",
     "nprogress": "^0.2.0",
     "postcss-loader": "^6.2.1",

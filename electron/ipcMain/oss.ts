@@ -4,6 +4,8 @@ import IpcChannelsService from '../services/oss'
 
 import { IpcResponse } from '../services/interface'
 
+import { configStore } from '../services/config'
+
 const clc = require('cli-color')
 
 const log = (text: string) => {
@@ -42,26 +44,41 @@ class InitOssIpcMain {
 
   init() {
     registerIpc('init-app', async params => {
-      const appStore = await this.appChannels.initApp(params)
+      try {
+        const appStore = await this.appChannels.initApp(params)
 
-      return success(appStore)
+        return success(appStore)
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
     })
 
     registerIpc('add-app', async params => {
-      const data = await this.appChannels.addApp(params)
+      try {
+        const data = await this.appChannels.addApp(params)
 
-      return success(data)
+        return success(data)
+      } catch (err: any) {
+        return fail(1, '添加失败')
+      }
     })
 
-    registerIpc('"get-apps', async () => {
-      const apps = await this.appChannels.getApps()
-      return success(apps)
+    registerIpc('get-apps', async () => {
+      try {
+        const apps = await this.appChannels.getApps()
+        return success(apps)
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
     })
 
     registerIpc('get-buckets', async params => {
-      const buckets = await this.appChannels.getBuckets(params)
-
-      return success(buckets)
+      try {
+        const buckets = await this.appChannels.getBuckets(params)
+        return success(buckets)
+      } catch (err: any) {
+        return fail(1, '获取 buckets 失败，请检查 ak，sk 是否匹配！')
+      }
     })
 
     registerIpc('switch-bucket', async params => {
@@ -69,13 +86,28 @@ class InitOssIpcMain {
 
       if (typeof bucketName !== 'string' || bucketName === '')
         return fail(1, '参数错误')
-      const obj = this.appChannels.switchBucket(bucketName)
 
-      success(obj)
+      console.log("bucketName", bucketName)
       try {
-        return success('')
+        const obj = this.appChannels.switchBucket(bucketName)
+
+        return success(obj)
       } catch (err: any) {
         return fail(1, err.message)
+      }
+    })
+
+    // 修改oss的配置
+    registerIpc('change-setting', async params => {
+      const { key, value } = params
+      if (typeof key !== 'string' || key === '') return fail(1, '参数不能为空')
+
+      switch (key) {
+        case 'currentAppId':
+          configStore.set(key, value)
+          return success(true)
+        default:
+          return fail(1, '不支持该设置')
       }
     })
   }

@@ -1,6 +1,10 @@
 import Qiniu from './qiniu'
 
+import AppStoreService from './appStore'
+
 import { IOSS, IOssService, OssType, IStore, AppStore } from './interface'
+
+import { configStore } from './config'
 
 class OssService implements IOssService {
   public instance: IOSS | null = null
@@ -34,38 +38,51 @@ class OssService implements IOssService {
   }
 }
 
-/* class AppStores implements IStore<any> {
-  find(query: any): Promise<any[]> {}
-
-  insert(doc: T): Promise<T>
-
-  update(query: any, updateQuery: any, options: any): Promise<void>
-
-  remove(query: any, options: any): Promise<void>
-} */
-
 class IpcChannelsService {
   // @ts-ignore
-  private appStore: IStore<AppStore>
+  private appStore: IStore<AppStore> = new AppStoreService()
 
   private oss: IOssService = new OssService()
 
+  getOss = () => this.oss
+
   async initApp(params: any) {
-    const { type, ak, sk } = params
-    this.oss.changeContext(type, ak, sk)
+    let finallyApp: AppStore
+    if (params.id) {
+      // 传入 id 证明用户选择了 id
+      const findApps = await this.appStore.find({ _id: params.id })
+
+      if (findApps.length <= 0) throw new Error('没有可初始化的 app')
+      ;[finallyApp] = findApps
+    } else {
+      // 软件初始化
+      const currentAppId = configStore.get('currentAppId')
+      if (currentAppId) {
+        // 有默认值
+        const findApps = await this.appStore.find({ _id: currentAppId })
+        if (findApps.length <= 0) throw new Error('没有可初始化的 app')
+        ;[finallyApp] = findApps
+      } else {
+        const findApps = await this.appStore.find({})
+        if (findApps.length <= 0) throw new Error('没有可初始化的 app')
+        ;[finallyApp] = findApps
+      }
+    }
+
+    this.oss.changeContext(finallyApp.type, finallyApp.ak, finallyApp.sk)
+
+    return finallyApp
   }
 
   async addApp(params: any) {
     const { name, ak } = params
 
-    if (this.appStore) {
-      // 1、判断是否已经存在 name
-      const appsByName = await this.appStore.find({ name })
-      if (appsByName.length > 0) throw new Error('应用名称已经存在')
-      // 2、判断是否已经存在 ak
-      const appsByAk = await this.appStore.find({ ak })
-      if (appsByAk.length > 0) throw new Error('该 AK 已经存在')
-    }
+    // 1、判断是否已经存在 name
+    const appsByName = await this.appStore.find({ name })
+    if (appsByName.length > 0) return [] // throw new Error('应用名称已经存在1111')
+    // 2、判断是否已经存在 ak
+    const appsByAk = await this.appStore.find({ ak })
+    if (appsByAk.length > 0) return [] // throw new Error('该 AK 已经存在2222')
 
     // 通过验证保存数据
     return this.appStore.insert({ ...params })
@@ -83,9 +100,14 @@ class IpcChannelsService {
 
       return app.getBucketList()
     }
+
+    const instance = this.oss.getService()
+
+    return instance.getBucketList()
   }
 
   async switchBucket(bucketName: string) {
+    console.log("switchBucket", bucketName)
     const instance = this.oss.getService()
 
     await instance.setBucket(bucketName)
@@ -93,6 +115,9 @@ class IpcChannelsService {
     const files = await instance.getBucketFiles()
 
     const domains = await instance.getBucketDomainList()
+
+    console.log("files", files)
+    console.log("domains", domains)
 
     return { files, domains, type: instance.type }
   }

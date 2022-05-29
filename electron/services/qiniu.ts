@@ -117,9 +117,9 @@ export default class Qiniu implements IOSS {
 
     const { data } = await axios.get<string[]>(url, options)
 
-    /* if (data.length > 0) {
-      await this.setBucket(data[0])
-    } */
+    if (data.length > 0) {
+      await this.setBucket(data[data.length - 1])
+    }
     return data
   }
 
@@ -156,6 +156,8 @@ export default class Qiniu implements IOSS {
     const { data } = await axios.get(url, {
       headers: { Authorization: accessToken },
     })
+
+    console.log('data', data)
     if (!Array.isArray(data) || data.length <= 0) {
       throw new Error('没有获取到域名')
     }
