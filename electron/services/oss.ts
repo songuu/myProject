@@ -107,17 +107,17 @@ class IpcChannelsService {
   }
 
   async switchBucket(bucketName: string) {
-    console.log("switchBucket", bucketName)
     const instance = this.oss.getService()
 
     await instance.setBucket(bucketName)
 
     const files = await instance.getBucketFiles()
 
+    console.log(files)
+
     const domains = await instance.getBucketDomainList()
 
-    console.log("files", files)
-    console.log("domains", domains)
+    console.log(domains)
 
     return { files, domains, type: instance.type }
   }

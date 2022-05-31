@@ -103,7 +103,7 @@ function Uploader() {
   const renderPage = (page: UploaderPage) => {
     switch (page) {
       case UploaderPage.bucket:
-        return <Bucket />
+        return <Bucket bucketMeta={bucketMeta} />
       case UploaderPage.services:
         return <Services activeApp={activeApp} onAppSwitch={onAppSwitch} />
       case UploaderPage.setting:

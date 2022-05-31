@@ -103,7 +103,7 @@ export default class Qiniu implements IOSS {
   }
 
   public async getBucketFiles(): Promise<any[]> {
-    const url = `https://rsf.qbox.me/list?bucket=${this.bucket}`
+    const url = `https://rsf-na0.qbox.me/list?bucket=${this.bucket}`
     const accessToken = qiniu.util.generateAccessToken(this.mac, url)
     const options = { headers: { Authorization: accessToken } }
     const { data } = await axios.get(url, options)
@@ -111,11 +111,13 @@ export default class Qiniu implements IOSS {
   }
 
   public async getBucketList(): Promise<string[]> {
-    const url = 'https://rs.qbox.me/buckets'
+    const url = 'https://rs-na0.qbox.me/buckets'
     const accessToken = qiniu.util.generateAccessToken(this.mac, url)
     const options = { headers: { Authorization: accessToken } }
 
     const { data } = await axios.get<string[]>(url, options)
+
+    console.log('data', data)
 
     if (data.length > 0) {
       await this.setBucket(data[data.length - 1])
@@ -157,7 +159,6 @@ export default class Qiniu implements IOSS {
       headers: { Authorization: accessToken },
     })
 
-    console.log('data', data)
     if (!Array.isArray(data) || data.length <= 0) {
       throw new Error('没有获取到域名')
     }

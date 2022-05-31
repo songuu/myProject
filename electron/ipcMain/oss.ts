@@ -87,7 +87,6 @@ class InitOssIpcMain {
       if (typeof bucketName !== 'string' || bucketName === '')
         return fail(1, '参数错误')
 
-      console.log("bucketName", bucketName)
       try {
         const obj = this.appChannels.switchBucket(bucketName)
 
