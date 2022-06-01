@@ -2,6 +2,11 @@ enum OssType {
   qiniu,
 }
 
+export enum Layout {
+  grid,
+  table,
+}
+
 export type AppStore = {
   type: number // OssType
   ak: string
@@ -29,4 +34,14 @@ export type BucketMeta = {
   name: string
   domains: string[]
   files: VFile[]
+}
+
+export interface BucketItem {
+  name: string
+  webkitRelativePath: string
+  meta: any
+  type: string
+  size: number
+  lastModified: number
+  lastModifiedDate: Date
 }

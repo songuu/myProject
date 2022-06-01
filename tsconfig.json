@@ -23,7 +23,8 @@
       "@imgs/*": ["src/imgs/*"],
       "@icons/*": ["src/icons/*"],
       "@constants/*": ["src/constants/*"],
-      "@mytypes/*": ["src/types/*"]
+      "@mytypes/*": ["src/types/*"],
+      "@libs/*": ["src/libs/*"]
     },
     "types": ["react/next", "react-dom/next", "node", "webpack-env"]
   }
