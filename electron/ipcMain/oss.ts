@@ -88,7 +88,7 @@ class InitOssIpcMain {
         return fail(1, '参数错误')
 
       try {
-        const obj = this.appChannels.switchBucket(bucketName)
+        const obj = await this.appChannels.switchBucket(bucketName)
 
         return success(obj)
       } catch (err: any) {

@@ -2,6 +2,8 @@ import React from 'react'
 
 import { Layout } from '@mytypes/common'
 
+import { SvgIcon, ButtonIcon } from '@components/index'
+
 import styles from './index.module.less'
 
 interface PropTypes {
@@ -16,8 +18,16 @@ interface PropTypes {
 const HeaderToolbar: React.FC<PropTypes> = () => {
   return (
     <div className={styles['toolbar-wrapper']}>
-      <div className={styles['toolbar-left']}></div>
-      <div className={styles['toolbar-right']}></div>
+      <div className={styles['toolbar-left']}>
+        <ButtonIcon onclick={() => {}}>
+          <SvgIcon iconName="arrow-left" iconClass={styles['svg-icon']} />
+        </ButtonIcon>
+        <ButtonIcon onclick={() => {}}>
+          <SvgIcon iconName="reload" iconClass={styles['svg-icon']} />
+        </ButtonIcon>
+        <div className={styles.breadcrumb}></div>
+      </div>
+      <div className={styles['toolbar-right']}>搜索</div>
     </div>
   )
 }

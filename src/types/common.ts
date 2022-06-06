@@ -30,10 +30,10 @@ declare class VFile {
   shortId: string
 }
 
-export type BucketMeta = {
-  name: string
-  domains: string[]
-  files: VFile[]
+export class BucketMeta {
+  name = ''
+  domains: string[] = []
+  files: VFile[] = []
 }
 
 export interface BucketItem {

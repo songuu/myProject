@@ -1274,7 +1274,7 @@
     xterm-addon-fit "^0.5.0"
     xterm-addon-search "^0.8.0"
 
-"@electron/get@^1.13.0", "@electron/get@^1.6.0", "@electron/get@^1.9.0":
+"@electron/get@^1.14.1", "@electron/get@^1.6.0", "@electron/get@^1.9.0":
   version "1.14.1"
   resolved "https://registry.npmmirror.com/@electron/get/-/get-1.14.1.tgz#16ba75f02dffb74c23965e72d617adc721d27f40"
   integrity sha512-BrZYyL/6m0ZXz/lDxy/nlVhQz+WF+iPS6qXolEU8atw7h6v1aYkjwJZ63m+bJMBTxDE66X+r2tPS4a/8C82sZw==
@@ -4277,12 +4277,12 @@ electron-winstaller@^5.0.0:
     lodash.template "^4.2.2"
     temp "^0.9.0"
 
-electron@18.2.2:
-  version "18.2.2"
-  resolved "https://registry.npmmirror.com/electron/-/electron-18.2.2.tgz#5b1cd0efb14302fe3b658ec88f5624c1e9c3e1b4"
-  integrity sha512-o9/9+ntxZ0RoVtllH1e9FDLiCLVg00EO8AJZoCR1cVt7l7AVpRgynZdSczaUtTb9XJpWv7U02R6hoWALl55opQ==
+electron@19.0.1:
+  version "19.0.1"
+  resolved "https://registry.npmmirror.com/electron/-/electron-19.0.1.tgz#9370cb4d43db959bbe1dfa85ba582b3a012af5aa"
+  integrity sha512-zuhJVV7nTDFrRZ7uAIylSD0Eoi1xcUV4UzGfpWsREI4W5GsxNGyZQeqQDpg43w8+7oED812oDrGfPh5kb9rcQA==
   dependencies:
-    "@electron/get" "^1.13.0"
+    "@electron/get" "^1.14.1"
     "@types/node" "^16.11.26"
     extract-zip "^1.0.3"
 
@@ -8682,7 +8682,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.1, prop-types@^15.8.1:
+prop-types@^15.6.1, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmmirror.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -8848,6 +8848,13 @@ react-dom@18.0.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.21.0"
+
+react-file-drop@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.npmmirror.com/react-file-drop/-/react-file-drop-3.1.5.tgz#a54d748e76ffe4c81dc6cf53b8c70312537944fa"
+  integrity sha512-JPQh5mq3+b0Zae+ZUG2h5XxJRgFNUday+fEPcbxRHkEnMsSuvq/UhPVQIeJhIZSWRP6UZT4cNk1T8ORrH5Ve4A==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-hot-loader@4.13.0:
   version "4.13.0"

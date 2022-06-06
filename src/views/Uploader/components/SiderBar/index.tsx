@@ -38,8 +38,6 @@ const SiderBar: React.FC<IProps> = ({
       : ''
   }
 
-  console.log('bucketList', bucketList)
-
   return (
     <div className={styles['the-sidebar-wrapper']}>
       <section className={styles['sidebar-container']}>

@@ -36,7 +36,7 @@ function Uploader() {
 
   const [mainWrapperWidth, setMainWrapperWidth] = useState<number>(getWidth())
 
-  const [bucketMeta, setBucketMeta] = useState<BucketMeta>()
+  const [bucketMeta, setBucketMeta] = useState<BucketMeta>(new BucketMeta())
 
   const [bucketLoading, setBucketLoading] = useState<boolean>(false)
 

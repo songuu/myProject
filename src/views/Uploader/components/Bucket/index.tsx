@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, MouseEvent } from 'react'
+
+import { FileDrop } from 'react-file-drop'
 
 import VFolder from '@libs/vdir/VFolder'
 import VFile from '@libs/vdir/VFile'
@@ -6,9 +8,13 @@ import { Item } from '@libs/vdir/types'
 
 import { BucketMeta, Layout } from '@mytypes/common'
 
+import BodyGrid from './BodyGrid'
+
 import HeaderButtonGroup from './HeaderButtonGroup'
 
 import HeaderToolbar from './HeaderToolbar'
+
+import Footer from './Footer'
 
 import styles from './index.module.less'
 
@@ -26,7 +32,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    // displayBucketFiles(bucketMeta)
+    displayBucketFiles(bucketMeta)
   }, [bucketMeta])
 
   const displayBucketFiles = (meta: BucketMeta) => {
@@ -48,11 +54,27 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     return files
   }
 
-  const onRefreshBucket = async () => {
-    /* const resp = await refreshBucket(true)
-    displayBucketFiles({ ...resp, name: bucketMeta.name })
-    setLoading(false) */
+  const onFolderSelect = (name: string) => {
+    vFolder.changeDir(name)
+    setItems(vFolder.listFiles())
   }
+
+  const onFolderContextMenu = (
+    event: MouseEvent<HTMLElement>,
+    item: VFolder
+  ) => {}
+
+  const onFileContextMenu = (event: MouseEvent<HTMLElement>, item: VFile) => {}
+
+  const onPanelContextMenu = () => {}
+
+  const onPanelMouseDown = (event: MouseEvent<HTMLElement>) => {}
+
+  /* const onRefreshBucket = async () => {
+    const resp = await refreshBucket(true)
+    displayBucketFiles({ ...resp, name: bucketMeta.name })
+    setLoading(false)
+  } */
 
   const renderMainPanel = () => {
     if (!bucketMeta.name) {
@@ -63,7 +85,20 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
       return <div>No files in bucket</div>
     }
 
-    return <>123</>
+    return (
+      <BodyGrid
+        items={searchValue ? searchedItem : items}
+        domains={domains}
+        onFolderSelect={onFolderSelect}
+        onFolderContextMenu={onFolderContextMenu}
+        onFileSelect={() => {
+          console.log()
+        }}
+        onFileContextMenu={onFileContextMenu}
+        onPanelContextMenu={onPanelContextMenu}
+        onPanelMouseDown={onPanelMouseDown}
+      />
+    )
   }
 
   const emptyFunction = () => {}
@@ -84,6 +119,30 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
         layout={layout}
         onChangeLayout={emptyFunction}
         navigators={vFolder.getNav()}
+      />
+
+      <div className={styles['loading-wrapper']}>
+        <FileDrop
+          onDrop={async files => {
+            if (files) {
+              const filePaths: string[] = []
+              for (let i = 0; i < files.length; i += 1) {
+                filePaths.push(files[i].path)
+              }
+
+              console.log(filePaths)
+              // await handleUpload(filePaths)
+            }
+          }}
+        >
+          <div className={styles['content-wrapper']}>{renderMainPanel()}</div>
+        </FileDrop>
+      </div>
+
+      <Footer
+        totalItem={vFolder.getTotalItem()}
+        selectedItem={0}
+        domains={domains}
       />
     </div>
   )
