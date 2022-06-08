@@ -1,4 +1,4 @@
-import { ipcMain } from 'electron'
+import { ipcMain, Menu, clipboard } from 'electron'
 
 import IpcChannelsService from '../services/oss'
 
@@ -108,6 +108,42 @@ class InitOssIpcMain {
         default:
           return fail(1, '不支持该设置')
       }
+    })
+
+    // 获取文件的链接
+    registerIpc('get-url', async key => {
+      if (!key) return fail(1, '参数错误')
+
+      try {
+        const url = await this.appChannels.getFileUrl(key)
+        return success(url)
+      } catch (e) {
+        return fail(1, '错误')
+      }
+    })
+
+    registerIpc('right-temp', async item => {
+      const templates = [
+        {
+          label: '复制链接',
+          click: async () => {
+            const url = await this.appChannels.getFileUrl(
+              item.webkitRelativePath
+            )
+            clipboard.writeText(url)
+          },
+        },
+        {
+          label: '下载',
+          click: () => {},
+        },
+        {
+          label: '删除',
+          click: () => {},
+        },
+      ]
+
+      Menu.buildFromTemplate(templates).popup()
     })
   }
 }

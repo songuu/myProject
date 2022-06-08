@@ -64,7 +64,11 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     item: VFolder
   ) => {}
 
-  const onFileContextMenu = (event: MouseEvent<HTMLElement>, item: VFile) => {}
+  const onFileContextMenu = (event: MouseEvent<HTMLElement>, item: VFile) => {
+    event.stopPropagation()
+
+    window.Main.showContextMenu(item)
+  }
 
   const onPanelContextMenu = () => {}
 

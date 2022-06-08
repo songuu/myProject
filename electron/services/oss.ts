@@ -113,13 +113,15 @@ class IpcChannelsService {
 
     const files = await instance.getBucketFiles()
 
-    console.log(files)
-
     const domains = await instance.getBucketDomainList()
 
-    console.log(domains)
-
     return { files, domains, type: instance.type }
+  }
+
+  async getFileUrl(remotePath: any) {
+    const instance = this.oss.getService()
+
+    return instance.generateUrl(remotePath)
   }
 }
 

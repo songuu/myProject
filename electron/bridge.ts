@@ -1,4 +1,10 @@
-import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
+import {
+  contextBridge,
+  ipcRenderer,
+  IpcRendererEvent,
+  Menu,
+  Clipboard,
+} from 'electron'
 
 import {
   OssType,
@@ -16,7 +22,7 @@ const asyncSend = (eventName: string, options = {}): any => {
       responseEvent,
       (event: IpcRendererEvent, response: { code: number; data: any }) => {
         if (response.code === 200) {
-          const { code, msg, data: resData } = response.data
+          const { code = '', msg, data: resData } = response.data ?? {}
           if (code !== 0) {
             reject(new Error(msg))
           }
@@ -112,6 +118,11 @@ export const api = {
   // 修改设置
   changeSetting(key: string, value?: string): Promise<void> {
     return asyncSend('change-setting', { key, value })
+  },
+
+  // 右键
+  showContextMenu: (item: any) => {
+    asyncSend('right-temp', item)
   },
 }
 
