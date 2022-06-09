@@ -124,8 +124,6 @@ export default class Qiniu implements IOSS {
 
     const { data } = await axios.get<string[]>(url, options)
 
-    console.log('data', data)
-
     if (data.length > 0) {
       await this.setBucket(data[data.length - 1])
     }

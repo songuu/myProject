@@ -137,17 +137,9 @@ class IpcChannelsService {
 
     const remotePath = files.webkitRelativePath
 
-    console.log('remotePath', remotePath)
-
-    console.log('remoteDir', remoteDir)
-
     const localPath = path.relative(remoteDir, files.webkitRelativePath)
 
-    console.log('localPath', localPath)
-
     const downloadPath = path.join(customDownloadDir, localPath)
-
-    console.log('downloadPath', downloadPath)
 
     fs.mkdirSync(path.dirname(downloadPath), { recursive: true })
 
