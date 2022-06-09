@@ -2,6 +2,7 @@ import axios from 'axios'
 import * as fs from 'fs'
 import qiniu from 'qiniu'
 import { IOSS, OssType } from './interface'
+import { download } from '../helper/utils'
 
 declare class VFile {
   name: string
@@ -35,7 +36,13 @@ export default class Qiniu implements IOSS {
     remotePath: string,
     localPath: string,
     cb: (id: string, progress: number) => void
-  ): Promise<any> {}
+  ): Promise<any> {
+    if (this.domains.length <= 0) throw new Error('请先初始化存储服务')
+
+    const url = encodeURI(`http://${this.domains[0]}/${remotePath}`)
+
+    return download(url, localPath, p => cb(id, p))
+  }
 
   public uploadFile(
     id: string,

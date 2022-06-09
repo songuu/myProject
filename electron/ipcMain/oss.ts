@@ -122,20 +122,22 @@ class InitOssIpcMain {
       }
     })
 
-    registerIpc('right-temp', async item => {
+    registerIpc('right-temp', async ({ files, remoteDir }) => {
       const templates = [
         {
           label: '复制链接',
           click: async () => {
             const url = await this.appChannels.getFileUrl(
-              item.webkitRelativePath
+              files.webkitRelativePath
             )
             clipboard.writeText(url)
           },
         },
         {
           label: '下载',
-          click: () => {},
+          click: async () => {
+            await this.appChannels.downloadFile(files, remoteDir)
+          },
         },
         {
           label: '删除',
@@ -144,6 +146,8 @@ class InitOssIpcMain {
       ]
 
       Menu.buildFromTemplate(templates).popup()
+
+      return success(true)
     })
   }
 }

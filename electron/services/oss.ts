@@ -6,6 +6,12 @@ import { IOSS, IOssService, OssType, IStore, AppStore } from './interface'
 
 import { configStore } from './config'
 
+// import uuid from 'uuid/v4'
+
+const path = require('path')
+
+const fs = require('fs')
+
 class OssService implements IOssService {
   public instance: IOSS | null = null
 
@@ -122,6 +128,32 @@ class IpcChannelsService {
     const instance = this.oss.getService()
 
     return instance.generateUrl(remotePath)
+  }
+
+  async downloadFile(files: any, remoteDir: string) {
+    const instance = this.oss.getService()
+
+    const customDownloadDir = configStore.get('downloadDir')
+
+    const remotePath = files.webkitRelativePath
+
+    console.log('remotePath', remotePath)
+
+    console.log('remoteDir', remoteDir)
+
+    const localPath = path.relative(remoteDir, files.webkitRelativePath)
+
+    console.log('localPath', localPath)
+
+    const downloadPath = path.join(customDownloadDir, localPath)
+
+    console.log('downloadPath', downloadPath)
+
+    fs.mkdirSync(path.dirname(downloadPath), { recursive: true })
+
+    const id = String(new Date().getTime()) // uuid()
+
+    instance.downloadFile(id, remotePath, downloadPath, () => {})
   }
 }
 

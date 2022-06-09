@@ -121,8 +121,17 @@ export const api = {
   },
 
   // 右键
-  showContextMenu: (item: any) => {
-    asyncSend('right-temp', item)
+  showContextMenu: ({
+    files,
+    remoteDir,
+  }: {
+    files: any
+    remoteDir: string
+  }) => {
+    asyncSend('right-temp', {
+      files,
+      remoteDir,
+    })
   },
 }
 
