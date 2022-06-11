@@ -64,10 +64,13 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     item: VFolder
   ) => {}
 
-  const onFileContextMenu = (event: MouseEvent<HTMLElement>, item: VFile) => {
+  const onFileContextMenu = async (
+    event: MouseEvent<HTMLElement>,
+    item: VFile
+  ) => {
     event.stopPropagation()
 
-    window.Main.showContextMenu({
+    await window.Main.showContextMenu({
       files: item,
       remoteDir: vFolder.getPathPrefix(),
     })
@@ -77,11 +80,13 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
 
   const onPanelMouseDown = (event: MouseEvent<HTMLElement>) => {}
 
-  /* const onRefreshBucket = async () => {
-    const resp = await refreshBucket(true)
+  const onRefreshBucket = async () => {
+    setLoading(true)
+    const resp = await window.Main.refreshBucket(true)
+
     displayBucketFiles({ ...resp, name: bucketMeta.name })
     setLoading(false)
-  } */
+  }
 
   const renderMainPanel = () => {
     if (!bucketMeta.name) {
@@ -109,6 +114,18 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   }
 
   const emptyFunction = () => {}
+
+  useEffect(() => {
+    window.Main.on('deleteFile', (remotePath: string) => {
+      if (remotePath) {
+        onRefreshBucket()
+      }
+    })
+
+    return () => {
+      window.Main.off('deleteFile', (remotePath: string) => {})
+    }
+  }, [])
 
   return (
     <div className={styles['bucket-wrapper']}>

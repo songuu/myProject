@@ -6,6 +6,8 @@ import { IOSS, IOssService, OssType, IStore, AppStore } from './interface'
 
 import { configStore } from './config'
 
+import { emitter } from '../helper/utils'
+
 // import uuid from 'uuid/v4'
 
 const path = require('path')
@@ -146,6 +148,25 @@ class IpcChannelsService {
     const id = String(new Date().getTime()) // uuid()
 
     instance.downloadFile(id, remotePath, downloadPath, () => {})
+  }
+
+  async deleteFile(files: any) {
+    const instance = this.oss.getService()
+
+    const remotePath = files.webkitRelativePath
+
+    await instance.deleteFile(remotePath)
+
+    emitter.emit('deleteFile', remotePath)
+  }
+
+  async refreshBucket(force: boolean) {
+    const instance = this.oss.getService()
+
+    const files = await instance.getBucketFiles()
+    const domains = await instance.getBucketDomainList()
+
+    return { files, domains, type: instance.type }
   }
 }
 

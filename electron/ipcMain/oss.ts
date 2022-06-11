@@ -6,6 +6,8 @@ import { IpcResponse } from '../services/interface'
 
 import { configStore } from '../services/config'
 
+import { emitter } from '../helper/utils'
+
 const clc = require('cli-color')
 
 const log = (text: string) => {
@@ -41,6 +43,12 @@ const registerIpc = (
 
 class InitOssIpcMain {
   private appChannels = new IpcChannelsService()
+
+  private mainWindow: any
+
+  constructor(mainWindow: any) {
+    this.mainWindow = mainWindow
+  }
 
   init() {
     registerIpc('init-app', async params => {
@@ -141,13 +149,30 @@ class InitOssIpcMain {
         },
         {
           label: '删除',
-          click: () => {},
+          click: async () => {
+            await this.appChannels.deleteFile(files)
+          },
         },
       ]
 
       Menu.buildFromTemplate(templates).popup()
 
       return success(true)
+    })
+
+    registerIpc('refresh-bucket', async ({ force }: { force?: boolean }) => {
+      try {
+        const object = await this.appChannels.refreshBucket(!!force)
+        return success(object)
+      } catch (e) {
+        return fail(1, 'err')
+      }
+    })
+
+    emitter.on('deleteFile', (remotePath: string) => {
+      if (this.mainWindow) {
+        this.mainWindow.webContents.send('deleteFile', remotePath)
+      }
     })
   }
 }

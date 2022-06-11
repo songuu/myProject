@@ -45,6 +45,10 @@ export const api = {
     ipcRenderer.on(channel, (_, data) => callback(data))
   },
 
+  off: (channel: string, callback: Function) => {
+    ipcRenderer.removeListener(channel, callback)
+  },
+
   // 关闭窗口
   closeWindow() {
     ipcRenderer.send('close-window')
@@ -128,10 +132,15 @@ export const api = {
     files: any
     remoteDir: string
   }) => {
-    asyncSend('right-temp', {
+    return asyncSend('right-temp', {
       files,
       remoteDir,
     })
+  },
+
+  // 刷新
+  refreshBucket: (force?: boolean): Promise<BucketMeta> => {
+    return asyncSend('refresh-bucket', { force })
   },
 }
 

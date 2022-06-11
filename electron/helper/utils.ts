@@ -2,6 +2,8 @@ import axios from 'axios'
 
 import fs, { Stats } from 'fs'
 
+import EventEmitter from 'events'
+
 export async function download(
   url: string,
   localPath: string,
@@ -25,3 +27,7 @@ export async function download(
     writer.on('error', reject)
   })
 }
+
+class MyEmitter extends EventEmitter {}
+
+export const emitter = new MyEmitter()

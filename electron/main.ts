@@ -133,7 +133,7 @@ function registerListeners() {
     screenshots.startCapture()
   })
 
-  const ossIpc = new InitOssIpcMain()
+  const ossIpc = new InitOssIpcMain(mainWindow)
 
   ossIpc.init()
 }
