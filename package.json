@@ -16,6 +16,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@types/klaw-sync": "^6.0.1",
     "@types/lodash": "^4.14.182",
     "@types/nedb": "^1.8.12",
     "@types/node": "^17.0.24",
@@ -26,6 +27,7 @@
     "cli-color": "^2.0.2",
     "css-loader": "^6.7.1",
     "electron-store": "^8.0.1",
+    "klaw-sync": "^6.0.0",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
     "nedb": "^1.8.0",

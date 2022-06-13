@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import klawSync from 'klaw-sync'
+
 import fs, { Stats } from 'fs'
 
 import EventEmitter from 'events'
@@ -26,6 +28,27 @@ export async function download(
     writer.on('finish', resolve)
     writer.on('error', reject)
   })
+}
+
+export function pathStatsSync(path: string): Stats {
+  return fs.statSync(path)
+}
+
+export function fattenFileList(fileList: string[]): string[] {
+  return fileList.reduce((prev: string[], cur: string) => {
+    const stats = pathStatsSync(cur)
+    if (stats.isFile()) return [...prev, cur]
+    if (stats.isDirectory()) {
+      const paths = klawSync(cur, {
+        nodir: true,
+        filter(f) {
+          return !/\.(DS_Store)$/.test(f.path)
+        },
+      }).map(i => i.path)
+      return [...prev, ...paths]
+    }
+    return prev
+  }, [])
 }
 
 class MyEmitter extends EventEmitter {}

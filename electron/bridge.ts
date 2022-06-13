@@ -46,7 +46,7 @@ export const api = {
   },
 
   off: (channel: string, callback: Function) => {
-    ipcRenderer.removeListener(channel, callback)
+    ipcRenderer.removeListener(channel, (_, data) => callback(data))
   },
 
   // 关闭窗口
@@ -141,6 +141,14 @@ export const api = {
   // 刷新
   refreshBucket: (force?: boolean): Promise<BucketMeta> => {
     return asyncSend('refresh-bucket', { force })
+  },
+
+  // 上传
+  uploadFiles: (options: {
+    remoteDir: string
+    fileList: string[]
+  }): Promise<void> => {
+    return asyncSend('upload-files', options)
   },
 }
 

@@ -139,7 +139,7 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
       onAppSwitch(allApps)
 
       setPage(ServicesPage.list)
-    } catch (error) {
+    } catch (error: any) {
     } finally {
       setLoading(false)
     }

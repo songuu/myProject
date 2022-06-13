@@ -54,6 +54,12 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     return files
   }
 
+  const getOperationFiles = (opItem?: Item) => {
+    if (opItem) {
+      return _getFiles([opItem])
+    }
+  }
+
   const onFolderSelect = (name: string) => {
     vFolder.changeDir(name)
     setItems(vFolder.listFiles())
@@ -77,6 +83,17 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   }
 
   const onPanelContextMenu = () => {}
+
+  const handleUpload = async (paths: string[]) => {
+    try {
+      await window.Main.uploadFiles({
+        remoteDir: vFolder.getPathPrefix(),
+        fileList: paths,
+      })
+    } catch (e: any) {
+      console.error(e)
+    }
+  }
 
   const onPanelMouseDown = (event: MouseEvent<HTMLElement>) => {}
 
@@ -118,12 +135,19 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   useEffect(() => {
     window.Main.on('deleteFile', (remotePath: string) => {
       if (remotePath) {
+        console.log('删除成功')
         onRefreshBucket()
       }
     })
 
+    window.Main.on('uploadFileSuccess', () => {
+      console.log('上传成功')
+      onRefreshBucket()
+    })
+
     return () => {
       window.Main.off('deleteFile', (remotePath: string) => {})
+      window.Main.off('uploadFileSuccess', () => {})
     }
   }, [])
 
@@ -137,7 +161,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
       />
 
       <HeaderToolbar
-        onRefreshBucket={emptyFunction}
+        onRefreshBucket={onRefreshBucket}
         onSearchChange={emptyFunction}
         backspace={emptyFunction}
         layout={layout}
@@ -154,8 +178,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
                 filePaths.push(files[i].path)
               }
 
-              console.log(filePaths)
-              // await handleUpload(filePaths)
+              await handleUpload(filePaths)
             }
           }}
         >

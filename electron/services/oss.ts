@@ -6,7 +6,7 @@ import { IOSS, IOssService, OssType, IStore, AppStore } from './interface'
 
 import { configStore } from './config'
 
-import { emitter } from '../helper/utils'
+import { emitter, fattenFileList } from '../helper/utils'
 
 // import uuid from 'uuid/v4'
 
@@ -167,6 +167,30 @@ class IpcChannelsService {
     const domains = await instance.getBucketDomainList()
 
     return { files, domains, type: instance.type }
+  }
+
+  async uploadFiles(params: any) {
+    const { remoteDir, fileList } = params
+
+    const instance = this.oss.getService()
+
+    const baseDir = path.dirname(fileList[0])
+
+    const filepathList = fattenFileList(fileList)
+
+    for (const filepath of filepathList) {
+      const relativePath = path.relative(baseDir, filepath)
+
+      let remotePath = path.join(remoteDir, relativePath)
+
+      remotePath = remotePath.replace(/\\+/g, '/')
+
+      const id = String(new Date().getTime())
+
+      instance.uploadFile(id, remotePath, filepath, () => {
+        emitter.emit('uploadFileSuccess')
+      })
+    }
   }
 }
 

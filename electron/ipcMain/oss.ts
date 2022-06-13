@@ -169,9 +169,31 @@ class InitOssIpcMain {
       }
     })
 
+    registerIpc('upload-files', async params => {
+      if (!('remoteDir' in params)) return fail(1, '参数错误')
+      if (!('fileList' in params)) return fail(1, '参数错误')
+      const { fileList } = params
+
+      if (Array.isArray(fileList) && fileList.length === 0) {
+        return fail(1, '参数错误')
+      }
+      try {
+        await this.appChannels.uploadFiles(params)
+        return success(true)
+      } catch (e) {
+        return fail(1, '上传文件时出错')
+      }
+    })
+
     emitter.on('deleteFile', (remotePath: string) => {
       if (this.mainWindow) {
         this.mainWindow.webContents.send('deleteFile', remotePath)
+      }
+    })
+
+    emitter.on('uploadFileSuccess', () => {
+      if (this.mainWindow) {
+        this.mainWindow.webContents.send('uploadFileSuccess')
       }
     })
   }
