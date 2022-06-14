@@ -145,9 +145,16 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
       onRefreshBucket()
     })
 
+    window.Main.on('downloadFile', (downloadPath: string) => {
+      if (downloadPath) {
+        console.log('下载成功')
+      }
+    })
+
     return () => {
       window.Main.off('deleteFile', (remotePath: string) => {})
       window.Main.off('uploadFileSuccess', () => {})
+      window.Main.off('downloadFile', (downloadPath: string) => {})
     }
   }, [])
 

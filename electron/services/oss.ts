@@ -147,7 +147,9 @@ class IpcChannelsService {
 
     const id = String(new Date().getTime()) // uuid()
 
-    instance.downloadFile(id, remotePath, downloadPath, () => {})
+    await instance.downloadFile(id, remotePath, downloadPath, () => {})
+
+    emitter.emit('downloadFile', downloadPath)
   }
 
   async deleteFile(files: any) {

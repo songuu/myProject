@@ -196,6 +196,12 @@ class InitOssIpcMain {
         this.mainWindow.webContents.send('uploadFileSuccess')
       }
     })
+
+    emitter.on('downloadFile', (downloadPath: string) => {
+      if (this.mainWindow) {
+        this.mainWindow.webContents.send('downloadFile', downloadPath)
+      }
+    })
   }
 }
 
