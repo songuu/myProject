@@ -202,6 +202,28 @@ class InitOssIpcMain {
         this.mainWindow.webContents.send('downloadFile', downloadPath)
       }
     })
+
+    emitter.on('transfer-done', (id: string) => {
+      console.log('传输文件完成')
+    })
+
+    emitter.on('transfer-process', progressList => {
+      if (this.mainWindow) {
+        this.mainWindow.webContents.send('transfer-progress', progressList)
+      }
+    })
+
+    // 处理传输文件失败
+    emitter.on('transfer-failed', (id: string) => {
+      console.error('传输文件失败')
+    })
+
+    // 处理传输完成
+    emitter.on('transfer-finish', () => {
+      if (this.mainWindow && configStore.get('transferDoneTip')) {
+        this.mainWindow.webContents.send('transfer-finish')
+      }
+    })
   }
 }
 

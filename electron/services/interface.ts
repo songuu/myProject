@@ -17,6 +17,36 @@ declare class VFile {
   shortId: string
 }
 
+export enum TaskType {
+  download,
+  upload,
+}
+
+export enum TransferStatus {
+  default,
+  done,
+  failed,
+}
+
+export type Task<T> = {
+  id: string
+  name: string
+  size: number
+  date: number
+  type: TaskType
+  progress: number
+  result: Promise<T>
+}
+
+export type TransferStore = {
+  id: string
+  name: string
+  size: number
+  date: number
+  type: TaskType
+  status: TransferStatus
+}
+
 export interface IApp {
   mainWindow: BrowserWindow | null
   floatWindow: BrowserWindow | null
@@ -27,11 +57,11 @@ export interface IApp {
   init(): void
 }
 
-/* export interface ITaskRunner {
+export interface ITaskRunner {
   addTask<T>(task: Task<T>): void
 
   setProgress(id: string, progress: number): void
-} */
+}
 
 export interface IStore<T> {
   find(query: any): Promise<T[]>

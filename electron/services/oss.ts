@@ -1,8 +1,19 @@
+import { Task } from 'types/common'
 import Qiniu from './qiniu'
+
+import TaskRunnerService from './TaskRunnerService'
 
 import AppStoreService from './appStore'
 
-import { IOSS, IOssService, OssType, IStore, AppStore } from './interface'
+import {
+  IOSS,
+  IOssService,
+  OssType,
+  IStore,
+  AppStore,
+  ITaskRunner,
+  TaskType,
+} from './interface'
 
 import { configStore } from './config'
 
@@ -47,10 +58,15 @@ class OssService implements IOssService {
 }
 
 class IpcChannelsService {
-  // @ts-ignore
   private appStore: IStore<AppStore> = new AppStoreService()
 
   private oss: IOssService = new OssService()
+
+  private taskRunner: ITaskRunner | null = null
+
+  constructor() {
+    this.taskRunner = new TaskRunnerService()
+  }
 
   getOss = () => this.oss
 
@@ -147,9 +163,24 @@ class IpcChannelsService {
 
     const id = String(new Date().getTime()) // uuid()
 
-    await instance.downloadFile(id, remotePath, downloadPath, () => {})
+    const callback = (taskId: string, process: number) => {
+      this.taskRunner?.setProgress(taskId, process)
+    }
 
-    emitter.emit('downloadFile', downloadPath)
+    const task: Task<any> = {
+      id,
+      name: path.basename(localPath),
+      date: Date.now(),
+      type: TaskType.download,
+      size: files.size,
+      process: 0,
+      result: instance.downloadFile(id, remotePath, downloadPath, callback),
+    }
+
+    // await instance.downloadFile(id, remotePath, downloadPath, () => {})
+
+    // emitter.emit('downloadFile', downloadPath)
+    this.taskRunner?.addTask(task)
   }
 
   async deleteFile(files: any) {

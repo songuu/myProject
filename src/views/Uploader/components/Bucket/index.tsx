@@ -30,6 +30,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   const [searchedItem, setSearchedItem] = useState<Item[]>([])
   const [searchValue, setSearchValue] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
+  const inputRef = React.useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     displayBucketFiles(bucketMeta)
@@ -162,7 +163,9 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     <div className={styles['bucket-wrapper']}>
       <HeaderButtonGroup
         selectedItems={[]}
-        fileUpload={emptyFunction}
+        fileUpload={() => {
+          inputRef.current?.click()
+        }}
         onDownload={emptyFunction}
         onDelete={emptyFunction}
       />
@@ -197,6 +200,28 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
         totalItem={vFolder.getTotalItem()}
         selectedItem={0}
         domains={domains}
+      />
+
+      <input
+        onChange={e => {
+          const files: any = e.target.files
+
+          if (files && files.length > 0) {
+            const filePaths: string[] = [...files].map(
+              (file: File) => file.path
+            )
+            handleUpload(filePaths)
+          }
+          // this.batchProcessFile(e.target.files[0]);
+          e.target.value = ''
+        }}
+        ref={inputRef}
+        style={{
+          display: 'none',
+        }}
+        multiple={true}
+        type="file"
+        accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
       />
     </div>
   )

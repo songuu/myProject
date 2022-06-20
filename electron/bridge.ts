@@ -150,6 +150,8 @@ export const api = {
   }): Promise<void> => {
     return asyncSend('upload-files', options)
   },
+
+  // 点击按钮上传文件 利用electron的上传
 }
 
 contextBridge.exposeInMainWorld('Main', api)
