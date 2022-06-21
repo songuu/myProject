@@ -20,8 +20,9 @@
       "@styles/*": ["src/styles/*"],
       "@layout/*": ["src/layout/*"],
       "@config/*": ["config/*"],
-      "@imgs/*": ["src/imgs/*"],
-      "@icons/*": ["src/icons/*"],
+      "@imgs/*": ["src/static/imgs/*"],
+      "@icons/*": ["src/static/icons/*"],
+      "@static/*": ["src/static/*"],
       "@constants/*": ["src/constants/*"],
       "@mytypes/*": ["src/types/*"],
       "@libs/*": ["src/libs/*"]

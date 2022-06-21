@@ -6,6 +6,8 @@ import { getBgOffset } from '@utils/other'
 
 import { AppStore, BucketMeta } from '@mytypes/common'
 
+import audioSrc from '@static/audios/tip.mp3'
+
 import {
   SiderBar,
   TransferList,
@@ -24,6 +26,8 @@ enum OssType {
 const OssTypeMap = {
   [OssType.qiniu]: '七牛云',
 }
+
+const audio = new Audio(audioSrc)
 
 function Uploader() {
   const getWidth = () => document.body.clientWidth - 225
@@ -59,6 +63,12 @@ function Uploader() {
   }
   const throttleFn = throttle()
 
+  const playAudio = async () => {
+    if (audio) {
+      await audio.play()
+    }
+  }
+
   useEffect(() => {
     setBgOffset(getBgOffset())
   }, [activePage])
@@ -69,9 +79,11 @@ function Uploader() {
     window.onresize = () => {
       setMainWrapperWidth(document.body.clientWidth - 225)
     }
+    window.Main.on('transfer-finish', playAudio)
     window.addEventListener('resize', throttleFn)
 
     return () => {
+      window.Main.on('transfer-finish', playAudio)
       window.removeEventListener('resize', throttleFn)
     }
   }, [])

@@ -19,11 +19,15 @@ import { configStore } from './config'
 
 import { emitter, fattenFileList } from '../helper/utils'
 
+import fs, { Stats } from 'fs'
+
 // import uuid from 'uuid/v4'
 
 const path = require('path')
 
-const fs = require('fs')
+function pathStatsSync(path: string): Stats {
+  return fs.statSync(path)
+}
 
 class OssService implements IOssService {
   public instance: IOSS | null = null
@@ -220,9 +224,23 @@ class IpcChannelsService {
 
       const id = String(new Date().getTime())
 
-      instance.uploadFile(id, remotePath, filepath, () => {
+      const callback = (taskId: string, process: number) =>
+        this.taskRunner?.setProgress(taskId, process)
+
+      const task: Task<any> = {
+        id,
+        name: path.basename(remotePath),
+        date: Date.now(),
+        type: TaskType.upload,
+        size: pathStatsSync(filepath).size,
+        progress: 0,
+        result: instance.uploadFile(id, remotePath, filepath, callback),
+      }
+
+      this.taskRunner?.addTask(task)
+      /* instance.uploadFile(id, remotePath, filepath, () => {
         emitter.emit('uploadFileSuccess')
-      })
+      }) */
     }
   }
 }

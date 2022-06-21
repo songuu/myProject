@@ -220,7 +220,7 @@ class InitOssIpcMain {
 
     // 处理传输完成
     emitter.on('transfer-finish', () => {
-      if (this.mainWindow && configStore.get('transferDoneTip')) {
+      if (this.mainWindow /* && configStore.get('transferDoneTip') */) {
         this.mainWindow.webContents.send('transfer-finish')
       }
     })
