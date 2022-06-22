@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import classnames from 'classnames'
 
@@ -31,11 +31,25 @@ const SiderBar: React.FC<IProps> = ({
   tabChange,
   bucketList,
 }) => {
+  const [progress, setProgress] = useState<number>(0)
+  const [showProgress, setShowProgress] = useState<boolean>(false)
+
   const activeTag = (page: UploaderPage, bucket: string) => {
     return (bucket && activePage === page && activeBucket === bucket) ||
       activePage === page
       ? styles['sidebar-container-sidebar-list-active']
       : ''
+  }
+
+  const onProgress = (e: any, progressList: ProgressItem[]) => {
+    setShowProgress(true)
+    const total = progressList.reduce((pre, cur) => pre + cur.progress, 0)
+    setProgress(total / progressList.length)
+  }
+
+  const onFinish = () => {
+    setProgress(100)
+    setTimeout(() => setShowProgress(false), 200)
   }
 
   return (
@@ -78,6 +92,7 @@ const SiderBar: React.FC<IProps> = ({
       <section className={styles['sidebar-container']}>
         <div className={styles['sidebar-container-title']}>
           <div className={styles['sidebar-container-title-text']}>传输列表</div>
+          {showProgress && '进度条'}
         </div>
         <div className={styles['sidebar-container-sidebar-list']}>
           <div

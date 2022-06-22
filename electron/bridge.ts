@@ -11,6 +11,7 @@ import {
   IpcResponse,
   AppStore,
   BucketMeta,
+  TransferStore,
 } from './services/interface'
 
 const asyncSend = (eventName: string, options = {}): any => {
@@ -87,6 +88,11 @@ export const api = {
   // 初始化oss
   initOss(id?: string): Promise<AppStore> {
     return asyncSend('init-app', { id })
+  },
+
+  // 获取传输列表
+  getTransfers(query: any): Promise<TransferStore[]> {
+    return asyncSend('get-transfer', query)
   },
 
   // 添加应用[绑定应用]

@@ -1,9 +1,10 @@
-import { Task } from 'types/common'
 import Qiniu from './qiniu'
 
 import TaskRunnerService from './TaskRunnerService'
 
 import AppStoreService from './appStore'
+
+import TransferStoreService from './TransferStoreService'
 
 import {
   IOSS,
@@ -13,6 +14,8 @@ import {
   AppStore,
   ITaskRunner,
   TaskType,
+  TransferStore,
+  TransferStatus,
 } from './interface'
 
 import { configStore } from './config'
@@ -63,6 +66,8 @@ class OssService implements IOssService {
 
 class IpcChannelsService {
   private appStore: IStore<AppStore> = new AppStoreService()
+
+  private transferStore: IStore<TransferStore> = new TransferStoreService()
 
   private oss: IOssService = new OssService()
 
@@ -242,6 +247,14 @@ class IpcChannelsService {
         emitter.emit('uploadFileSuccess')
       }) */
     }
+  }
+
+  async getTransfers(query: any) {
+    return this.transferStore.find(query)
+  }
+
+  async removeTransfers(status: TransferStatus) {
+    return this.transferStore.remove({ status }, { multi: true })
   }
 }
 

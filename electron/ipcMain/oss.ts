@@ -185,6 +185,15 @@ class InitOssIpcMain {
       }
     })
 
+    registerIpc('get-transfer', async params => {
+      try {
+        const transfers = await this.appChannels.getTransfers(params)
+        return success(transfers)
+      } catch (e) {
+        return fail(1, '获取失败')
+      }
+    })
+
     emitter.on('deleteFile', (remotePath: string) => {
       if (this.mainWindow) {
         this.mainWindow.webContents.send('deleteFile', remotePath)

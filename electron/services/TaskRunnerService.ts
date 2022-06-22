@@ -9,7 +9,7 @@ import {
 
 import { emitter } from '../helper/utils'
 
-import AppStoreService from './appStore'
+import TransferStoreService from './TransferStoreService'
 
 export default class TaskRunnerService implements ITaskRunner {
   private queue: Task<any>[] = []
@@ -23,7 +23,7 @@ export default class TaskRunnerService implements ITaskRunner {
   private timeLimiter: number = Date.now()
 
   // @ts-ignore
-  private transfers: IStore<TransferStore> = new AppStoreService()
+  private transfers: IStore<TransferStore> = new TransferStoreService()
 
   public async addTask<T>(task: Task<T>) {
     await this.transfers.insert({
