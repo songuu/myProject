@@ -17,7 +17,6 @@ export default class TransferStoreService implements IStore<TransferStore> {
   }
 
   find(query: any) {
-    console.log("query", query)
     return new Promise<TransferStore[]>((resolve, reject) => {
       this.store.find<TransferStore>(query, (err: any, documents: any) => {
         if (err) {
@@ -30,7 +29,6 @@ export default class TransferStoreService implements IStore<TransferStore> {
   }
 
   insert(doc: TransferStore) {
-    console.log("doc", doc)
     return new Promise<TransferStore>((resolve, reject) => {
       this.store.insert<TransferStore>(doc, (err, document) => {
         if (err) reject(err)
@@ -40,8 +38,6 @@ export default class TransferStoreService implements IStore<TransferStore> {
   }
 
   update(query: any, updateQuery: any, options: any) {
-    console.log("query", query)
-    console.log("updateQuery", updateQuery)
     return new Promise<void>((resolve, reject) => {
       this.store.update(query, updateQuery, options, err => {
         if (err) {

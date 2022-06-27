@@ -217,6 +217,7 @@ class InitOssIpcMain {
     })
 
     emitter.on('transfer-process', progressList => {
+      console.log('传输文件进度', progressList)
       if (this.mainWindow) {
         this.mainWindow.webContents.send('transfer-progress', progressList)
       }

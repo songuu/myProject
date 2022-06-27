@@ -1,5 +1,5 @@
 Arguments: 
-  C:\app\nvm\nodejs\node.exe C:\Users\MLoong\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
+  C:\app\nvm\nodejs\node.exe C:\Users\MLoong\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @types/mime mime
 
 PATH: 
   C:\app\anaconda;C:\app\anaconda\Library\mingw-w64\bin;C:\app\anaconda\Library\usr\bin;C:\app\anaconda\Library\bin;C:\app\anaconda\Scripts;C:\app\anaconda\bin;C:\app\anaconda\condabin;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\app\python3\Scripts;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\Common Files\microsoft shared\TigerKin;C:\app\nvm\nvm;C:\app\nvm\nodejs;C:\app\Git\cmd;C:\app\Git\usr\bin;C:\app\java1.8\bin;C:\Windows\system32;C:\Windows;C:\app\putty;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit;C:\app\node;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\app\anaconda\Scripts;C:\app\anaconda;.;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\app\Python310\Scripts;C:\app\Python310;C:\Users\MLoong\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip;C:\app\nvm\nvm;C:\app\nvm\nodejs;C:\app\bandizip;C:\Users\MLoong\AppData\Roaming\npm;C:\app\ VS Code\bin;C:\app\PyCharm\bin;.;C:\app\Fiddler;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps
@@ -35,17 +35,21 @@ npm manifest:
     "keywords": [],
     "license": "MIT",
     "dependencies": {
+      "@types/klaw-sync": "^6.0.1",
       "@types/lodash": "^4.14.182",
       "@types/nedb": "^1.8.12",
       "@types/node": "^17.0.24",
       "@types/react-transition-group": "^4.4.4",
+      "@types/uuid": "^8.3.4",
       "cache-loader": "^4.1.0",
       "classnames": "^2.3.1",
       "cli-color": "^2.0.2",
       "css-loader": "^6.7.1",
       "electron-store": "^8.0.1",
+      "klaw-sync": "^6.0.0",
       "less": "^4.1.2",
       "less-loader": "^10.2.0",
+      "moment": "^2.29.3",
       "nedb": "^1.8.0",
       "node-screenshots": "^0.0.2",
       "nprogress": "^0.2.0",
@@ -54,6 +58,7 @@ npm manifest:
       "re-resizable": "^6.9.9",
       "react": "18.0.0",
       "react-dom": "18.0.0",
+      "react-file-drop": "^3.1.5",
       "react-hot-loader": "4.13.0",
       "react-redux": "^8.0.0-beta.1",
       "react-router-dom": "^6.3.0",
@@ -1451,7 +1456,7 @@ Lockfile:
       xterm-addon-fit "^0.5.0"
       xterm-addon-search "^0.8.0"
   
-  "@electron/get@^1.13.0", "@electron/get@^1.6.0", "@electron/get@^1.9.0":
+  "@electron/get@^1.14.1", "@electron/get@^1.6.0", "@electron/get@^1.9.0":
     version "1.14.1"
     resolved "https://registry.npmmirror.com/@electron/get/-/get-1.14.1.tgz#16ba75f02dffb74c23965e72d617adc721d27f40"
     integrity sha512-BrZYyL/6m0ZXz/lDxy/nlVhQz+WF+iPS6qXolEU8atw7h6v1aYkjwJZ63m+bJMBTxDE66X+r2tPS4a/8C82sZw==
@@ -2106,6 +2111,13 @@ Lockfile:
     dependencies:
       "@types/node" "*"
   
+  "@types/klaw-sync@^6.0.1":
+    version "6.0.1"
+    resolved "https://registry.npmmirror.com/@types/klaw-sync/-/klaw-sync-6.0.1.tgz#377f629b0fee644575b5b079121020ffa5f35d35"
+    integrity sha512-hqWJe0mMSxC5fiQjCJzziko2Xxh2HjDAPZNk7Zwv+Uo56XlViXR6p1RzjUCQvFvLd+IXEGeyVHTaAibrbyU1Rw==
+    dependencies:
+      "@types/node" "*"
+  
   "@types/lodash@^4.14.182":
     version "4.14.182"
     resolved "https://registry.npmmirror.com/@types/lodash/-/lodash-4.14.182.tgz#05301a4d5e62963227eaafe0ce04dd77c54ea5c2"
@@ -2274,6 +2286,11 @@ Lockfile:
     version "0.0.3"
     resolved "https://registry.npmmirror.com/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz#b6725d5f4af24ace33b36fafd295136e75509f43"
     integrity sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==
+  
+  "@types/uuid@^8.3.4":
+    version "8.3.4"
+    resolved "https://registry.npmmirror.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
+    integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
   
   "@types/webpack-env@1.16.4":
     version "1.16.4"
@@ -4454,12 +4471,12 @@ Lockfile:
       lodash.template "^4.2.2"
       temp "^0.9.0"
   
-  electron@18.2.2:
-    version "18.2.2"
-    resolved "https://registry.npmmirror.com/electron/-/electron-18.2.2.tgz#5b1cd0efb14302fe3b658ec88f5624c1e9c3e1b4"
-    integrity sha512-o9/9+ntxZ0RoVtllH1e9FDLiCLVg00EO8AJZoCR1cVt7l7AVpRgynZdSczaUtTb9XJpWv7U02R6hoWALl55opQ==
+  electron@19.0.1:
+    version "19.0.1"
+    resolved "https://registry.npmmirror.com/electron/-/electron-19.0.1.tgz#9370cb4d43db959bbe1dfa85ba582b3a012af5aa"
+    integrity sha512-zuhJVV7nTDFrRZ7uAIylSD0Eoi1xcUV4UzGfpWsREI4W5GsxNGyZQeqQDpg43w8+7oED812oDrGfPh5kb9rcQA==
     dependencies:
-      "@electron/get" "^1.13.0"
+      "@electron/get" "^1.14.1"
       "@types/node" "^16.11.26"
       extract-zip "^1.0.3"
   
@@ -5723,7 +5740,7 @@ Lockfile:
       to-readable-stream "^1.0.0"
       url-parse-lax "^3.0.0"
   
-  graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4, graceful-fs@^4.2.6, graceful-fs@^4.2.9:
+  graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4, graceful-fs@^4.2.6, graceful-fs@^4.2.9:
     version "4.2.10"
     resolved "https://registry.npmmirror.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"
     integrity sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==
@@ -7181,6 +7198,13 @@ Lockfile:
     resolved "https://registry.npmmirror.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
     integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
   
+  klaw-sync@^6.0.0:
+    version "6.0.0"
+    resolved "https://registry.npmmirror.com/klaw-sync/-/klaw-sync-6.0.0.tgz#1fd2cfd56ebb6250181114f0a581167099c2b28c"
+    integrity sha512-nIeuVSzdCCs6TDPTqI8w1Yre34sSq7AkZ4B3sfOBbI2CgVSB4Du4aLQijFU2+lhAFCwt9+42Hel6lQNIv6AntQ==
+    dependencies:
+      graceful-fs "^4.1.11"
+  
   kleur@^3.0.3:
     version "3.0.3"
     resolved "https://registry.npmmirror.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
@@ -7763,6 +7787,11 @@ Lockfile:
     version "1.0.4"
     resolved "https://registry.npmmirror.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
     integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
+  
+  moment@^2.29.3:
+    version "2.29.3"
+    resolved "https://registry.npmmirror.com/moment/-/moment-2.29.3.tgz#edd47411c322413999f7a5940d526de183c031f3"
+    integrity sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==
   
   ms@2.0.0:
     version "2.0.0"
@@ -8859,7 +8888,7 @@ Lockfile:
       kleur "^3.0.3"
       sisteransi "^1.0.5"
   
-  prop-types@^15.6.1, prop-types@^15.8.1:
+  prop-types@^15.6.1, prop-types@^15.7.2, prop-types@^15.8.1:
     version "15.8.1"
     resolved "https://registry.npmmirror.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
     integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -9025,6 +9054,13 @@ Lockfile:
     dependencies:
       loose-envify "^1.1.0"
       scheduler "^0.21.0"
+  
+  react-file-drop@^3.1.5:
+    version "3.1.5"
+    resolved "https://registry.npmmirror.com/react-file-drop/-/react-file-drop-3.1.5.tgz#a54d748e76ffe4c81dc6cf53b8c70312537944fa"
+    integrity sha512-JPQh5mq3+b0Zae+ZUG2h5XxJRgFNUday+fEPcbxRHkEnMsSuvq/UhPVQIeJhIZSWRP6UZT4cNk1T8ORrH5Ve4A==
+    dependencies:
+      prop-types "^15.7.2"
   
   react-hot-loader@4.13.0:
     version "4.13.0"

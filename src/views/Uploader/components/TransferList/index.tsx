@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 
 import classnames from 'classnames'
 
-import { fileSizeFormatter } from '@libs/utils'
+import { fileSizeFormatter, getIconName } from '@libs/utils'
+
+import { SvgIcon } from '@components/index'
 
 import styles from './index.module.less'
 
@@ -43,8 +45,6 @@ function TransferList() {
       status: TransferStatus.default,
     })
 
-    console.log(transferList)
-
     const transfer = transferList.map((item: TransferStore) => ({
       ...item,
       progress: 0,
@@ -56,12 +56,28 @@ function TransferList() {
   const typeFormatter = (type: TaskType) => {
     switch (type) {
       case TaskType.download:
-        return '下载'
+        return <SvgIcon iconName="download" iconClass={styles.icon1} />
       case TaskType.upload:
-        return '上传'
+        return <SvgIcon iconName="upload" iconClass={styles.icon1} />
       default:
         return ''
     }
+  }
+
+  const onProgress = async (e: any, list: ProgressListType[]) => {
+    const transferList = await window.Main.getTransfers({
+      status: TransferStatus.default,
+    })
+
+    const transfer = transferList.map(item => {
+      const progress = list.find(i => i.id === item.id)
+      return {
+        ...item,
+        progress: progress ? progress.progress : 0,
+      }
+    })
+
+    setTransfers(transfer)
   }
 
   const onTransferDone = () => {
@@ -70,6 +86,14 @@ function TransferList() {
 
   useEffect(() => {
     initState()
+
+    window.Main.on('transfer-progress', onProgress)
+    window.Main.on('transfer-finish', onTransferDone)
+
+    return () => {
+      window.Main.off('transfer-progress', onProgress)
+      window.Main.off('transfer-finish', onTransferDone)
+    }
   }, [])
 
   return (
@@ -93,11 +117,10 @@ function TransferList() {
                         styles.meta
                       )}
                     >
-                      {/* <Icon
-                        className="icon"
-                        type={getIconName(item.name)}
-                        style={{ fontSize: 30 }}
-                      /> */}
+                      <SvgIcon
+                        iconName={getIconName(item.name)}
+                        iconClass={styles.icon}
+                      />
                       <div className={styles['name-wrapper']}>
                         <div className={styles.name}>{item.name}</div>
                         <div className={styles.size}>
@@ -113,7 +136,7 @@ function TransferList() {
                     >
                       {/* <Progress percent={item.progress} /> */}
                     </td>
-                    <td className={styles['transfer-table__row_item type']}>
+                    <td className={styles['transfer-table__row_item']}>
                       {typeFormatter(item.type)}
                     </td>
                     <td
@@ -122,7 +145,7 @@ function TransferList() {
                         styles.action
                       )}
                     >
-                      123
+                      操作
                     </td>
                   </tr>
                 ))}

@@ -158,7 +158,10 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
                 {apps.map((item: AppStore) => {
                   return (
                     <li
-                      className={styles['apps-main-apps-item']}
+                      className={classnames(
+                        styles['apps-main-apps-item'],
+                        item._id === activeApp?._id && styles.active
+                      )}
                       key={item._id}
                       onClick={() => {
                         switchApp(item._id)
