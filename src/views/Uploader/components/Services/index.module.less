@@ -112,7 +112,7 @@
       }
 
       .apps-main-wrapper-left {
-        width: 140px;
+        width: 250px;
         flex-direction: column;
         padding: 0 18px;
         height: 100%;
@@ -144,9 +144,8 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            word-break: break-all;
 
-            .button {
+            .apps-main-apps-item-btn {
               height: 100%;
               width: 100%;
               background: none;
@@ -156,9 +155,10 @@
               display: flex;
               flex-direction: row;
               align-items: center;
+              color: #fff;
               cursor: pointer;
 
-              .icon {
+              .svg-icon {
                 height: 30px;
                 width: 30px;
               }
@@ -181,6 +181,13 @@
 
       .apps-main-wrapper-right {
         flex: 1;
+        overflow: hidden;
+
+        .main-right_form_title {
+          color: #000;
+          font-size: 25px;
+          margin-bottom: 30px;
+        }
       }
     }
   }

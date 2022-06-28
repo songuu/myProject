@@ -1,22 +1,23 @@
 import { ReactNode, CSSProperties } from 'react'
 
 export interface EmptyProps {
-  style?: CSSProperties;
-  className?: string | string[];
-  title?: ReactNode;
+  style?: CSSProperties
+  className?: string | string[]
+  title?: ReactNode
   /**
    * @zh 显示文案
    * @en Description of empty content
    */
-  description?: ReactNode;
+  description?: ReactNode
   /**
    * @zh 自定义显示图案
    * @en Custom icon
    */
-  icon?: ReactNode;
+  icon?: ReactNode
   /**
    * @zh 将图标替换为图片
    * @en Replace icon with picture
    */
-  imgSrc?: string;
+  imgSrc?: string
+  children?: ReactNode
 }

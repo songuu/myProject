@@ -15,7 +15,6 @@ import {
   TransferList,
   TransferDone,
   Bucket,
-  Setting,
   Services,
 } from './components'
 
@@ -120,8 +119,6 @@ function Uploader() {
         return <Bucket bucketMeta={bucketMeta} />
       case UploaderPage.services:
         return <Services activeApp={activeApp} onAppSwitch={onAppSwitch} />
-      case UploaderPage.setting:
-        return <Setting />
       case UploaderPage.transferDone:
         return <TransferDone />
       case UploaderPage.transferList:
@@ -167,8 +164,9 @@ function Uploader() {
 
         setBucketList([])
       }
-    } catch (err: unknown) {
-      console.log('切换 app 时出错')
+    } catch (err: any) {
+      Message.error(err.message)
+      // console.log('切换 app 时出错')
     }
   }
 

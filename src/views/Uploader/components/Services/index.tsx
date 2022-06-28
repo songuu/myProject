@@ -6,13 +6,17 @@ import classnames from 'classnames'
 
 import { AppStore } from '@mytypes/common'
 
+import { SvgIcon, Empty } from '@components/index'
+
+import { hiddenTextFilter } from '@libs/utils'
+
 import styles from './index.module.less'
 
 enum OssType {
   qiniu,
 }
 
-const OssTypeMap = {
+const OssTypeMap: any = {
   [OssType.qiniu]: '七牛云',
 }
 
@@ -101,7 +105,8 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
   const renderIcon = (type: OssType) => {
     switch (type) {
       case OssType.qiniu:
-        return <i className={classnames('iconfont', 'icon-qiniu')} />
+        return <SvgIcon iconName="qiniu" iconClass={styles['svg-icon']} />
+
       default:
         return null
     }
@@ -167,25 +172,139 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
                         switchApp(item._id)
                       }}
                     >
-                      <div className={styles['apps-main-apps-item-icon']}>
+                      <div className={styles['apps-main-apps-item-btn']}>
                         {renderIcon(item.type)}
-                      </div>
-                      <div className={styles['apps-main-apps-item-name']}>
-                        {item.name}
+                        <span>{item.name}</span>
                       </div>
                     </li>
                   )
                 })}
               </ul>
             </div>
-            <div className={styles['apps-main-wrapper-right']}></div>
+            {activeApp && (
+              <div className={styles['apps-main-wrapper-right']}>
+                <div className={styles['main-right_form_title']}>查看配置</div>
+                <section className={styles['app-description']}>
+                  <article className={styles['app-description-section']}>
+                    <h1 className={styles['app-description-section_title']}>
+                      基本信息：
+                    </h1>
+                    <p className={styles['app-description-section_item']}>
+                      <span
+                        className={
+                          styles['app-description-section_item__title']
+                        }
+                      >
+                        云服务厂商：
+                      </span>
+                      <span
+                        className={
+                          styles['app-description-section_item__content']
+                        }
+                      >
+                        {OssTypeMap[activeApp.type] || '暂无配置'}
+                      </span>
+                    </p>
+                    <p className={styles['app-description-section_item']}>
+                      <span
+                        className={
+                          styles['app-description-section_item__title']
+                        }
+                      >
+                        AK：
+                      </span>
+                      <span
+                        className={
+                          styles['app-description-section_item__content']
+                        }
+                      >
+                        {activeApp.ak || '暂无配置'}
+                      </span>
+                    </p>
+                    <p className={styles['app-description-section_item']}>
+                      <span
+                        className={
+                          styles['app-description-section_item__title']
+                        }
+                      >
+                        SK：
+                      </span>
+                      <span
+                        className={
+                          styles['app-description-section_item__content']
+                        }
+                      >
+                        {hiddenTextFilter(activeApp.sk || '暂无配置')}
+                      </span>
+                    </p>
+                  </article>
+                  <article className={styles['app-description-section']}>
+                    <h1 className={styles['app-description-section_title']}>
+                      软件配置：
+                    </h1>
+                    <p className={styles['app-description-section_item']}>
+                      <span
+                        className={
+                          styles['app-description-section_item__title']
+                        }
+                      >
+                        默认上传路径：
+                      </span>
+                      <span
+                        className={
+                          styles['app-description-section_item__content']
+                        }
+                      >
+                        {activeApp.uploadBucket || '暂无配置'}
+                      </span>
+                    </p>
+                    <p className={styles['app-description-section_item']}>
+                      <span
+                        className={
+                          styles['app-description-section_item__title']
+                        }
+                      >
+                        默认上传前缀：
+                      </span>
+                      <span
+                        className={
+                          styles['app-description-section_item__content']
+                        }
+                      >
+                        {activeApp.uploadPrefix || '暂无配置'}
+                      </span>
+                    </p>
+                    <p className={styles['app-description-section_item']}>
+                      <span
+                        className={
+                          styles['app-description-section_item__title']
+                        }
+                      >
+                        默认域名：
+                      </span>
+                      <span
+                        className={
+                          styles['app-description-section_item__content']
+                        }
+                      >
+                        {activeApp.defaultDomain || '暂无配置'}
+                      </span>
+                    </p>
+                  </article>
+                  <article className={styles['app-description-section']}>
+                    <h1 className={styles['app-description-section_title']}>
+                      操作
+                    </h1>
+                  </article>
+                </section>
+              </div>
+            )}
           </section>
         ) : (
           <section className={styles['apps-main-wrapper']}>
-            <div className={styles['apps-main-empty']}>
-              <span>没有配置app</span>
+            <Empty title="没有 Apps" description="暂时没有搜索到 apps">
               <button onClick={_toAddPage}>添加</button>
-            </div>
+            </Empty>
           </section>
         )
       case ServicesPage.add:

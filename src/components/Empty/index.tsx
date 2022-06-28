@@ -9,7 +9,8 @@ import { EmptyProps } from './interface'
 import styles from './index.module.less'
 
 function Empty(baseProps: EmptyProps, ref: React.Ref<any>) {
-  const { style, className, description, icon, imgSrc, title } = baseProps
+  const { style, className, description, icon, imgSrc, title, children } =
+    baseProps
 
   const noData = '暂无数据'
 
@@ -31,6 +32,8 @@ function Empty(baseProps: EmptyProps, ref: React.Ref<any>) {
         </div>
         {title && <div className={styles.title}>{title}</div>}
         <div className={styles.description}>{description || noData}</div>
+
+        {children ?? null}
       </div>
     </div>
   )

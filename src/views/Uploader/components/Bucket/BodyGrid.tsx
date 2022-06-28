@@ -4,7 +4,9 @@ import VFolder from '@libs/vdir/VFolder'
 import VFile from '@libs/vdir/VFile'
 import { Item } from '@libs/vdir/types'
 
-import { supportedImage } from '@libs/utils'
+import { supportedImage, getIconName } from '@libs/utils'
+
+import { SvgIcon } from '@components/index'
 
 import styles from './index.module.less'
 
@@ -50,7 +52,10 @@ const BodyGrid: React.FC<PropTypes> = ({
               />
             </div>
           ) : (
-            234
+            <SvgIcon
+              iconName={getIconName(item.name)}
+              iconClass={styles.icon}
+            />
           )}
           <span className={styles.name}>{item.name}</span>
         </div>
@@ -70,6 +75,7 @@ const BodyGrid: React.FC<PropTypes> = ({
           className={styles['main-grid__cell-inner']}
           data-row-key={item.shortId}
         >
+          <SvgIcon iconName="folder" iconClass={styles.icon} />
           <span className={styles.name}>{item.name}</span>
         </div>
       </div>

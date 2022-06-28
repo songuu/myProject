@@ -15,14 +15,14 @@ interface PropTypes {
   onRefreshBucket: () => void
 }
 
-const HeaderToolbar: React.FC<PropTypes> = () => {
+const HeaderToolbar: React.FC<PropTypes> = ({ onRefreshBucket }) => {
   return (
     <div className={styles['toolbar-wrapper']}>
       <div className={styles['toolbar-left']}>
         <ButtonIcon onclick={() => {}}>
           <SvgIcon iconName="arrow-left" iconClass={styles['svg-icon']} />
         </ButtonIcon>
-        <ButtonIcon onclick={() => {}}>
+        <ButtonIcon onclick={onRefreshBucket}>
           <SvgIcon iconName="reload" iconClass={styles['svg-icon']} />
         </ButtonIcon>
         <div className={styles.breadcrumb}></div>

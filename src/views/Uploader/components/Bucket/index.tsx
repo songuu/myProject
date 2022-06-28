@@ -8,7 +8,7 @@ import { Item } from '@libs/vdir/types'
 
 import { BucketMeta, Layout } from '@mytypes/common'
 
-import { Empty } from '@components/index'
+import { Empty, Message } from '@components/index'
 
 import BodyGrid from './BodyGrid'
 
@@ -138,19 +138,19 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   useEffect(() => {
     window.Main.on('deleteFile', (remotePath: string) => {
       if (remotePath) {
-        console.log('删除成功')
+        Message.success('删除成功')
         onRefreshBucket()
       }
     })
 
     window.Main.on('uploadFileSuccess', () => {
-      console.log('上传成功')
+      Message.success('上传成功')
       onRefreshBucket()
     })
 
     window.Main.on('downloadFile', (downloadPath: string) => {
       if (downloadPath) {
-        console.log('下载成功')
+        Message.success('下载成功')
       }
     })
 

@@ -59,3 +59,7 @@ export function getIconName(filename: string): string {
   if (!iconName) iconName = 'doc'
   return iconName
 }
+
+export function hiddenTextFilter(text: string) {
+  return text.replace(/./g, '*')
+}

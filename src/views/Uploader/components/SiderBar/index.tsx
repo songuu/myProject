@@ -138,23 +138,6 @@ const SiderBar: React.FC<IProps> = ({
         <div className={styles['sidebar-container-sidebar-list']}>
           <div
             role="presentation"
-            onClick={() => tabChange(UploaderPage.setting, '')}
-            className={classnames(
-              styles['sidebar-container-sidebar-list-item'],
-              activeTag(UploaderPage.setting, '')
-            )}
-          >
-            <img
-              className={styles['sidebar-container-sidebar-list-item-icon']}
-              src={SettingIcon}
-              alt=""
-            />
-            <div className={styles['sidebar-container-sidebar-list-item-name']}>
-              设置
-            </div>
-          </div>
-          <div
-            role="presentation"
             onClick={() => tabChange(UploaderPage.services, '')}
             className={classnames(
               styles['sidebar-container-sidebar-list-item'],
