@@ -4,7 +4,7 @@ import classnames from 'classnames'
 
 import { fileSizeFormatter, getIconName } from '@libs/utils'
 
-import { SvgIcon } from '@components/index'
+import { SvgIcon, Empty } from '@components/index'
 
 import styles from './index.module.less'
 
@@ -154,7 +154,7 @@ function TransferList() {
           </section>
         </>
       ) : (
-        <>没有文件</>
+        <Empty />
       )}
     </div>
   )

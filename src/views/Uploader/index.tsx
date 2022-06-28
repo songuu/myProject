@@ -8,6 +8,8 @@ import { AppStore, BucketMeta } from '@mytypes/common'
 
 import audioSrc from '@static/audios/tip.mp3'
 
+import { Message } from '@components/index'
+
 import {
   SiderBar,
   TransferList,
@@ -143,7 +145,8 @@ function Uploader() {
         setBucketLoading(false)
       }
       setActivePage(page)
-    } catch (err) {
+    } catch (err: any) {
+      Message.info(err.message)
     } finally {
       setBucketLoading(false)
     }

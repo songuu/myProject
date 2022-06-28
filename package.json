@@ -21,7 +21,7 @@
     "@types/mime": "^2.0.3",
     "@types/nedb": "^1.8.12",
     "@types/node": "^17.0.24",
-    "@types/react-transition-group": "^4.4.4",
+    "@types/react-transition-group": "^4.4.5",
     "@types/uuid": "^8.3.4",
     "cache-loader": "^4.1.0",
     "classnames": "^2.3.1",
@@ -37,10 +37,10 @@
     "node-screenshots": "^0.0.2",
     "nprogress": "^0.2.0",
     "postcss-loader": "^6.2.1",
-    "qiniu": "^7.6.0",
+    "qiniu": "^7.7.0",
     "re-resizable": "^6.9.9",
-    "react": "18.0.0",
-    "react-dom": "18.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-file-drop": "^3.1.5",
     "react-hot-loader": "4.13.0",
     "react-redux": "^8.0.0-beta.1",
@@ -129,7 +129,9 @@
                   }
                 }
               ]
-            }
+            },
+            "port": 3001,
+            "loggerPort": 3002
           }
         ]
       ],

@@ -8,6 +8,8 @@ import { Item } from '@libs/vdir/types'
 
 import { BucketMeta, Layout } from '@mytypes/common'
 
+import { Empty } from '@components/index'
+
 import BodyGrid from './BodyGrid'
 
 import HeaderButtonGroup from './HeaderButtonGroup'
@@ -108,11 +110,11 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
 
   const renderMainPanel = () => {
     if (!bucketMeta.name) {
-      return <div>No bucket selected</div>
+      return <Empty title="没有 Bucket" description="当前没有选中的存储桶" />
     }
 
     if (items.length <= 0) {
-      return <div>No files in bucket</div>
+      return <Empty title="没有文件" description="当前 bucket 中没有文件" />
     }
 
     return (
