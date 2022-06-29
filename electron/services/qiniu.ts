@@ -1,6 +1,7 @@
 import axios from 'axios'
 import * as fs from 'fs'
 import qiniu from 'qiniu'
+import shortid from 'shortid'
 import { IOSS, OssType } from './interface'
 import { download } from '../helper/utils'
 
@@ -144,7 +145,7 @@ export default class Qiniu implements IOSS {
     const lastModified = Math.ceil(item.putTime / 1e4)
     const name = item.key.split('/').pop()
     return {
-      shortId: String(new Date().getTime()),
+      shortId: shortid(),
       name,
       lastModified,
       webkitRelativePath: item.key,

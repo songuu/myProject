@@ -1,3 +1,5 @@
+import shortid from 'shortid'
+
 import { BucketItem } from '@root/types/common'
 
 export default class VFile {
@@ -15,7 +17,7 @@ export default class VFile {
 
   lastModifiedDate = new Date()
 
-  shortId = new Date().getTime()
+  shortId = shortid()
 
   constructor({
     name,

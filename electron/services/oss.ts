@@ -1,3 +1,5 @@
+import shortid from 'shortid'
+
 import Qiniu from './qiniu'
 
 import TaskRunnerService from './TaskRunnerService'
@@ -16,6 +18,7 @@ import {
   TaskType,
   TransferStore,
   TransferStatus,
+  Task,
 } from './interface'
 
 import { configStore } from './config'
@@ -23,8 +26,6 @@ import { configStore } from './config'
 import { emitter, fattenFileList } from '../helper/utils'
 
 import fs, { Stats } from 'fs'
-
-// import uuid from 'uuid/v4'
 
 const path = require('path')
 
@@ -157,39 +158,41 @@ class IpcChannelsService {
     return instance.generateUrl(remotePath)
   }
 
-  async downloadFile(files: any, remoteDir: string) {
+  async downloadFile({ files, remoteDir }: { files: any; remoteDir: string }) {
     const instance = this.oss.getService()
 
     const customDownloadDir = configStore.get('downloadDir')
 
-    const remotePath = files.webkitRelativePath
+    for (const item of files) {
+      const remotePath = item.webkitRelativePath
 
-    const localPath = path.relative(remoteDir, files.webkitRelativePath)
+      const localPath = path.relative(remoteDir, item.webkitRelativePath)
 
-    const downloadPath = path.join(customDownloadDir, localPath)
+      const downloadPath = path.join(customDownloadDir, localPath)
 
-    fs.mkdirSync(path.dirname(downloadPath), { recursive: true })
+      fs.mkdirSync(path.dirname(downloadPath), { recursive: true })
 
-    const id = String(new Date().getTime()) // uuid()
+      const id = shortid()
 
-    const callback = (taskId: string, process: number) => {
-      this.taskRunner?.setProgress(taskId, process)
+      const callback = (taskId: string, process: number) => {
+        this.taskRunner?.setProgress(taskId, process)
+      }
+
+      const task: Task<any> = {
+        id,
+        name: path.basename(localPath),
+        date: Date.now(),
+        type: TaskType.download,
+        size: item.size,
+        progress: 0,
+        result: instance.downloadFile(id, remotePath, downloadPath, callback),
+      }
+
+      // await instance.downloadFile(id, remotePath, downloadPath, () => {})
+
+      // emitter.emit('downloadFile', downloadPath)
+      this.taskRunner?.addTask(task)
     }
-
-    const task: Task<any> = {
-      id,
-      name: path.basename(localPath),
-      date: Date.now(),
-      type: TaskType.download,
-      size: files.size,
-      process: 0,
-      result: instance.downloadFile(id, remotePath, downloadPath, callback),
-    }
-
-    // await instance.downloadFile(id, remotePath, downloadPath, () => {})
-
-    // emitter.emit('downloadFile', downloadPath)
-    this.taskRunner?.addTask(task)
   }
 
   async deleteFile(files: any) {
@@ -227,7 +230,7 @@ class IpcChannelsService {
 
       remotePath = remotePath.replace(/\\+/g, '/')
 
-      const id = String(new Date().getTime())
+      const id = shortid()
 
       const callback = (taskId: string, process: number) =>
         this.taskRunner?.setProgress(taskId, process)

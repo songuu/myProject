@@ -144,7 +144,7 @@ class InitOssIpcMain {
         {
           label: '下载',
           click: async () => {
-            await this.appChannels.downloadFile(files, remoteDir)
+            await this.appChannels.downloadFile({ files: [files], remoteDir })
           },
         },
         {
@@ -182,6 +182,26 @@ class InitOssIpcMain {
         return success(true)
       } catch (e) {
         return fail(1, '上传文件时出错')
+      }
+    })
+
+    registerIpc('download-files', async params => {
+      if (!('remoteDir' in params)) return fail(1, '参数错误')
+      if (!('fileList' in params)) return fail(1, '参数错误')
+      const { fileList, remoteDir } = params
+      if (Array.isArray(fileList) && fileList.length === 0) {
+        return fail(1, '参数错误')
+      }
+
+      console.log('aaa', params)
+      try {
+        await this.appChannels.downloadFile({
+          files: fileList,
+          remoteDir,
+        })
+        return success(true)
+      } catch (e: any) {
+        return fail(1, e.message)
       }
     })
 

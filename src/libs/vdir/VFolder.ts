@@ -1,3 +1,5 @@
+import shortid from 'shortid'
+
 import VFile from './VFile'
 import { Item, Parent } from './types'
 import { dirname } from './utils'
@@ -15,7 +17,7 @@ export default class VFolder {
 
   lastModifiedDate = new Date(0)
 
-  shortId = new Date().getTime()
+  shortId = shortid()
 
   private children: Item[]
 

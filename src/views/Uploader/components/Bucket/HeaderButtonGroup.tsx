@@ -9,12 +9,16 @@ interface PropTypes {
   onDelete: () => void
 }
 
-const HeaderButtonGroup: React.FC<PropTypes> = ({ fileUpload }) => {
+const HeaderButtonGroup: React.FC<PropTypes> = ({
+  fileUpload,
+  onDownload,
+  onDelete,
+}) => {
   return (
     <div className={styles['buttons-wrapper']}>
       <button onClick={fileUpload}>上传文件</button>
-      <button>下载</button>
-      <button>删除</button>
+      <button onClick={onDownload}>下载</button>
+      <button onClick={onDelete}>删除</button>
     </div>
   )
 }

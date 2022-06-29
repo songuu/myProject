@@ -99,8 +99,6 @@ export default class WrapSelection extends PureComponent {
     e.preventDefault()
     e.stopPropagation()
 
-    console.log(e.currentTarget)
-
     const {
       isMouseDown,
       selectEle,

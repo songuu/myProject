@@ -51,6 +51,27 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     setDomains(meta.domains)
   }
 
+  const getOperationFiles = (opItem?: Item) => {
+    // 开始获取选中文件数量
+    let files: VFile[] = []
+    if (selection.length > 0) {
+      // 如果选中区域有文件的话，那么下载选中区域的文件
+      const itemsArr: Item[] = []
+      selection.forEach(fileId => {
+        const item = vFolder.getItem(fileId)
+        if (item) itemsArr.push(item)
+      })
+      files = _getFiles(itemsArr)
+    }
+
+    if (files.length <= 0 && opItem) {
+      // 如果选中区域没有文件，那么直接下载当前上下文中的区域
+      files = _getFiles([opItem])
+    }
+
+    return files
+  }
+
   const _getFiles = (itemArr: Item[]) => {
     let files: VFile[] = []
     itemArr.forEach(item => {
@@ -61,12 +82,6 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
       }
     })
     return files
-  }
-
-  const getOperationFiles = (opItem?: Item) => {
-    if (opItem) {
-      return _getFiles([opItem])
-    }
   }
 
   const onFolderSelect = (name: string) => {
@@ -104,10 +119,20 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     }
   }
 
-  const onPanelMouseDown = (event: MouseEvent<HTMLElement>) => {
-    if (!event.ctrlKey && !event.metaKey && event.button !== 2) {
+  const handleDownload = async () => {
+    try {
+      const files = getOperationFiles()
+
+      await window.Main.downloadFiles({
+        remoteDir: vFolder.getPathPrefix(),
+        fileList: files,
+      })
+    } catch (e: any) {
+      Message.error(`下载文件出错：${e.message}`)
     }
   }
+
+  const onPanelMouseDown = (event: MouseEvent<HTMLElement>) => {}
 
   const onRefreshBucket = async () => {
     setLoading(true)
@@ -181,7 +206,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
         fileUpload={() => {
           inputRef.current?.click()
         }}
-        onDownload={emptyFunction}
+        onDownload={handleDownload}
         onDelete={emptyFunction}
       />
 

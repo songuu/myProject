@@ -157,7 +157,13 @@ export const api = {
     return asyncSend('upload-files', options)
   },
 
-  // 点击按钮上传文件 利用electron的上传
+  // 直接下载文件
+  downloadFiles: (options: {
+    remoteDir: string
+    fileList: any[]
+  }): Promise<void> => {
+    return asyncSend('download-files', options)
+  },
 }
 
 contextBridge.exposeInMainWorld('Main', api)
