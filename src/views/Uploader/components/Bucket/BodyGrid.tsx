@@ -1,12 +1,14 @@
 import React, { MouseEvent } from 'react'
 
+import classnames from 'classnames'
+
 import VFolder from '@libs/vdir/VFolder'
 import VFile from '@libs/vdir/VFile'
 import { Item } from '@libs/vdir/types'
 
 import { supportedImage, getIconName } from '@libs/utils'
 
-import { SvgIcon } from '@components/index'
+import { SvgIcon, WrapSelection } from '@components/index'
 
 import styles from './index.module.less'
 
@@ -19,6 +21,8 @@ type PropTypes = {
   onFileContextMenu: (event: MouseEvent<HTMLElement>, item: VFile) => void
   onPanelContextMenu: () => void
   onPanelMouseDown: (event: MouseEvent<HTMLElement>) => void
+  onSelect: (ids: string[]) => void
+  selections: string[]
 }
 
 const BodyGrid: React.FC<PropTypes> = ({
@@ -30,18 +34,30 @@ const BodyGrid: React.FC<PropTypes> = ({
   onFileContextMenu,
   onPanelContextMenu,
   onPanelMouseDown,
+  onSelect,
+  selections,
 }) => {
+  console.log(selections)
+
   const renderVFile = (item: VFile) => {
     return (
       <div
-        className={styles['main-grid__cell']}
+        className={classnames(
+          styles['main-grid__cell'],
+          selections.length &&
+            selections.includes(String(item.shortId)) &&
+            styles['selection']
+        )}
         key={item.name}
         onContextMenu={e => onFileContextMenu(e, item)}
         onDoubleClick={onFileSelect}
+        data-id={item.shortId}
       >
         <div
-          className={styles['main-grid__cell-inner']}
-          data-row-key={item.shortId}
+          className={classnames(
+            styles['main-grid__cell-inner'],
+            'main-grid__cell-inner'
+          )}
           title={item.name}
         >
           {supportedImage(item.type) && domains.length > 0 ? (
@@ -66,15 +82,12 @@ const BodyGrid: React.FC<PropTypes> = ({
   const renderVFolder = (item: VFolder) => {
     return (
       <div
-        className={styles['main-grid__cell']}
+        className={classnames(styles['main-grid__cell'], 'main-grid__cell')}
         key={item.name}
         onContextMenu={e => onFolderContextMenu(e, item)}
         onDoubleClick={() => onFolderSelect(item.name)}
       >
-        <div
-          className={styles['main-grid__cell-inner']}
-          data-row-key={item.shortId}
-        >
+        <div className={styles['main-grid__cell-inner']} data-id={item.shortId}>
           <SvgIcon iconName="folder" iconClass={styles.icon} />
           <span className={styles.name}>{item.name}</span>
         </div>
@@ -86,15 +99,21 @@ const BodyGrid: React.FC<PropTypes> = ({
     return item instanceof VFile ? renderVFile(item) : renderVFolder(item)
   }
 
+  const onSelected = (fileIds: string[], item: any, isCtrlKey: any) => {
+    onSelect(fileIds)
+  }
+
   return (
-    <div
-      className={styles['main-grid']}
-      onMouseDown={onPanelMouseDown}
-      onContextMenu={onPanelContextMenu}
-      role="presentation"
-    >
-      {items.map(renderItem)}
-    </div>
+    <WrapSelection onSelected={onSelected}>
+      <div
+        className={styles['main-grid']}
+        onMouseDown={onPanelMouseDown}
+        onContextMenu={onPanelContextMenu}
+        role="presentation"
+      >
+        {items.map(renderItem)}
+      </div>
+    </WrapSelection>
   )
 }
 

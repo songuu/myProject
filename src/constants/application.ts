@@ -2,7 +2,7 @@ export const list = [
   {
     name: '截屏',
     category: ['全部应用', '系统'],
-    cover: 'http://rbutnqgzz.bkt.gdipper.com/shortcut.png',
+    cover: 'http://qiniu.songuu.top/icon/shortcut.svg',
     local: '@views/Snapshot',
     short: 'snapshot',
     handler: () => window.Main.captureScreen(),
@@ -10,21 +10,21 @@ export const list = [
   {
     name: '上传文件',
     category: ['全部应用', '系统'],
-    cover: 'http://rbutnqgzz.bkt.gdipper.com/upload.png',
+    cover: 'http://qiniu.songuu.top/icon/upload.svg',
     local: '@views/Uploader',
     short: 'uploader',
   },
   {
     name: '流水账',
     category: ['全部应用', '生活'],
-    cover: 'http://rbutnqgzz.bkt.gdipper.com/account.png',
+    cover: 'http://qiniu.songuu.top/icon/account.svg',
     local: '@views/Daybook',
     short: 'daybook',
   },
   {
     name: '书摘',
     category: ['全部应用', '学习', '读书'],
-    cover: 'http://rbutnqgzz.bkt.gdipper.com/book.png',
+    cover: 'http://qiniu.songuu.top/icon/book.svg',
     local: '@views/Book',
     short: 'book',
   },

@@ -19,6 +19,7 @@ module.exports = {
       '@constants': path.resolve(__dirname, '../src/constants'),
       '@mytypes': path.resolve(__dirname, '../src/types'),
       '@libs': path.resolve(__dirname, '../src/libs'),
+      '@hooks': path.resolve(__dirname, '../src/hooks'),
     },
   },
   module: {

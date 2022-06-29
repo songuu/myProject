@@ -25,7 +25,8 @@
       "@static/*": ["src/static/*"],
       "@constants/*": ["src/constants/*"],
       "@mytypes/*": ["src/types/*"],
-      "@libs/*": ["src/libs/*"]
+      "@libs/*": ["src/libs/*"],
+      "@hooks/*": ["src/hooks/*"],
     },
     "types": ["react/next", "react-dom/next", "node", "webpack-env"]
   }

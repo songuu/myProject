@@ -33,10 +33,16 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
+  const [selection, setSelection] = useState<string[]>([])
 
   useEffect(() => {
     displayBucketFiles(bucketMeta)
   }, [bucketMeta])
+
+  const backspace = () => {
+    vFolder.back()
+    setItems(vFolder.listFiles())
+  }
 
   const displayBucketFiles = (meta: BucketMeta) => {
     const vf = VFolder.from(meta.files)
@@ -98,7 +104,10 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     }
   }
 
-  const onPanelMouseDown = (event: MouseEvent<HTMLElement>) => {}
+  const onPanelMouseDown = (event: MouseEvent<HTMLElement>) => {
+    if (!event.ctrlKey && !event.metaKey && event.button !== 2) {
+    }
+  }
 
   const onRefreshBucket = async () => {
     setLoading(true)
@@ -129,6 +138,10 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
         onFileContextMenu={onFileContextMenu}
         onPanelContextMenu={onPanelContextMenu}
         onPanelMouseDown={onPanelMouseDown}
+        onSelect={(ids: string[]) => {
+          setSelection(ids)
+        }}
+        selections={selection}
       />
     )
   }
@@ -175,7 +188,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
       <HeaderToolbar
         onRefreshBucket={onRefreshBucket}
         onSearchChange={emptyFunction}
-        backspace={emptyFunction}
+        backspace={backspace}
         layout={layout}
         onChangeLayout={emptyFunction}
         navigators={vFolder.getNav()}
