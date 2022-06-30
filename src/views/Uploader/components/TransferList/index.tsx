@@ -154,7 +154,7 @@ function TransferList() {
           </section>
         </>
       ) : (
-        <Empty />
+        <Empty title="没有文件" description="没有找到传输列表"/>
       )}
     </div>
   )

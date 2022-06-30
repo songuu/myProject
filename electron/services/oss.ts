@@ -87,7 +87,7 @@ class IpcChannelsService {
       const findApps = await this.appStore.find({ _id: params.id })
 
       if (findApps.length <= 0) throw new Error('没有可初始化的 app')
-      ;[finallyApp] = findApps
+        ;[finallyApp] = findApps
     } else {
       // 软件初始化
       const currentAppId = configStore.get('currentAppId')
@@ -95,11 +95,11 @@ class IpcChannelsService {
         // 有默认值
         const findApps = await this.appStore.find({ _id: currentAppId })
         if (findApps.length <= 0) throw new Error('没有可初始化的 app')
-        ;[finallyApp] = findApps
+          ;[finallyApp] = findApps
       } else {
         const findApps = await this.appStore.find({})
         if (findApps.length <= 0) throw new Error('没有可初始化的 app')
-        ;[finallyApp] = findApps
+          ;[finallyApp] = findApps
       }
     }
 
@@ -195,14 +195,21 @@ class IpcChannelsService {
     }
   }
 
-  async deleteFile(files: any) {
+  async deleteFile({ files, showEmit = false }: {
+    files: any,
+    showEmit?: boolean,
+  }) {
     const instance = this.oss.getService()
 
-    const remotePath = files.webkitRelativePath
+    for (const file of files) {
+      const remotePath = file.webkitRelativePath
 
-    await instance.deleteFile(remotePath)
+      await instance.deleteFile(remotePath)
 
-    emitter.emit('deleteFile', remotePath)
+      if (showEmit) {
+        emitter.emit('deleteFile', remotePath)
+      }
+    }
   }
 
   async refreshBucket(force: boolean) {

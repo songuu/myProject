@@ -13,12 +13,17 @@ const HeaderButtonGroup: React.FC<PropTypes> = ({
   fileUpload,
   onDownload,
   onDelete,
+  selectedItems,
 }) => {
   return (
     <div className={styles['buttons-wrapper']}>
       <button onClick={fileUpload}>上传文件</button>
-      <button onClick={onDownload}>下载</button>
-      <button onClick={onDelete}>删除</button>
+      <button disabled={selectedItems.length === 0} onClick={onDownload}>
+        下载
+      </button>
+      <button disabled={selectedItems.length === 0} onClick={onDelete}>
+        删除
+      </button>
     </div>
   )
 }

@@ -12,6 +12,7 @@ import {
   AppStore,
   BucketMeta,
   TransferStore,
+  TransferStatus
 } from './services/interface'
 
 const asyncSend = (eventName: string, options = {}): any => {
@@ -164,6 +165,18 @@ export const api = {
   }): Promise<void> => {
     return asyncSend('download-files', options)
   },
+
+  // 删除文件
+  deleteFiles: (options: {
+    fileList: any[]
+  }): Promise<void> => {
+    return asyncSend('delete-files', options)
+  },
+
+  // 清空操作列表
+  clearTransferDoneList: () => {
+    return asyncSend("clear-transfer-done-list", TransferStatus.done);
+  }
 }
 
 contextBridge.exposeInMainWorld('Main', api)

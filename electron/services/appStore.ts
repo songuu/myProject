@@ -9,6 +9,7 @@ export default class AppStoreService implements IStore<AppStore> {
 
   constructor() {
     const filename = path.join(appDir, 'secrets')
+    
     this.store = new DataStore({
       filename,
       autoload: true,

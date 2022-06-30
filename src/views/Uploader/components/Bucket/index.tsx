@@ -137,6 +137,17 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     }
   }
 
+  const handleDelete = async () => {
+    const files = getOperationFiles()
+
+    console.log(files)
+    console.log([...files])
+
+    await window.Main.deleteFiles({ fileList: [...files] })
+
+    await onRefreshBucket()
+  }
+
   const onPanelMouseDown = (event: MouseEvent<HTMLElement>) => {
     if (!event.ctrlKey && !event.metaKey && event.button !== 2) {
       selection.clear()
@@ -212,12 +223,12 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   return (
     <div className={styles['bucket-wrapper']}>
       <HeaderButtonGroup
-        selectedItems={[]}
+        selectedItems={selection.fileIds}
         fileUpload={() => {
           inputRef.current?.click()
         }}
         onDownload={handleDownload}
-        onDelete={emptyFunction}
+        onDelete={handleDelete}
       />
 
       <HeaderToolbar

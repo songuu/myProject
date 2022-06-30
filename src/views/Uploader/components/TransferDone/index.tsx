@@ -36,19 +36,20 @@ const TransferDone = () => {
       status: TransferStatus.default,
     })
 
-    console.log(transferList)
-
     setTransfers(transferList.sort((a, b) => b.date - a.date))
   }
 
-  const onClearTransferDoneList = async () => {}
+  const onClearTransferDoneList = async () => {
+    await window.Main.clearTransferDoneList()
+    setTransfers([])
+  }
 
   const typeFormatter = (type: TaskType) => {
     switch (type) {
       case TaskType.download:
-        return '下载'
+        return <SvgIcon iconName="download" iconClass={styles.icon1} />
       case TaskType.upload:
-        return '上传'
+        return <SvgIcon iconName="upload" iconClass={styles.icon1} />
       default:
         return ''
     }
@@ -106,7 +107,7 @@ const TransferDone = () => {
           </section>
         </>
       ) : (
-        <Empty />
+        <Empty title="没有文件" description="没有找到传输列表" />
       )}
     </div>
   )

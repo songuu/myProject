@@ -44,6 +44,24 @@ input[type='search'] {
   padding: 1px 2px;
 }
 
+&::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+&::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: #ffffff;
+}
+
+&::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: rgba(208, 210, 213, 1);
+}
+
 .selection-area {
   background: rgba(0, 0, 0, 0.1);
   border: 2px solid rgba(0, 0, 0, 0.8);

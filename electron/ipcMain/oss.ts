@@ -125,8 +125,8 @@ class InitOssIpcMain {
       try {
         const url = await this.appChannels.getFileUrl(key)
         return success(url)
-      } catch (e) {
-        return fail(1, '错误')
+      } catch (e: any) {
+        return fail(1, e.message)
       }
     })
 
@@ -150,7 +150,7 @@ class InitOssIpcMain {
         {
           label: '删除',
           click: async () => {
-            await this.appChannels.deleteFile(files)
+            await this.appChannels.deleteFile({ files: [files], showEmit: true })
           },
         },
       ]
@@ -164,8 +164,8 @@ class InitOssIpcMain {
       try {
         const object = await this.appChannels.refreshBucket(!!force)
         return success(object)
-      } catch (e) {
-        return fail(1, 'err')
+      } catch (e: any) {
+        return fail(1, e.message)
       }
     })
 
@@ -180,8 +180,8 @@ class InitOssIpcMain {
       try {
         await this.appChannels.uploadFiles(params)
         return success(true)
-      } catch (e) {
-        return fail(1, '上传文件时出错')
+      } catch (e: any) {
+        return fail(1, e.message)
       }
     })
 
@@ -193,12 +193,29 @@ class InitOssIpcMain {
         return fail(1, '参数错误')
       }
 
-      console.log('aaa', params)
       try {
         await this.appChannels.downloadFile({
-          files: fileList,
+          files: [...fileList],
           remoteDir,
         })
+        return success(true)
+      } catch (e: any) {
+        return fail(1, e.message)
+      }
+    })
+
+    registerIpc('delete-files', async params => {
+      if (!('fileList' in params)) return fail(1, '参数错误')
+
+      const { fileList } = params
+
+      if (Array.isArray(fileList) && fileList.length === 0) {
+        return fail(1, '参数错误')
+      }
+
+      try {
+        await this.appChannels.deleteFile({ files: [...fileList] })
+
         return success(true)
       } catch (e: any) {
         return fail(1, e.message)
@@ -209,8 +226,17 @@ class InitOssIpcMain {
       try {
         const transfers = await this.appChannels.getTransfers(params)
         return success(transfers)
-      } catch (e) {
-        return fail(1, '获取失败')
+      } catch (e: any) {
+        return fail(1, e.message)
+      }
+    })
+
+    registerIpc('clear-transfer-done-list', async params => {
+      try {
+        await this.appChannels.removeTransfers(params)
+        return success(true)
+      } catch (e: any) {
+        return fail(1, e.message)
       }
     })
 
