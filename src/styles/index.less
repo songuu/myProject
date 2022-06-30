@@ -38,8 +38,18 @@ button {
   }
 }
 
-input[type="search"] {
+input[type='search'] {
   appearance: auto;
   box-sizing: border-box;
   padding: 1px 2px;
+}
+
+.selection-area {
+  background: rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.8);
+}
+
+.selected {
+  transition: background-color 0.2s ease;
+  background: rgba(0, 0, 0, 0.2);
 }

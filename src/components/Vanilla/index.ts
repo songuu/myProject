@@ -1,16 +1,16 @@
-import {EventTarget} from './EventEmitter';
-import type {AreaLocation, Coordinates, ScrollEvent, SelectionEvents, SelectionOptions, SelectionStore} from './types';
-import {PartialSelectionOptions} from './types';
-import {css, frames, deepAssign, eventPath, intersects, isTouchDevice, off, on, removeElement, selectAll, SelectAllSelectors, simplifyEvent, Frames} from './utils';
+import { EventTarget } from './EventEmitter';
+import type { AreaLocation, Coordinates, ScrollEvent, SelectionEvents, SelectionOptions, SelectionStore } from './types';
+import { PartialSelectionOptions } from './types';
+import { css, frames, deepAssign, eventPath, intersects, isTouchDevice, off, on, removeElement, selectAll, SelectAllSelectors, simplifyEvent, Frames } from './utils';
 
 // Re-export types
 export * from './types';
 
 // Some var shorting for better compression and readability
-const {abs, max, min, ceil} = Math;
+const { abs, max, min, ceil } = Math;
 
 export default class SelectionArea extends EventTarget<SelectionEvents> {
-    public static version = VERSION;
+    public static version = '1.0.0';
 
     // Options
     private readonly _options: SelectionOptions;
@@ -40,7 +40,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     private readonly _areaRect = new DOMRect();
 
     // Dynamically constructed area rect
-    private _areaLocation: AreaLocation = {y1: 0, x2: 0, y2: 0, x1: 0};
+    private _areaLocation: AreaLocation = { y1: 0, x2: 0, y2: 0, x1: 0 };
 
     // If a single click is being performed.
     // It's a single-click until the user dragged the mouse.
@@ -49,8 +49,8 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
 
     // Is getting set on movement. Varied.
     private _scrollAvailable = true;
-    private _scrollSpeed: Coordinates = {x: 0, y: 0};
-    private _scrollDelta: Coordinates = {x: 0, y: 0};
+    private _scrollSpeed: Coordinates = { x: 0, y: 0 };
+    private _scrollDelta: Coordinates = { x: 0, y: 0 };
 
     constructor(opt: PartialSelectionOptions) {
         super();
@@ -64,11 +64,11 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
             behaviour: {
                 overlap: 'invert',
                 intersect: 'touch',
-                startThreshold: {x: 10, y: 10},
+                startThreshold: { x: 10, y: 10 },
                 scrolling: {
                     speedDivider: 10,
                     manualSpeed: 750,
-                    startScrollMargins: {x: 0, y: 0}
+                    startScrollMargins: { x: 0, y: 0 }
                 }
             },
 
@@ -94,7 +94,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
             }
         }
 
-        const {document, selectionAreaClass, selectionContainerClass} = this._options;
+        const { document, selectionAreaClass, selectionContainerClass } = this._options;
         this._area = document.createElement('div');
         this._clippingElement = document.createElement('div');
         this._clippingElement.appendChild(this._area);
@@ -128,7 +128,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _bindStartEvents(activate = true): void {
-        const {document, features} = this._options;
+        const { document, features } = this._options;
         const fn = activate ? on : off;
 
         fn(document, 'mousedown', this._onTapStart);
@@ -138,9 +138,9 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _onTapStart(evt: MouseEvent | TouchEvent, silent = false): void {
-        const {x, y, target} = simplifyEvent(evt);
-        const {_options} = this;
-        const {document} = this._options;
+        const { x, y, target } = simplifyEvent(evt);
+        const { _options } = this;
+        const { document } = this._options;
         const targetBoundingClientRect = target.getBoundingClientRect();
 
         // Find start-areas and boundaries
@@ -164,24 +164,24 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
             return;
         }
 
-        this._areaLocation = {x1: x, y1: y, x2: 0, y2: 0};
+        this._areaLocation = { x1: x, y1: y, x2: 0, y2: 0 };
 
         // Lock scrolling in target container
         // Solution to preventing scrolling taken fr
         const scrollElement = document.scrollingElement || document.body;
-        this._scrollDelta = {x: scrollElement.scrollLeft, y: scrollElement.scrollTop};
+        this._scrollDelta = { x: scrollElement.scrollLeft, y: scrollElement.scrollTop };
 
         // To detect single-click
         this._singleClick = true;
         this.clearSelection(false);
 
-        on(document, ['touchmove', 'mousemove'], this._delayedTapMove, {passive: false});
+        on(document, ['touchmove', 'mousemove'], this._delayedTapMove, { passive: false });
         on(document, ['mouseup', 'touchcancel', 'touchend'], this._onTapStop);
         on(document, 'scroll', this._onScroll);
     }
 
     _onSingleTap(evt: MouseEvent | TouchEvent): void {
-        const {singleTap: {intersect}, range} = this._options.features;
+        const { singleTap: { intersect }, range } = this._options.features;
         const e = simplifyEvent(evt);
         let target = null;
 
@@ -190,9 +190,9 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
         } else if (intersect === 'touch') {
             this.resolveSelectables();
 
-            const {x, y} = e;
+            const { x, y } = e;
             target = this._selectables.find(v => {
-                const {right, left, top, bottom} = v.getBoundingClientRect();
+                const { right, left, top, bottom } = v.getBoundingClientRect();
                 return x < right && x > left && y < bottom && y > top;
             });
         }
@@ -219,7 +219,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
         }
 
         // Grab current store first in case it gets resetted
-        const {stored} = this._selection;
+        const { stored } = this._selection;
         this._emitEvent('start', evt);
 
         if (evt.shiftKey && stored.length && range) {
@@ -251,9 +251,9 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _delayedTapMove(evt: MouseEvent | TouchEvent): void {
-        const {container, document, features, behaviour: {startThreshold}} = this._options;
-        const {x1, y1} = this._areaLocation; // Coordinates of first "tap"
-        const {x, y} = simplifyEvent(evt);
+        const { container, document, features, behaviour: { startThreshold } } = this._options;
+        const { x1, y1 } = this._areaLocation; // Coordinates of first "tap"
+        const { x, y } = simplifyEvent(evt);
 
         // Check pixel threshold
         const thresholdType = typeof startThreshold;
@@ -265,14 +265,14 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
             // Different x and y threshold
             (thresholdType === 'object' && abs(x - x1) >= (startThreshold as Coordinates).x || abs(y - y1) >= (startThreshold as Coordinates).y)
         ) {
-            off(document, ['mousemove', 'touchmove'], this._delayedTapMove, {passive: false});
+            off(document, ['mousemove', 'touchmove'], this._delayedTapMove, { passive: false });
 
             if (this._emitEvent('beforedrag', evt) === false) {
                 off(document, ['mouseup', 'touchcancel', 'touchend'], this._onTapStop);
                 return;
             }
 
-            on(document, ['mousemove', 'touchmove'], this._onTapMove, {passive: false});
+            on(document, ['mousemove', 'touchmove'], this._onTapMove, { passive: false });
 
             // Make area element visible
             css(this._area, 'display', 'block');
@@ -296,7 +296,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
             if (this._scrollAvailable) {
 
                 // Detect mouse scrolling
-                on(document, 'wheel', this._manualScroll, {passive: false});
+                on(document, 'wheel', this._manualScroll, { passive: false });
 
                 /**
                  * The selection-area will also cover other element which are
@@ -319,7 +319,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _prepareSelectionArea(): void {
-        const {_clippingElement, _targetElement, _area} = this;
+        const { _clippingElement, _targetElement, _area } = this;
         const tr = this._targetRect = _targetElement!.getBoundingClientRect();
 
         if (this._scrollAvailable) {
@@ -363,10 +363,10 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _onTapMove(evt: MouseEvent | TouchEvent): void {
-        const {x, y} = simplifyEvent(evt);
-        const {_scrollSpeed, _areaLocation, _options, _frame} = this;
-        const {features} = _options;
-        const {speedDivider} = _options.behaviour.scrolling;
+        const { x, y } = simplifyEvent(evt);
+        const { _scrollSpeed, _areaLocation, _options, _frame } = this;
+        const { features } = _options;
+        const { speedDivider } = _options.behaviour.scrolling;
         const scon = this._targetElement as Element;
 
         _areaLocation.x2 = x;
@@ -382,7 +382,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
                  * If the value exeeds the scrollable area it will
                  * be set to the max / min value. So change only
                  */
-                const {scrollTop, scrollLeft} = scon;
+                const { scrollTop, scrollLeft } = scon;
 
                 // Reduce velocity, use ceil in both directions to scroll at least 1px per frame
                 if (_scrollSpeed.y) {
@@ -424,8 +424,8 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _onScroll(): void {
-        const {_scrollDelta, _options: {document}} = this;
-        const {scrollTop, scrollLeft} = document.scrollingElement || document.body;
+        const { _scrollDelta, _options: { document } } = this;
+        const { scrollTop, scrollLeft } = document.scrollingElement || document.body;
 
         // Adjust area start location
         this._areaLocation.x1 += _scrollDelta.x - scrollLeft;
@@ -439,7 +439,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _manualScroll(evt: ScrollEvent): void {
-        const {manualSpeed} = this._options.behaviour.scrolling;
+        const { manualSpeed } = this._options.behaviour.scrolling;
 
         // Consistent scrolling speed on all browsers
         const deltaY = evt.deltaY ? (evt.deltaY > 0 ? 1 : -1) : 0;
@@ -453,12 +453,12 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _recalculateSelectionAreaRect(): void {
-        const {_scrollSpeed, _areaLocation, _areaRect, _targetElement, _targetRect, _options} = this;
-        const {scrollTop, scrollHeight, clientHeight, scrollLeft, scrollWidth, clientWidth} = _targetElement as Element;
+        const { _scrollSpeed, _areaLocation, _areaRect, _targetElement, _targetRect, _options } = this;
+        const { scrollTop, scrollHeight, clientHeight, scrollLeft, scrollWidth, clientWidth } = _targetElement as Element;
         const brect = _targetRect as DOMRect;
-        const {x1, y1} = _areaLocation;
-        let {x2, y2} = _areaLocation;
-        const {behaviour: {scrolling: {startScrollMargins}}} = _options;
+        const { x1, y1 } = _areaLocation;
+        let { x2, y2 } = _areaLocation;
+        const { behaviour: { scrolling: { startScrollMargins } } } = _options;
 
         if (x2 < brect.left + startScrollMargins.x) {
             _scrollSpeed.x = scrollLeft ? -abs(brect.left - x2 + startScrollMargins.x) : 0;
@@ -492,8 +492,8 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _redrawSelectionArea(): void {
-        const {x, y, width, height} = this._areaRect;
-        const {style} = this._area;
+        const { x, y, width, height } = this._areaRect;
+        const { style } = this._area;
 
         // Using transform will make the area's borders look blurry
         style.left = `${x}px`;
@@ -503,8 +503,8 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _onTapStop(evt: MouseEvent | TouchEvent | null, silent: boolean): void {
-        const {document, features} = this._options;
-        const {_singleClick} = this;
+        const { document, features } = this._options;
+        const { _singleClick } = this;
 
         // Remove event handlers
         off(document, ['mousemove', 'touchmove'], this._delayedTapMove);
@@ -523,7 +523,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
         this._scrollSpeed.y = 0;
 
         // Unbind mouse scrolling listener
-        this._scrollAvailable && off(document, 'wheel', this._manualScroll, {passive: true});
+        this._scrollAvailable && off(document, 'wheel', this._manualScroll, { passive: true });
 
         // Remove selection-area from dom
         this._clippingElement.remove();
@@ -537,9 +537,9 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _updateElementSelection(): void {
-        const {_selectables, _options, _selection, _areaRect} = this;
-        const {stored, selected, touched} = _selection;
-        const {intersect, overlap} = _options.behaviour;
+        const { _selectables, _options, _selection, _areaRect } = this;
+        const { stored, selected, touched } = _selection;
+        const { intersect, overlap } = _options.behaviour;
 
         const invert = overlap === 'invert';
         const newlyTouched: Element[] = [];
@@ -592,7 +592,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
         }
 
         _selection.selected = newlyTouched;
-        _selection.changed = {added, removed};
+        _selection.changed = { added, removed };
         this._latestElement = newlyTouched[newlyTouched.length - 1];
     }
 
@@ -605,8 +605,8 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
     }
 
     _keepSelection(): void {
-        const {_options, _selection} = this;
-        const {selected, changed, touched, stored} = _selection;
+        const { _options, _selection } = this;
+        const { selected, changed, touched, stored } = _selection;
         const addedElements = selected.filter(el => !stored.includes(el));
 
         switch (_options.behaviour.overlap) {
@@ -711,7 +711,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
      * @param quiet - If this should not trigger the move event
      */
     select(query: SelectAllSelectors, quiet = false): Array<Element> {
-        const {changed, selected, stored} = this._selection;
+        const { changed, selected, stored } = this._selection;
         const elements = selectAll(query, this._options.document).filter(el =>
             !selected.includes(el) &&
             !stored.includes(el)
@@ -732,7 +732,7 @@ export default class SelectionArea extends EventTarget<SelectionEvents> {
      * @returns boolean - true if the element was successfully removed
      */
     deselect(el: Element, quiet = false): boolean {
-        const {selected, stored, changed} = this._selection;
+        const { selected, stored, changed } = this._selection;
 
         if (
             selected.includes(el) ||

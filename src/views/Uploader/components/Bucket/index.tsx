@@ -35,14 +35,15 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
-  const [selection, setSelection] = useState<string[]>([])
-  // const selection = useSelection(items)
+  // const [selection, setSelection] = useState<string[]>([])
+  const selection = useSelection(items)
 
   useEffect(() => {
     displayBucketFiles(bucketMeta)
   }, [bucketMeta])
 
   const backspace = () => {
+    selection.clear()
     vFolder.back()
     setItems(vFolder.listFiles())
   }
@@ -58,10 +59,10 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     // 开始获取选中文件数量
     let files: VFile[] = []
 
-    if (selection.length > 0) {
+    if (selection.fileIds.length > 0) {
       // 如果选中区域有文件的话，那么下载选中区域的文件
       const itemsArr: Item[] = []
-      selection.forEach(fileId => {
+      selection.fileIds.forEach(fileId => {
         const item = vFolder.getItem(fileId)
         if (item) itemsArr.push(item)
       })
@@ -136,10 +137,15 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     }
   }
 
-  const onPanelMouseDown = (event: MouseEvent<HTMLElement>) => {}
+  const onPanelMouseDown = (event: MouseEvent<HTMLElement>) => {
+    if (!event.ctrlKey && !event.metaKey && event.button !== 2) {
+      selection.clear()
+    }
+  }
 
   const onRefreshBucket = async () => {
     setLoading(true)
+    selection.clear()
     const resp = await window.Main.refreshBucket(true)
 
     displayBucketFiles({ ...resp, name: bucketMeta.name })
@@ -168,9 +174,9 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
         onPanelContextMenu={onPanelContextMenu}
         onPanelMouseDown={onPanelMouseDown}
         onSelect={(ids: string[]) => {
-          setSelection(ids)
+          // setSelection(ids)
         }}
-        selections={selection}
+        // selections={selection}
       />
     )
   }

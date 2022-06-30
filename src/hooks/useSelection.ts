@@ -3,7 +3,7 @@ import SelectionArea, { SelectionEvent } from "@components/Vanilla";
 import { Item } from "@libs/vdir/types";
 
 const selection = new SelectionArea({
-  selectables: [".main-grid__cell-inner"],
+  selectables: [".main-grid__cell"],
   boundaries: [".main-grid"]
 });
 
@@ -17,7 +17,7 @@ const useSelection = (items: Item[]) => {
   };
   const selectAll = () => {
     setFileIds(items.map(v => v.shortId));
-    selection.select([".ant-table-row", ".main-grid__cell-inner"]);
+    selection.select([".main-grid__cell-inner"]);
     selection._keepSelection();
     selection.getSelection().map(el => el.classList.add("selected"));
   };
@@ -32,14 +32,14 @@ const useSelection = (items: Item[]) => {
     },
     event: oe
   }: SelectionEvent) => {
-    if ((oe as any).button !== 2) {
+    if (oe && (oe as any).button !== 2) {
       added.forEach(el => {
-        const rowKey = el.getAttribute("data-row-key") || "";
+        const rowKey = el.getAttribute("data-id") || "";
         setFileIds(f => f.concat(rowKey));
         el.classList.add("selected");
       });
       removed.forEach(el => {
-        const rowKey = el.getAttribute("data-row-key") || "";
+        const rowKey = el.getAttribute("data-id") || "";
         setFileIds(f => {
           const index = f.findIndex(i => i === rowKey);
           f.splice(index, 1);

@@ -21,8 +21,8 @@ type PropTypes = {
   onFileContextMenu: (event: MouseEvent<HTMLElement>, item: VFile) => void
   onPanelContextMenu: () => void
   onPanelMouseDown: (event: MouseEvent<HTMLElement>) => void
-  onSelect: (ids: string[]) => void
-  selections: string[]
+  onSelect?: (ids: string[]) => void
+  selections?: string[]
 }
 
 const BodyGrid: React.FC<PropTypes> = ({
@@ -42,10 +42,10 @@ const BodyGrid: React.FC<PropTypes> = ({
       <div
         className={classnames(
           styles['main-grid__cell'],
-          'main-grid__cell',
-          selections.length &&
+          'main-grid__cell'
+          /* selections.length &&
             selections.includes(String(item.shortId)) &&
-            styles['selection']
+            styles['selection'] */
         )}
         key={item.name}
         onContextMenu={e => onFileContextMenu(e, item)}
@@ -99,20 +99,20 @@ const BodyGrid: React.FC<PropTypes> = ({
   }
 
   const onSelected = (fileIds: string[], item: any, isCtrlKey: any) => {
-    onSelect(fileIds)
+    // onSelect(fileIds)
   }
 
   return (
-    <WrapSelection onSelected={onSelected} selectables=".main-grid__cell">
-      <div
-        className={classnames(styles['main-grid'], 'main-grid')}
-        onMouseDown={onPanelMouseDown}
-        onContextMenu={onPanelContextMenu}
-        role="presentation"
-      >
-        {items.map(renderItem)}
-      </div>
-    </WrapSelection>
+    // <WrapSelection onSelected={onSelected} selectables=".main-grid__cell">
+    <div
+      className={classnames(styles['main-grid'], 'main-grid')}
+      onMouseDown={onPanelMouseDown}
+      onContextMenu={onPanelContextMenu}
+      role="presentation"
+    >
+      {items.map(renderItem)}
+    </div>
+    // </WrapSelection>
   )
 }
 
