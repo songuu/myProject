@@ -37,9 +37,6 @@ const BodyGrid: React.FC<PropTypes> = ({
   onSelect,
   selections,
 }) => {
-  console.log(items)
-  console.log(selections)
-
   const renderVFile = (item: VFile) => {
     return (
       <div

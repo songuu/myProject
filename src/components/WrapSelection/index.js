@@ -119,7 +119,7 @@ export default class WrapSelection extends PureComponent {
       selectedPostions,
     } = this.state
 
-    if (!isMouseDown || isSingleClick) return
+    if (!isMouseDown) return
 
     const top = this.getTop(e.currentTarget)
     const left = this.getLeft(e.currentTarget)

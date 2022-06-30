@@ -7,5 +7,6 @@ import ButtonIcon from './ButtonIcon'
 import Empty from './Empty'
 import Message from './Message'
 import WrapSelection from './WrapSelection'
+import Vanilla from './Vanilla'
 
-export { AppLoading, PageLoading, NotFound, ContextMenu, SvgIcon, ButtonIcon, Empty, Message, WrapSelection }
+export { AppLoading, PageLoading, NotFound, ContextMenu, SvgIcon, ButtonIcon, Empty, Message, WrapSelection, Vanilla }

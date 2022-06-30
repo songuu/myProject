@@ -10,6 +10,8 @@ import { BucketMeta, Layout } from '@mytypes/common'
 
 import { Empty, Message } from '@components/index'
 
+import useSelection from '@hooks/useSelection'
+
 import BodyGrid from './BodyGrid'
 
 import HeaderButtonGroup from './HeaderButtonGroup'
@@ -34,6 +36,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
   const [selection, setSelection] = useState<string[]>([])
+  // const selection = useSelection(items)
 
   useEffect(() => {
     displayBucketFiles(bucketMeta)
@@ -54,6 +57,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   const getOperationFiles = (opItem?: Item) => {
     // 开始获取选中文件数量
     let files: VFile[] = []
+
     if (selection.length > 0) {
       // 如果选中区域有文件的话，那么下载选中区域的文件
       const itemsArr: Item[] = []
