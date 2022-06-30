@@ -33,7 +33,7 @@ const TransferDone = () => {
 
   const initState = async () => {
     const transferList = await window.Main.getTransfers({
-      status: TransferStatus.default,
+      status: TransferStatus.done,
     })
 
     setTransfers(transferList.sort((a, b) => b.date - a.date))
@@ -96,7 +96,7 @@ const TransferDone = () => {
                         </div>
                       </div>
                     </td>
-                    <td className={styles['transfer-table__row_item type']}>
+                    <td className={styles['transfer-table__row_item']}>
                       {typeFormatter(item.type)}
                     </td>
                     <td>{dateFormatter(item.date)}</td>

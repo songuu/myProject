@@ -35,8 +35,11 @@ const SiderBar: React.FC<IProps> = ({
   const [showProgress, setShowProgress] = useState<boolean>(false)
 
   const activeTag = (page: UploaderPage, bucket: string) => {
-    return (bucket && activePage === page && activeBucket === bucket) ||
-      activePage === page
+    return bucket
+      ? activePage === page && activeBucket === bucket
+        ? styles['sidebar-container-sidebar-list-active']
+        : ''
+      : activePage === page
       ? styles['sidebar-container-sidebar-list-active']
       : ''
   }

@@ -87,7 +87,7 @@ class IpcChannelsService {
       const findApps = await this.appStore.find({ _id: params.id })
 
       if (findApps.length <= 0) throw new Error('没有可初始化的 app')
-        ;[finallyApp] = findApps
+      ;[finallyApp] = findApps
     } else {
       // 软件初始化
       const currentAppId = configStore.get('currentAppId')
@@ -95,11 +95,11 @@ class IpcChannelsService {
         // 有默认值
         const findApps = await this.appStore.find({ _id: currentAppId })
         if (findApps.length <= 0) throw new Error('没有可初始化的 app')
-          ;[finallyApp] = findApps
+        ;[finallyApp] = findApps
       } else {
         const findApps = await this.appStore.find({})
         if (findApps.length <= 0) throw new Error('没有可初始化的 app')
-          ;[finallyApp] = findApps
+        ;[finallyApp] = findApps
       }
     }
 
@@ -120,6 +120,18 @@ class IpcChannelsService {
 
     // 通过验证保存数据
     return this.appStore.insert({ ...params })
+  }
+
+  async updateApp(params: any) {}
+
+  async deleteApp(id: string) {
+    // 查找数据库中是否存在
+    const selected = await this.appStore.find({ _id: id })
+    if (!selected) throw new Error('没有找到该 app')
+    // 删除数据
+    await this.appStore.remove({ _id: id }, {})
+    // 清理上下文信息
+    this.oss.clearContext()
   }
 
   async getApps() {
@@ -195,9 +207,12 @@ class IpcChannelsService {
     }
   }
 
-  async deleteFile({ files, showEmit = false }: {
-    files: any,
-    showEmit?: boolean,
+  async deleteFile({
+    files,
+    showEmit = false,
+  }: {
+    files: any
+    showEmit?: boolean
   }) {
     const instance = this.oss.getService()
 

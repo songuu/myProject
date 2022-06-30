@@ -71,6 +71,22 @@ class InitOssIpcMain {
       }
     })
 
+    registerIpc('update-app', async params => {})
+
+    registerIpc('delete-app', async id => {
+      if (!id) {
+        return fail(1, 'id 不能为空')
+      }
+
+      try {
+        await this.appChannels.deleteApp(id)
+
+        return success(true)
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
+
     registerIpc('get-apps', async () => {
       try {
         const apps = await this.appChannels.getApps()
@@ -150,7 +166,10 @@ class InitOssIpcMain {
         {
           label: '删除',
           click: async () => {
-            await this.appChannels.deleteFile({ files: [files], showEmit: true })
+            await this.appChannels.deleteFile({
+              files: [files],
+              showEmit: true,
+            })
           },
         },
       ]

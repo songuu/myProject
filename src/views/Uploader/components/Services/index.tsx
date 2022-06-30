@@ -6,7 +6,7 @@ import classnames from 'classnames'
 
 import { AppStore } from '@mytypes/common'
 
-import { SvgIcon, Empty } from '@components/index'
+import { SvgIcon, Empty, Message } from '@components/index'
 
 import { hiddenTextFilter } from '@libs/utils'
 
@@ -64,7 +64,27 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
   const onBucketUpdate = async (store: AppStore) => {}
 
   // 删除
-  const onBucketDelete = async (app: AppStore) => {}
+  const onBucketDelete = async (app: AppStore) => {
+    try {
+      /* await window.Main.showConfirm({
+        title: '删除',
+        message: '确定要删除该应用吗？',
+      }) */
+
+      setLoading(true)
+
+      const id = app._id
+      await window.Main.deleteApp(String(id))
+
+      const allApps: any = await window.Main.getApp()
+
+      setApps(allApps)
+
+      onAppSwitch(allApps[0])
+    } catch (error: any) {
+      Message.error(error.message)
+    }
+  }
 
   // 添加
   const onBucketAdd = async (values: AddForm) => {}
@@ -88,7 +108,7 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
 
   // 初始化应用
   const initState = async () => {
-    const allApps = await window.Main.getApp()
+    const allApps: any = await window.Main.getApp()
 
     setApps(allApps)
   }
@@ -295,6 +315,12 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
                     <h1 className={styles['app-description-section_title']}>
                       操作
                     </h1>
+                    <button
+                      className={styles['app-description-section_btn']}
+                      onClick={() => onBucketDelete(activeApp)}
+                    >
+                      删除
+                    </button>
                   </article>
                 </section>
               </div>
@@ -310,6 +336,9 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
       case ServicesPage.add:
         return (
           <section className={styles['apps-main-wrapper']}>
+            <div className={styles['apps-main-wrapper-back']}>
+              <button onClick={_toListPage}>返回</button>
+            </div>
             <div className={styles['apps-main-wrapper-form']}>
               <span>新增配置</span>
               <div className={styles['apps-main-wrapper-box']}>
@@ -460,11 +489,9 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
   }
 
   return (
-    <div className={styles['services-loading']}>
-      <section className={styles['services-wrapper']}>
-        {renderSwitch(page)}
-      </section>
-    </div>
+    <section className={styles['services-wrapper']}>
+      {renderSwitch(page)}
+    </section>
   )
 }
 

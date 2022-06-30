@@ -172,8 +172,6 @@ function Uploader() {
 
   return (
     <div className={styles.main}>
-      <div className={styles['drag-area']}></div>
-
       <SiderBar
         bucketLoading={bucketLoading}
         bucketList={bucketList}

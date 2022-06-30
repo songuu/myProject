@@ -12,7 +12,7 @@ import {
   AppStore,
   BucketMeta,
   TransferStore,
-  TransferStatus
+  TransferStatus,
 } from './services/interface'
 
 const asyncSend = (eventName: string, options = {}): any => {
@@ -126,6 +126,16 @@ export const api = {
     return asyncSend('switch-bucket', { bucketName })
   },
 
+  // 删除应用
+  deleteApp(id: string): Promise<void> {
+    return asyncSend('delete-app', id)
+  },
+
+  // 弹窗提示
+  showConfirm(options?: { title?: string; message?: string }) {
+    return asyncSend('show-confirm', options)
+  },
+
   // 修改设置
   changeSetting(key: string, value?: string): Promise<void> {
     return asyncSend('change-setting', { key, value })
@@ -167,16 +177,14 @@ export const api = {
   },
 
   // 删除文件
-  deleteFiles: (options: {
-    fileList: any[]
-  }): Promise<void> => {
+  deleteFiles: (options: { fileList: any[] }): Promise<void> => {
     return asyncSend('delete-files', options)
   },
 
   // 清空操作列表
   clearTransferDoneList: () => {
-    return asyncSend("clear-transfer-done-list", TransferStatus.done);
-  }
+    return asyncSend('clear-transfer-done-list', TransferStatus.done)
+  },
 }
 
 contextBridge.exposeInMainWorld('Main', api)
