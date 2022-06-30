@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 
+import { selectAll } from './selectAll'
+
 import WrapSelectionClass from './style.module.less'
 
 export default class WrapSelection extends PureComponent {
@@ -7,6 +9,7 @@ export default class WrapSelection extends PureComponent {
     super(props)
     this.state = {
       isMouseDown: false,
+      isSingleClick: true,
       selectEle: {
         width: 0,
         height: 0,
@@ -16,6 +19,7 @@ export default class WrapSelection extends PureComponent {
       },
       selectedItems: [],
       selectedPostions: [],
+      _selectables: [],
     }
   }
 
@@ -92,7 +96,13 @@ export default class WrapSelection extends PureComponent {
      * 再判断是不是按住了ctrl按钮
      */
 
-    this.setState({ isMouseDown: true, startX, startY, selectEle })
+    this.setState({
+      isMouseDown: true,
+      isSingleClick: true,
+      startX,
+      startY,
+      selectEle,
+    })
   }
 
   mouseMove(e) {
@@ -101,6 +111,7 @@ export default class WrapSelection extends PureComponent {
 
     const {
       isMouseDown,
+      isSingleClick,
       selectEle,
       startX,
       startY,
@@ -108,7 +119,7 @@ export default class WrapSelection extends PureComponent {
       selectedPostions,
     } = this.state
 
-    if (!isMouseDown) return
+    if (!isMouseDown || isSingleClick) return
 
     const top = this.getTop(e.currentTarget)
     const left = this.getLeft(e.currentTarget)
@@ -142,16 +153,47 @@ export default class WrapSelection extends PureComponent {
       }
     })
 
-    this.setState({ selectEle, selectedItems, selectedPostions })
+    this.setState({
+      selectEle,
+      isSingleClick: false,
+      selectedItems,
+      selectedPostions,
+    })
   }
 
-  mouseUp(e) {
+  async mouseUp(e) {
     e.preventDefault()
     e.stopPropagation()
 
-    const { selectEle, selectedItems, selectedPostions } = this.state
+    const { selectEle, selectedItems, selectedPostions, isSingleClick } =
+      this.state
 
     const { onSelected } = this.props
+
+    if (isSingleClick) {
+      await this.resolveSelectables()
+
+      // * 需要取绝对的位置
+      const x = this.getLeft(e.target)
+      const y = this.getTop(e.target)
+
+      const target = this.state._selectables.find(item => {
+        const { left, top, right, bottom } = item.getBoundingClientRect()
+
+        return x < right && x > left && y < bottom && y > top
+      })
+
+      if (target) {
+        onSelected([target.dataset['id']], [])
+
+        this.setState({
+          isMouseDown: false,
+          isSingleClick: true,
+        })
+
+        return
+      }
+    }
 
     selectEle.left = 0
     selectEle.top = 0
@@ -166,6 +208,23 @@ export default class WrapSelection extends PureComponent {
       selectEle,
       selectedPostions: [],
     })
+  }
+
+  // 手动清除之前的状态
+  clearSelection() {
+    this.setState({
+      selectedItems: [],
+      selectedPostions: [],
+      isMouseDown: false,
+      isSingleClick: true,
+    })
+  }
+
+  // 获取所有的显示的元素
+  resolveSelectables() {
+    const _selectables = selectAll(this.props.selectables)
+
+    this.setState({ _selectables })
   }
 
   render() {

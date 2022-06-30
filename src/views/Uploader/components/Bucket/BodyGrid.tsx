@@ -45,6 +45,7 @@ const BodyGrid: React.FC<PropTypes> = ({
       <div
         className={classnames(
           styles['main-grid__cell'],
+          'main-grid__cell',
           selections.length &&
             selections.includes(String(item.shortId)) &&
             styles['selection']
@@ -105,9 +106,9 @@ const BodyGrid: React.FC<PropTypes> = ({
   }
 
   return (
-    <WrapSelection onSelected={onSelected}>
+    <WrapSelection onSelected={onSelected} selectables=".main-grid__cell">
       <div
-        className={styles['main-grid']}
+        className={classnames(styles['main-grid'], 'main-grid')}
         onMouseDown={onPanelMouseDown}
         onContextMenu={onPanelContextMenu}
         role="presentation"
