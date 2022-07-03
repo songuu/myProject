@@ -6,6 +6,8 @@ import { IpcResponse } from '../services/interface'
 
 import { configStore } from '../services/config'
 
+import Logger from '../services/LoggerService'
+
 import { emitter } from '../helper/utils'
 
 const clc = require('cli-color')
@@ -29,20 +31,22 @@ const registerIpc = (
   ipcMain.on(eventName, async (event, request: { id: string; data: any }) => {
     const { id, data } = request
     const response = { code: 200, data: {} }
-    log(`IPC 请求 ${eventName} => , ${JSON.stringify(data)}`)
+    log(`OSSIPC 请求 ${eventName} => , ${JSON.stringify(data)}`)
     try {
       response.data = await handler(data)
     } catch (err: any) {
       response.code = err.code || 500
       response.data = err.message || 'Main process error.'
     }
-    log(`IPC 响应 ${eventName} =>  ${JSON.stringify(response)}`)
+    log(`OSSIPC 响应 ${eventName} =>  ${JSON.stringify(response)}`)
     event.sender.send(`${eventName}_res_${id}`, response)
   })
 }
 
 class InitOssIpcMain {
   private appChannels = new IpcChannelsService()
+
+  private logger = new Logger()
 
   private mainWindow: any
 
@@ -57,6 +61,7 @@ class InitOssIpcMain {
 
         return success(appStore)
       } catch (err: any) {
+        this.logger.error(err.message)
         return fail(1, err.message)
       }
     })
@@ -67,7 +72,8 @@ class InitOssIpcMain {
 
         return success(data)
       } catch (err: any) {
-        return fail(1, '添加失败')
+        this.logger.error(err.message)
+        return fail(1, err.message)
       }
     })
 
@@ -116,6 +122,7 @@ class InitOssIpcMain {
 
         return success(obj)
       } catch (err: any) {
+        this.logger.error(err.message)
         return fail(1, err.message)
       }
     })
@@ -184,6 +191,7 @@ class InitOssIpcMain {
         const object = await this.appChannels.refreshBucket(!!force)
         return success(object)
       } catch (e: any) {
+        this.logger.error(e.message)
         return fail(1, e.message)
       }
     })
@@ -200,6 +208,7 @@ class InitOssIpcMain {
         await this.appChannels.uploadFiles(params)
         return success(true)
       } catch (e: any) {
+        this.logger.error(e.message)
         return fail(1, e.message)
       }
     })
@@ -219,6 +228,8 @@ class InitOssIpcMain {
         })
         return success(true)
       } catch (e: any) {
+        this.logger.error(e.message)
+
         return fail(1, e.message)
       }
     })
@@ -237,6 +248,8 @@ class InitOssIpcMain {
 
         return success(true)
       } catch (e: any) {
+        this.logger.error(e.message)
+
         return fail(1, e.message)
       }
     })
@@ -246,6 +259,8 @@ class InitOssIpcMain {
         const transfers = await this.appChannels.getTransfers(params)
         return success(transfers)
       } catch (e: any) {
+        this.logger.error(e.message)
+
         return fail(1, e.message)
       }
     })
@@ -255,6 +270,8 @@ class InitOssIpcMain {
         await this.appChannels.removeTransfers(params)
         return success(true)
       } catch (e: any) {
+        this.logger.error(e.message)
+
         return fail(1, e.message)
       }
     })
@@ -281,7 +298,7 @@ class InitOssIpcMain {
       console.log('传输文件完成')
     })
 
-    emitter.on('transfer-process', progressList => {
+    emitter.on('transfer-progress', progressList => {
       console.log('传输文件进度', progressList)
       if (this.mainWindow) {
         this.mainWindow.webContents.send('transfer-progress', progressList)

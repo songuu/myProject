@@ -345,6 +345,9 @@ const Setting = () => {
             </button>
           </div>
         </div>
+        <div className={styles['setting-page-items']}>
+          <h3>其他</h3>
+        </div>
       </div>
     </div>
   )

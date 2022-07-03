@@ -36,6 +36,8 @@ const TransferDone = () => {
       status: TransferStatus.done,
     })
 
+    console.log(transferList)
+
     setTransfers(transferList.sort((a, b) => b.date - a.date))
   }
 

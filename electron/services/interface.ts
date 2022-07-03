@@ -35,6 +35,7 @@ export type Task<T> = {
   date: number
   type: TaskType
   progress: number
+  localPath?: string
   result: Promise<T>
 }
 
@@ -45,6 +46,7 @@ export type TransferStore = {
   date: number
   type: TaskType
   status: TransferStatus
+  localPath?: string
 }
 
 export interface IApp {

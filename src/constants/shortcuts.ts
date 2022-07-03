@@ -1,5 +1,5 @@
 export default [
-  {
+  /*   {
     id: 'play',
     name: '播放/暂停',
     shortcut: 'CommandOrControl+P',
@@ -40,7 +40,7 @@ export default [
     name: '隐藏/显示播放器',
     shortcut: 'CommandOrControl+M',
     globalShortcut: 'Alt+CommandOrControl+M',
-  },
+  }, */
   {
     id: 'getCapture',
     name: '截屏',

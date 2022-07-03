@@ -1,10 +1,8 @@
-import { app, BrowserWindow, ipcMain, session, globalShortcut } from 'electron'
+import { app, BrowserWindow, ipcMain, session } from 'electron'
 
-import Store from 'electron-store'
+import LoggerService from './services/LoggerService'
 
-import cloneDeep from 'lodash/cloneDeep'
-
-import shortcuts from '../src/constants/shortcuts'
+import { configStore } from './services/config'
 
 import { registerGlobalShortcut } from './globalShortcut'
 
@@ -13,6 +11,7 @@ import Screenshots from './pages/screenshots'
 import { makeTray } from './tray'
 
 import InitOssIpcMain from './ipcMain/oss'
+import InitSettingIpcMain from './ipcMain/setting'
 
 const path = require('path')
 
@@ -20,6 +19,8 @@ const clc = require('cli-color')
 const log = (text: string) => {
   console.log(`${clc.blueBright('[ipcMain.js]')} ${text}`)
 }
+
+const logger = new LoggerService()
 
 const userData = app.getPath('userData')
 
@@ -97,37 +98,6 @@ function registerListeners() {
     }
   })
 
-  ipcMain.on('switchGlobalShortcutStatusTemporary', (_, status) => {
-    log('switchGlobalShortcutStatusTemporary')
-    if (status === 'disable') {
-      globalShortcut.unregisterAll()
-    } else {
-      if (mainWindow) {
-        registerGlobalShortcut(mainWindow, store, updateSystemShortcut)
-      }
-    }
-  })
-
-  ipcMain.on('updateShortcut', (_, { id, type, shortcut }) => {
-    log('updateShortcut')
-    const shortcuts: any = store.get('settings.shortcuts')
-    const newShortcut = shortcuts.find((s: any) => s.id === id)
-    newShortcut[type] = shortcut
-    store.set('settings.shortcuts', shortcuts)
-  })
-
-  ipcMain.on('restoreDefaultShortcuts', _ => {
-    log('restoreDefaultShortcuts')
-
-    store.set('settings.shortcuts', cloneDeep(shortcuts))
-
-    globalShortcut.unregisterAll()
-
-    if (mainWindow) {
-      registerGlobalShortcut(mainWindow, store, updateSystemShortcut)
-    }
-  })
-
   ipcMain.on('captureScreen', _ => {
     log('captureScreen')
     screenshots.startCapture()
@@ -135,7 +105,11 @@ function registerListeners() {
 
   const ossIpc = new InitOssIpcMain(mainWindow)
 
+  const settingIpc = new InitSettingIpcMain(mainWindow)
+
   ossIpc.init()
+
+  settingIpc.init()
 }
 
 // * 系统层面的功能
@@ -143,7 +117,6 @@ const updateSystemShortcut = (id: string) => {
   switch (id) {
     case 'getCapture':
       screenshots.startCapture()
-      // screenshots.$view.webContents.openDevTools()
       break
     default:
       break
@@ -160,12 +133,11 @@ app.commandLine.appendSwitch('max-active-webgl-contexts', '32') // 设置webgl�
 
 app.commandLine.appendSwitch('ignore-gpu-blacklist') // 忽略gpu黑名单
 
-// * 初始化store
-const store = new Store()
-
 app
   .on('ready', async () => {
     createWindow()
+
+    logger.info('初始化成功')
 
     registerListeners()
 
@@ -196,11 +168,12 @@ app
       'ok',
       (e: Event, data: Buffer, bounds: any, name?: string) => {
         log('ok')
-        const shortcuts: any = store.get('shortcuts.storage') ?? []
+        const shortcuts: any =
+          configStore.store.settings.shortcuts.storage ?? []
 
         const newShortcut = shortcuts.concat([name])
 
-        store.set('shortcuts.storage', newShortcut)
+        configStore.store.settings.shortcuts.storage = newShortcut
       }
     )
 
@@ -219,8 +192,12 @@ app
     if (mainWindow) {
       makeTray(mainWindow)
 
-      if (store.get('settings.enableGlobalShortcut') !== false) {
-        registerGlobalShortcut(mainWindow, store, updateSystemShortcut)
+      if (configStore.store.settings.enableGlobalShortcut !== false) {
+        registerGlobalShortcut(
+          mainWindow,
+          configStore.store,
+          updateSystemShortcut
+        )
       }
     }
   })

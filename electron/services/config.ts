@@ -5,14 +5,24 @@ import { app } from 'electron'
 export const appDir = path.join(app.getPath('appData'), 'storage')
 export const downloadDir = app.getPath('downloads')
 
-const initialConfig = {}
+const initialConfig = {
+  settings: {
+    enableGlobalShortcut: true,
+    shortcuts: [],
+  },
+}
 
-declare interface ConfigStore {
+export interface ConfigStore {
   // 当前状态
   currentAppId?: string
 
   // 下载的路径
-  downloadDir: string
+  downloadDir?: string
+
+  settings: {
+    enableGlobalShortcut: boolean
+    shortcuts: any
+  }
 }
 
 export const configStore = new Store<ConfigStore>({

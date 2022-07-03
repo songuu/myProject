@@ -32,6 +32,7 @@ export default class TaskRunnerService implements ITaskRunner {
       size: task.size,
       date: task.date,
       type: task.type,
+      localPath: task.localPath ?? '',
       status: TransferStatus.default,
     })
 
@@ -52,7 +53,7 @@ export default class TaskRunnerService implements ITaskRunner {
         id: t.id,
         progress: t.progress,
       }))
-      emitter.emit('transfer-process', progressList)
+      emitter.emit('transfer-progress', progressList)
       this.timeLimiter = nowTime
     }
   }

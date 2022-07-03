@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron'
 
-import Store from 'electron-store'
+import { ConfigStore } from './services/config'
 
 import shortcuts from '../src/constants/shortcuts'
 
@@ -17,11 +17,10 @@ type shortcutsType = {
 // * 针对于渲染进程
 const registerGlobalShortcut = (
   win: BrowserWindow,
-  store: Store,
-  callback: (id: string) => void
+  store: ConfigStore,
+  callback?: (id: string) => void
 ) => {
-  let oldShortcuts: any = store.get('settings.shortcuts')
-
+  let oldShortcuts: any = store.settings.shortcuts
   if (oldShortcuts === undefined) {
     oldShortcuts = shortcuts
   }

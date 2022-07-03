@@ -197,6 +197,7 @@ class IpcChannelsService {
         type: TaskType.download,
         size: item.size,
         progress: 0,
+        localPath: downloadPath,
         result: instance.downloadFile(id, remotePath, downloadPath, callback),
       }
 
