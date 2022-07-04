@@ -8,7 +8,7 @@ import { AppStore, BucketMeta } from '@mytypes/common'
 
 import audioSrc from '@static/audios/tip.mp3'
 
-import { Message } from '@components/index'
+import { Message, Progress } from '@components/index'
 
 import {
   SiderBar,
@@ -172,6 +172,7 @@ function Uploader() {
 
   return (
     <div className={styles.main}>
+      <Progress percent={10} size="small" status='error' />
       <SiderBar
         bucketLoading={bucketLoading}
         bucketList={bucketList}

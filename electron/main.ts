@@ -169,11 +169,11 @@ app
       (e: Event, data: Buffer, bounds: any, name?: string) => {
         log('ok')
         const shortcuts: any =
-          configStore.store.settings.shortcuts.storage ?? []
+          configStore.store.settings.storage ?? []
 
         const newShortcut = shortcuts.concat([name])
 
-        configStore.store.settings.shortcuts.storage = newShortcut
+        configStore.store.settings.storage = newShortcut
       }
     )
 

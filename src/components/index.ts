@@ -8,5 +8,6 @@ import Empty from './Empty'
 import Message from './Message'
 import WrapSelection from './WrapSelection'
 import Vanilla from './Vanilla'
+import Progress from './Progress'
 
-export { AppLoading, PageLoading, NotFound, ContextMenu, SvgIcon, ButtonIcon, Empty, Message, WrapSelection, Vanilla }
+export { AppLoading, PageLoading, NotFound, ContextMenu, SvgIcon, ButtonIcon, Empty, Message, WrapSelection, Vanilla, Progress }

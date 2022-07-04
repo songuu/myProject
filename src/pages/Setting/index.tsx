@@ -40,11 +40,12 @@ type KeyItem = {
 
 const Setting = () => {
   const dispatch = useAppDispatch()
-  const shortcuts = useAppSelector(state => state.settings.shortcuts)
 
   const enableGlobalShortcut = useAppSelector(
     state => state.settings.enableGlobalShortcut
   )
+
+  const [shortcuts, setShortcuts] = useState<KeyItem[]>([])
 
   const [shortcutInput, setShortcutInput] = useState({
     id: '',
@@ -116,6 +117,16 @@ const Setting = () => {
     setRecordedShortcutComputed(shortcut)
   }, [recordedShortcut])
 
+  const initState = async () => {
+    const shortcuts = await window.Main.getShortcuts()
+
+    setShortcuts(shortcuts ?? [])
+  }
+
+  useEffect(() => {
+    initState().then(r => r)
+  }, [])
+
   const handleToggle = () => {
     dispatch(changeEnableGlobalShortcut())
   }
@@ -165,11 +176,10 @@ const Setting = () => {
       shortcut: recordedShortcutComputed,
     }
 
-    dispatch(updateShortcut(payload))
-
     window.Main.updateShortcut(payload)
 
     setTimeout(() => {
+      initState()
       setRecordedShortcut([])
     }, 500)
   }
@@ -210,7 +220,6 @@ const Setting = () => {
   }
 
   const restoreDefaultShortcuts = () => {
-    dispatch(resetShortcuts())
     window.Main.restoreDefaultShortcuts()
   }
 

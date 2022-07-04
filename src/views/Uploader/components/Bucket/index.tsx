@@ -139,10 +139,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
 
   const handleDelete = async () => {
     const files = getOperationFiles()
-
-    console.log(files)
-    console.log([...files])
-
+    
     await window.Main.deleteFiles({ fileList: [...files] })
 
     await onRefreshBucket()

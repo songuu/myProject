@@ -10,7 +10,7 @@ import Logger from '../services/LoggerService'
 
 import { registerGlobalShortcut } from '../globalShortcut'
 
-import shortcuts from '../../src/constants/shortcuts'
+import defaultShortcuts from '../../src/constants/shortcuts'
 
 const clc = require('cli-color')
 
@@ -70,13 +70,13 @@ class InitSettingIpcMain {
     })
 
     // 获取快捷键
-    registerIpc('getShortcut', async () => {
+    registerIpc('getShortcuts', async () => {
       log('getShortcut')
 
       try {
         const shortcuts = configStore.store.settings.shortcuts
 
-        return success(shortcuts ?? [])
+        return success(shortcuts.length ? shortcuts : defaultShortcuts)
       } catch (err: any) {
         return fail(1, err.message)
       }
@@ -108,7 +108,7 @@ class InitSettingIpcMain {
       log('restoreDefaultShortcuts')
 
       try {
-        configStore.store.settings.shortcuts = cloneDeep(shortcuts)
+        configStore.store.settings.shortcuts = cloneDeep(defaultShortcuts)
 
         globalShortcut.unregisterAll()
 

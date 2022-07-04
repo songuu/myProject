@@ -71,6 +71,11 @@ export const api = {
     ipcRenderer.send('switchGlobalShortcutStatusTemporary', status)
   },
 
+  // 获取快捷键
+  getShortcuts: () => {
+    return asyncSend('getShortcuts')
+  },
+
   // 切换设置快捷键
   updateShortcut: (payload: any) => {
     ipcRenderer.send('updateShortcut', payload)
