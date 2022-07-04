@@ -105,7 +105,7 @@ function registerListeners() {
 
   const ossIpc = new InitOssIpcMain(mainWindow)
 
-  const settingIpc = new InitSettingIpcMain(mainWindow)
+  const settingIpc = new InitSettingIpcMain(mainWindow, updateSystemShortcut)
 
   ossIpc.init()
 

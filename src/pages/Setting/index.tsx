@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { SvgIcon } from '@components/index'
 
@@ -58,6 +58,8 @@ const Setting = () => {
   const [recordedShortcutComputed, setRecordedShortcutComputed] =
     useState<string>('')
 
+  const recordedShortcutComputedRef = useRef<string>('')
+
   useEffect(() => {
     if (!recordedShortcut.length) {
       return
@@ -115,6 +117,8 @@ const Setting = () => {
     shortcut = shortcut.join('+')
 
     setRecordedShortcutComputed(shortcut)
+
+    recordedShortcutComputedRef.current = shortcut
   }, [recordedShortcut])
 
   const initState = async () => {
@@ -173,13 +177,18 @@ const Setting = () => {
     const payload = {
       id,
       type,
-      shortcut: recordedShortcutComputed,
+      shortcut: recordedShortcutComputedRef.current.replace(
+        'Control',
+        'CommandOrControl'
+      ),
     }
 
     window.Main.updateShortcut(payload)
 
     setTimeout(() => {
       initState()
+      setRecordedShortcutComputed('')
+      recordedShortcutComputedRef.current = ''
       setRecordedShortcut([])
     }, 500)
   }
@@ -197,18 +206,21 @@ const Setting = () => {
       keyCode: e.keyCode,
       code: e.code,
     }
+
     setRecordedShortcut([keyItem, ...recordedShortcut])
 
-    if (
-      (e.keyCode >= 65 && e.keyCode <= 90) || // A-Z
-      (e.keyCode >= 48 && e.keyCode <= 57) || // 0-9
-      (e.keyCode >= 112 && e.keyCode <= 123) || // F1-F12
-      ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].includes(e.key) || // Arrows
-      validShortcutCodes.includes(e.key)
-    ) {
-      // 保存
-      saveShortcut()
-    }
+    setTimeout(() => {
+      if (
+        (e.keyCode >= 65 && e.keyCode <= 90) || // A-Z
+        (e.keyCode >= 48 && e.keyCode <= 57) || // 0-9
+        (e.keyCode >= 112 && e.keyCode <= 123) || // F1-F12
+        ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].includes(e.key) || // Arrows
+        validShortcutCodes.includes(e.key)
+      ) {
+        // 保存
+        saveShortcut()
+      }
+    }, 0)
   }
 
   const handleShortcutKeyup = (e: React.KeyboardEvent) => {

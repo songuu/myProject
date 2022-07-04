@@ -49,22 +49,27 @@ class InitSettingIpcMain {
   private logger = new Logger()
 
   private mainWindow: any
+  private updateSystemShortcut: (id: string) => void
 
-  constructor(mainWindow: any) {
+  constructor(mainWindow: any, updateSystemShortcut: (id: string) => void) {
     this.mainWindow = mainWindow
+    this.updateSystemShortcut = updateSystemShortcut
   }
 
   init() {
     // 全局切换是否开启全局快捷键
-    registerIpc('switchGlobalShortcutStatusTemporary', async params => {
-      const { status } = params
+    registerIpc('switchGlobalShortcutStatusTemporary', async status => {
       log('switchGlobalShortcutStatusTemporary')
 
       if (status === 'disable') {
         globalShortcut.unregisterAll()
       } else {
         if (this.mainWindow) {
-          registerGlobalShortcut(this.mainWindow, configStore.store)
+          registerGlobalShortcut(
+            this.mainWindow,
+            configStore.store,
+            this.updateSystemShortcut
+          )
         }
       }
     })
@@ -74,7 +79,7 @@ class InitSettingIpcMain {
       log('getShortcut')
 
       try {
-        const shortcuts = configStore.store.settings.shortcuts
+        const shortcuts: any = configStore.get('settings.shortcuts')
 
         return success(shortcuts.length ? shortcuts : defaultShortcuts)
       } catch (err: any) {
@@ -95,7 +100,7 @@ class InitSettingIpcMain {
 
         newShortcut[type] = shortcut
 
-        configStore.store.settings.shortcuts = shortcuts
+        configStore.set('settings.shortcuts', shortcuts)
 
         return success(true)
       } catch (err: any) {
@@ -108,12 +113,16 @@ class InitSettingIpcMain {
       log('restoreDefaultShortcuts')
 
       try {
-        configStore.store.settings.shortcuts = cloneDeep(defaultShortcuts)
+        configStore.set('settings.shortcuts', cloneDeep(defaultShortcuts))
 
         globalShortcut.unregisterAll()
 
         if (this.mainWindow) {
-          registerGlobalShortcut(this.mainWindow, configStore.store)
+          registerGlobalShortcut(
+            this.mainWindow,
+            configStore.store,
+            this.updateSystemShortcut
+          )
         }
 
         return success(true)

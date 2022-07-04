@@ -3,17 +3,18 @@ import path from 'path'
 import { app } from 'electron'
 
 import { cloneDeep } from 'lodash'
+import shortcuts from '../../src/constants/shortcuts'
 
 export const appDir = path.join(app.getPath('appData'), 'storage')
 export const downloadDir = app.getPath('downloads')
 
-import shortcuts from '../../src/constants/shortcuts'
+console.log("appDir", appDir)
 
 const initialConfig = {
   settings: {
     enableGlobalShortcut: true,
     shortcuts: cloneDeep(shortcuts),
-    storage: []
+    storage: [],
   },
 }
 
@@ -26,7 +27,7 @@ export interface ConfigStore {
 
   settings: {
     enableGlobalShortcut: boolean
-    shortcuts: any[],
+    shortcuts: any[]
     storage: string[]
   }
 }
@@ -36,6 +37,7 @@ export const configStore = new Store<ConfigStore>({
   cwd: appDir,
   fileExtension: 'json',
   defaults: {
-    ...initialConfig, downloadDir
+    ...initialConfig,
+    downloadDir,
   },
 })

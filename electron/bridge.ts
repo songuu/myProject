@@ -78,12 +78,12 @@ export const api = {
 
   // 切换设置快捷键
   updateShortcut: (payload: any) => {
-    ipcRenderer.send('updateShortcut', payload)
+    return asyncSend('updateShortcut', payload)
   },
 
   // 重置快捷键
   restoreDefaultShortcuts: () => {
-    ipcRenderer.send('restoreDefaultShortcuts')
+    return asyncSend('restoreDefaultShortcuts')
   },
 
   // 截屏功能
