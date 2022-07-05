@@ -59,7 +59,7 @@ function LineProgress(props: any) {
         return (
           <span>
             {percent}%
-            <SvgIcon iconName="error-mini" iconClass={styles.icon1} />
+            <SvgIcon iconName="error-mini" iconClass={classnames(styles[`${cls}-text-icon`])} />
           </span>
         )
       default:
@@ -70,7 +70,7 @@ function LineProgress(props: any) {
   return (
     <div className={styles[`${cls}-wrapper`]}>
       <div
-        className={`${cls}-outer`}
+        className={styles[`${cls}-outer`]}
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={100}
@@ -79,7 +79,7 @@ function LineProgress(props: any) {
       >
         {buffer && !isFinish && (
           <div
-            className={`${cls}-inner-buffer`}
+            className={styles[`${cls}-inner-buffer`]}
             style={{
               width: `${percent > 0 ? percent + 10 : 0}%`,
               ...getBackground(bufferColor),
@@ -87,8 +87,8 @@ function LineProgress(props: any) {
           />
         )}
         <div
-          className={classnames(`${cls}-inner`, {
-            [`${cls}-inner-animate`]: animation,
+          className={classnames(styles[`${cls}-inner`], {
+            [styles[`${cls}-inner-animate`]]: animation,
           })}
           style={{
             width: `${percent}%`,
@@ -98,8 +98,8 @@ function LineProgress(props: any) {
       </div>
       {showText && (
         <div
-          className={classnames(`${cls}-text`, {
-            [`${cls}-text-with-icon`]: status,
+          className={classnames(styles[`${cls}-text`], {
+            [styles[`${cls}-text-with-icon`]]: status,
           })}
         >
           {getText()}

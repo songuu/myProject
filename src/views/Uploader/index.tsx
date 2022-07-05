@@ -172,7 +172,6 @@ function Uploader() {
 
   return (
     <div className={styles.main}>
-      <Progress percent={10} size="small" status='error' />
       <SiderBar
         bucketLoading={bucketLoading}
         bucketList={bucketList}

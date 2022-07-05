@@ -4,7 +4,7 @@ import classnames from 'classnames'
 
 import { fileSizeFormatter, getIconName } from '@libs/utils'
 
-import { SvgIcon, Empty } from '@components/index'
+import { SvgIcon, Empty, Progress } from '@components/index'
 
 import styles from './index.module.less'
 
@@ -96,6 +96,8 @@ function TransferList() {
     }
   }, [])
 
+  console.log(transfers)
+
   return (
     <div className={styles['transfer-list-wrapper']}>
       {transfers.length > 0 ? (
@@ -134,7 +136,11 @@ function TransferList() {
                         styles.progress
                       )}
                     >
-                      {/* <Progress percent={item.progress} /> */}
+                      <Progress
+                        percent={item.progress}
+                        size="small"
+                        // status="warning"
+                      />
                     </td>
                     <td className={styles['transfer-table__row_item']}>
                       {typeFormatter(item.type)}
@@ -154,7 +160,7 @@ function TransferList() {
           </section>
         </>
       ) : (
-        <Empty title="没有文件" description="没有找到传输列表"/>
+        <Empty title="没有文件" description="没有找到传输列表" />
       )}
     </div>
   )

@@ -2,6 +2,8 @@ import React, { CSSProperties, forwardRef, useContext } from 'react'
 
 import classnames from 'classnames'
 
+import useMergeProps from '@hooks/useMergeProps'
+
 import LineProgress from './line-progress'
 
 import { ProgressProps } from './interface'
@@ -16,8 +18,8 @@ const defaultProps: ProgressProps = {
 }
 
 function Progress(baseProps: ProgressProps, ref: any) {
-  const props = baseProps
-  const { className, style, size, width, strokeWidth, steps, percent, type } =
+  const props = useMergeProps<ProgressProps>(baseProps, defaultProps)
+  const { className, style, size, width, percent, type } =
     props
 
   const status =
@@ -34,9 +36,9 @@ function Progress(baseProps: ProgressProps, ref: any) {
     <div
       ref={ref}
       className={classnames(
+        styles[`progress-${type}`],
         styles.progress,
         styles[`progress-${size}`],
-        styles[`progress-${type}`],
         status !== 'normal' && styles[`progress-is-${status}`],
         className
       )}
