@@ -9,5 +9,19 @@ import Message from './Message'
 import WrapSelection from './WrapSelection'
 import Vanilla from './Vanilla'
 import Progress from './Progress'
+import Spin from './Spin'
 
-export { AppLoading, PageLoading, NotFound, ContextMenu, SvgIcon, ButtonIcon, Empty, Message, WrapSelection, Vanilla, Progress }
+export {
+  AppLoading,
+  PageLoading,
+  NotFound,
+  ContextMenu,
+  SvgIcon,
+  ButtonIcon,
+  Empty,
+  Message,
+  WrapSelection,
+  Vanilla,
+  Progress,
+  Spin,
+}

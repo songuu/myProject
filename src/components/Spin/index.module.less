@@ -1,0 +1,126 @@
+@spin-prefix-cls: ~'spin';
+
+.@{spin-prefix-cls} {
+  display: inline-block;
+
+  &-block {
+    display: block;
+  }
+
+  &-with-tip {
+    text-align: center;
+  }
+
+  &-icon {
+    color: #f85959;
+    font-size: 20px;
+  }
+
+  &-tip {
+    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f85959;
+  }
+
+  &-loading-layer {
+    text-align: center;
+    user-select: none;
+  }
+
+  &-children {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.6);
+      opacity: 0;
+      transition: opacity 0.1s cubic-bezier(0, 0, 1, 1);
+      pointer-events: none;
+      z-index: 1;
+    }
+  }
+
+  &-loading {
+    position: relative;
+    user-select: none;
+  }
+
+  &-loading &-loading-layer-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+  &-loading &-children::after {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &-dot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    width: 8px;
+    height: 8px;
+    background-color: #f85959;
+    border-radius: 50%;
+    animation: ~'dot-loading' 2s cubic-bezier(0, 0, 1, 1) infinite forwards;
+
+    &:nth-child(2) {
+      background-color: #57a9fb;
+      animation-delay: 400ms;
+    }
+
+    &:nth-child(3) {
+      background-color: #7bc0fc;
+      animation-delay: 800ms;
+    }
+
+    &:nth-child(4) {
+      background-color: #9fd4fd;
+      animation-delay: 1200ms;
+    }
+
+    &:nth-child(5) {
+      background-color: #c3e7fe;
+      animation-delay: 1600ms;
+    }
+  }
+
+  &-dot-list {
+    display: inline-block;
+    transform-style: preserve-3d;
+    perspective: 200px;
+    width: 56px;
+    position: relative;
+    height: 8px;
+  }
+}
+
+@keyframes ~'dot-loading' {
+  each(range(36), {
+      @percent: round(percentage(((@value - 1) / 36)), 3);
+  
+      // 半径
+      @radius: 280%;
+      @xOffset: round((sin((pi() / 180 * @value * 10)) * @radius), 3) * -1;
+      @zOffset: round(cos((pi() / 180 * @value * 10)), 3) * -1px;
+  
+      @scaleOffset: round((1 - cos((pi() / 180) * @value * 10)) * 0.75 + 0.5, 3 );
+  
+      @{percent} {
+        transform: ~'translate3D(@{xOffset}, 0, @{zOffset}) scale(@{scaleOffset})'
+      }
+    });
+}
