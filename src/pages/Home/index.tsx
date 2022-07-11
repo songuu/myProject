@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { Skeleton } from '@components/index'
+import { Skeleton, Spin } from '@components/index'
 
 function Home() {
-  return <Skeleton animation></Skeleton>
+  return <Spin dot></Spin>
 }
 
 export default Home

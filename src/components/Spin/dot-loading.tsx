@@ -2,6 +2,8 @@ import React, { CSSProperties } from 'react'
 
 import { isNumber } from '@utils/is'
 
+import styles from './index.module.less'
+
 export interface DotProps {
   size?: CSSProperties['fontSize']
 }
@@ -18,14 +20,16 @@ const DotLoading: React.FC<DotProps> = props => {
 
   return (
     <div
-      className={`${prefixCls}-list`}
+      className={styles[`${prefixCls}-list`]}
       style={{
         height: props.size,
         width: isNumber(sizeNumber) && sizeNumber > 0 ? sizeNumber * 7 : '',
       }}
     >
       {[...new Array(5)].map((_, index) => {
-        return <div key={index} className={prefixCls} style={dotStyle} />
+        return (
+          <div key={index} className={styles[prefixCls]} style={dotStyle} />
+        )
       })}
     </div>
   )
