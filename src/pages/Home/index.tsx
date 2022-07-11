@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { Skeleton } from '@components/index'
+
 function Home() {
-  return <div>Home</div>
+  return <Skeleton animation></Skeleton>
 }
 
 export default Home

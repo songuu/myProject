@@ -1,0 +1,82 @@
+@skeleton-prefix-cls: ~'skeleton';
+
+.@{skeleton-prefix-cls} {
+  display: flex;
+
+  &-header {
+    display: flex;
+
+    .@{skeleton-prefix-cls}-image {
+      background-color: rgba(255, 255, 255, 0.8);
+      width: 48px;
+      height: 48px;
+      border-radius: 2px;
+
+      &-circle {
+        border-radius: 50%;
+      }
+
+      &-small {
+        width: 36px;
+        height: 36px;
+      }
+
+      &-large {
+        width: 60px;
+        height: 60px;
+      }
+
+      &-left {
+        margin-right: 16px;
+      }
+
+      &-right {
+        margin-left: 16px;
+      }
+    }
+  }
+
+  &-content {
+    flex-grow: 1;
+    overflow: hidden;
+
+    .@{skeleton-prefix-cls}-text {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      &-row {
+        background-color: rgba(242, 243, 245, 0.8);
+        height: 16px;
+      }
+
+      &-row:not(:last-child) {
+        margin-bottom: 16px;
+      }
+    }
+  }
+
+  &-animate {
+    .@{skeleton-prefix-cls}-image,
+    .@{skeleton-prefix-cls}-text > li {
+      background: linear-gradient(
+        90deg,
+        rgba(242, 243, 245, 0.8) 25%,
+        rgba(255, 255, 255, 0.55) 37%,
+        rgba(242, 243, 245, 0.8) 63%
+      );
+      background-size: 400% 100%;
+      animation: ~'skeleton-circle' 1.5s cubic-bezier(0, 0, 1, 1) infinite;
+    }
+  }
+}
+
+@keyframes ~'skeleton-circle' {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}

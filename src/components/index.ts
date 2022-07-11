@@ -10,6 +10,7 @@ import WrapSelection from './WrapSelection'
 import Vanilla from './Vanilla'
 import Progress from './Progress'
 import Spin from './Spin'
+import Skeleton from './Skeleton'
 
 export {
   AppLoading,
@@ -24,4 +25,5 @@ export {
   Vanilla,
   Progress,
   Spin,
+  Skeleton,
 }
