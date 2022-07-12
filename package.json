@@ -49,6 +49,7 @@
     "react-transition-group": "^4.4.2",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
+    "resize-observer-polyfill": "^1.5.1",
     "shortid": "^2.2.16",
     "style-loader": "^3.3.1",
     "svg-sprite-loader": "^6.0.11"
