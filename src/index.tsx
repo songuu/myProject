@@ -20,10 +20,10 @@ const root = createRoot(rootElement as Element)
 
 root.render(
   <Provider store={store}>
-    <StrictMode>
-      <HashRouter>
-        <App />
-      </HashRouter>
-    </StrictMode>
+    {/* <StrictMode> */}
+    <HashRouter>
+      <App />
+    </HashRouter>
+    {/* </StrictMode> */}
   </Provider>
 )

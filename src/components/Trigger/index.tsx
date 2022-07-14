@@ -9,6 +9,10 @@ import { findDOMNode } from 'react-dom'
 
 import ResizeObserverPolyfill from 'resize-observer-polyfill'
 
+import { CSSTransition } from 'react-transition-group'
+
+import classnames from 'classnames'
+
 import mergeProps from '@utils/mergeProps'
 
 import { isFunction } from '@utils/is'
@@ -21,9 +25,15 @@ import throttleByRaf from '@utils/throttleByRaf'
 
 import { Esc } from '@utils/keycode'
 
+import ResizeObserver from '@utils/resizeObserver'
+
+import Portal from './portal'
+
 import getStyle from './getPopupStyle'
 
 import { TriggerProps, MouseLocationType } from './interface'
+
+import styles from './index.module.less'
 
 export interface TriggerState {
   popupVisible: boolean
@@ -367,6 +377,7 @@ class Trigger extends PureComponent<TriggerProps, TriggerState> {
       mountContainer,
       this.mouseLocation
     )
+
     this.realPosition =
       realPosition || (this.getMergedProps().position as string)
     this.arrowStyle = arrowStyle || {}
@@ -532,22 +543,6 @@ class Trigger extends PureComponent<TriggerProps, TriggerState> {
     return child || <span />
   }
 
-  // 1. 触发直接附加到 Trigger 上的事件，大多是Trigger直接嵌套Trigger的情况
-  // 2. 触发children上直接被附加的事件
-  triggerPropsEvent = (eventName: EventsByTriggerNeedType, e: any) => {
-    const child: any = this.getChild()
-    const childHandler = child && child.props && child.props[eventName]
-
-    const props: any = this.getMergedProps()
-
-    if (isFunction(childHandler)) {
-      childHandler(e)
-    }
-    if (isFunction(props[eventName])) {
-      props[eventName](e)
-    }
-  }
-
   onKeyDown = (e: any) => {
     const keyCode = e.keyCode || e.which
     this.triggerPropsEvent('onKeyDown', e)
@@ -709,7 +704,388 @@ class Trigger extends PureComponent<TriggerProps, TriggerState> {
     }
   }
 
-  setPopupVisible = (visible: boolean, delay = 0, callback?: () => void) => {}
+  showPopup = (callback: () => void = () => {}) => {
+    const popupStyle = this.getPopupStyle()
+
+    this.setState(
+      {
+        popupStyle,
+      },
+      callback
+    )
+  }
+
+  setPopupVisible = (visible: boolean, delay = 0, callback?: () => void) => {
+    const mergedProps = this.getMergedProps()
+    const { onVisibleChange } = mergedProps
+    const currentVisible = this.state.popupVisible
+
+    if (currentVisible !== visible) {
+      this.delayToDo(delay, () => {
+        onVisibleChange && onVisibleChange(visible)
+        if (!('popupVisible' in mergedProps)) {
+          if (visible) {
+            this.setState(
+              {
+                popupVisible: true,
+              },
+              () => {
+                this.showPopup(callback)
+              }
+            )
+          } else {
+            this.setState(
+              {
+                popupVisible: false,
+              },
+              () => {
+                callback && callback()
+              }
+            )
+          }
+        } else {
+          callback && callback()
+        }
+      })
+    } else {
+      callback && callback()
+    }
+  }
+
+  delayToDo = (delay: number, callback: () => void) => {
+    if (delay) {
+      this.clearDelayTimer()
+      this.delayTimer = setTimeout(() => {
+        callback()
+        this.clearDelayTimer()
+      }, delay)
+    } else {
+      callback()
+    }
+  }
+
+  // 下拉框存在初始translateY/translateX，需要根据真实的弹出位置确定
+  getTransformTranslate = () => {
+    if (this.getMergedProps().classNames !== 'slideDynamicOrigin') {
+      return ''
+    }
+    switch (this.realPosition) {
+      case 'bottom':
+      case 'bl':
+      case 'br':
+        return 'scaleY(0.9) translateY(-4px)'
+      case 'top':
+      case 'tl':
+      case 'tr':
+        return 'scaleY(0.9) translateY(4px)'
+      default:
+        return ''
+    }
+  }
+
+  // 创建的dom节点插入getPopupContainer。
+  appendToContainer = (node: HTMLDivElement) => {
+    caf(this.rafId)
+    if (this.isDidMount) {
+      const { getPopupContainer } = this.getMergedProps()
+
+      const getGlobalPopupContainer = () => document.body
+      const gpc: any = getPopupContainer || getGlobalPopupContainer
+
+      if (gpc) {
+        const rootElement = this.getRootElement()
+        const parent = gpc(rootElement)
+        if (parent) {
+          parent.appendChild(node)
+          return
+        }
+      } else {
+        return
+      }
+    }
+    this.rafId = raf(() => {
+      this.appendToContainer(node)
+    })
+  }
+
+  // 直接获取容器
+  getContainer = () => {
+    const popupContainer = document.createElement('div')
+
+    popupContainer.style.width = '100%'
+    popupContainer.style.position = 'absolute'
+    popupContainer.style.top = '0'
+    popupContainer.style.left = '0'
+
+    this.popupContainer = popupContainer
+    this.appendToContainer(popupContainer)
+
+    return popupContainer
+  }
+
+  // 1. 触发直接附加到 Trigger 上的事件，大多是Trigger直接嵌套Trigger的情况
+  // 2. 触发children上直接被附加的事件
+  triggerPropsEvent = (eventName: EventsByTriggerNeedType, e: any) => {
+    const child: any = this.getChild()
+    const childHandler = child && child.props && child.props[eventName]
+
+    const props: any = this.getMergedProps()
+
+    if (isFunction(childHandler)) {
+      childHandler(e)
+    }
+    if (isFunction(props[eventName])) {
+      props[eventName](e)
+    }
+  }
+
+  // 触发 children/ trigger 组件上被附加的事件
+  triggerOriginEvent = (eventName: EventsByTriggerNeedType) => {
+    const child: any = this.getChild()
+
+    const childHandler = child && child.props && child.props[eventName]
+    // @ts-ignore
+    const propsHandler = this.getMergedProps()[eventName]
+
+    if (isFunction(propsHandler) && isFunction(childHandler)) {
+      return (e: any) => {
+        childHandler(e)
+        propsHandler(e)
+      }
+    }
+    return childHandler || propsHandler
+  }
+
+  render() {
+    const {
+      children,
+      style,
+      className,
+      arrowProps,
+      disabled,
+      popup,
+      classNames,
+      duration,
+      unmountOnExit,
+      alignPoint,
+      autoAlignPopupWidth,
+      position,
+      childrenPrefix,
+      showArrow,
+      popupStyle: dropdownPopupStyle,
+    } = this.getMergedProps()
+    const isExistChildren = children || children === 0
+    const { popupVisible, popupStyle } = this.state
+
+    if (!popup) {
+      return null
+    }
+
+    const mergeProps: any = {}
+    const popupEventProps: any = {
+      onMouseDown: this.onPopupMouseDown,
+    }
+
+    if (this.isHoverTrigger() && !disabled) {
+      mergeProps.onMouseEnter = this.onMouseEnter
+      mergeProps.onMouseLeave = this.onMouseLeave
+
+      if (alignPoint) {
+        mergeProps.onMouseMove = this.onMouseMove
+      }
+      if (!this.isPopupHoverHide()) {
+        popupEventProps.onMouseEnter = this.onPopupMouseEnter
+        popupEventProps.onMouseLeave = this.onPopupMouseLeave
+      }
+    } else {
+      mergeProps.onMouseEnter = this.triggerOriginEvent('onMouseEnter')
+      mergeProps.onMouseLeave = this.triggerOriginEvent('onMouseLeave')
+    }
+
+    if (this.isContextMenuTrigger() && !disabled) {
+      mergeProps.onContextMenu = this.onContextMenu
+      mergeProps.onClick = this.hideContextMenu
+    } else {
+      mergeProps.onContextMenu = this.triggerOriginEvent('onContextMenu')
+    }
+    if (this.isClickTrigger() && !disabled) {
+      mergeProps.onClick = this.onClick
+    } else {
+      mergeProps.onClick =
+        mergeProps.onClick || this.triggerOriginEvent('onClick')
+    }
+    if (this.isFocusTrigger() && !disabled) {
+      mergeProps.onFocus = this.onFocus
+      if (this.isBlurToHide()) {
+        mergeProps.onBlur = this.onBlur
+      }
+    } else {
+      mergeProps.onFocus = this.triggerOriginEvent('onFocus')
+      mergeProps.onBlur = this.triggerOriginEvent('onBlur')
+    }
+
+    if (!disabled) {
+      mergeProps.onKeyDown = this.onKeyDown
+    } else {
+      mergeProps.onKeyDown = this.triggerOriginEvent('onKeyDown')
+    }
+
+    const child: any = this.getChild()
+    const popupChildren: any = React.Children.only(popup())
+
+    if (child.props.className) {
+      mergeProps.className = child.props.className
+    }
+    if (childrenPrefix && popupVisible) {
+      mergeProps.className = mergeProps.className
+        ? `${styles[mergeProps.className]} ${styles[`${childrenPrefix}-open`]}}`
+        : styles[`${childrenPrefix}-open`]
+    }
+    // 只有在focus触发时，设置tabIndex，点击tab键，能触发focus事件，展示弹出框
+    if (this.isFocusTrigger()) {
+      mergeProps.tabIndex = disabled ? -1 : 0
+    }
+
+    const prefixCls = 'trigger'
+    
+    const popupClassName = classnames(
+      styles[prefixCls],
+      childrenPrefix,
+      styles[`${prefixCls}-position-${position}`],
+      className
+    )
+
+    const childrenComponent = isExistChildren && (
+      <ResizeObserver onResize={this.onResize}>
+        {React.cloneElement(child, {
+          ...mergeProps,
+        })}
+      </ResizeObserver>
+    )
+
+    const portalContent = (
+      <CSSTransition
+        in={!!popupVisible}
+        timeout={duration}
+        classNames={classNames}
+        unmountOnExit={unmountOnExit}
+        appear
+        mountOnEnter
+        onEnter={(e: any) => {
+          console.log(1111)
+
+          e.style.display = 'initial'
+          e.style.pointerEvents = 'none'
+          if (classNames === 'slideDynamicOrigin') {
+            // 下拉菜单
+            e.style.transform = this.getTransformTranslate()
+          }
+        }}
+        onEntering={(e: any) => {
+          console.log(2222)
+
+          if (classNames === 'slideDynamicOrigin') {
+            // 下拉菜单
+            e.style.transform = ''
+          }
+        }}
+        onEntered={(e: any) => {
+          console.log(3333)
+
+          e.style.pointerEvents = 'auto'
+          this.forceUpdate()
+        }}
+        onExit={e => {
+          console.log(4444)
+          // 避免消失动画时对元素的快速点击触发意外的操作
+          e.style.pointerEvents = 'none'
+        }}
+        onExited={e => {
+          console.log(5555)
+
+          e.style.display = 'none'
+          // 这里立即设置为null是为了在setState popupStyle引起重新渲染时，能触发 Portal的卸载事件。移除父节点。
+          // 否则只有在下个循环中 triggerRef 才会变为null，需要重新forceUpdate，才能触发Portal的unmount。
+          if (unmountOnExit) {
+            this.triggerRef = null
+          }
+          this.setState({ popupStyle: {} })
+        }}
+      >
+        <ResizeObserver onResize={this.onResize}>
+          <span
+            ref={node => (this.triggerRef = node)}
+            trigger-placement={this.realPosition}
+            style={
+              {
+                width:
+                  autoAlignPopupWidth && style?.width === undefined
+                    ? this.childrenDomSize?.width
+                    : '',
+                ...popupStyle,
+                position: 'absolute',
+                ...style,
+                // display
+              } as CSSProperties
+            }
+            {...popupEventProps}
+            className={popupClassName}
+          >
+            <popupChildren.type
+              ref={popupChildren.ref}
+              {...popupChildren.props}
+              style={{ ...popupChildren.props.style, ...dropdownPopupStyle }}
+            />
+            {(showArrow || arrowProps) && (
+              <div
+                className={classnames(
+                  styles[`${prefixCls}-arrow-container`],
+                  {
+                    [styles[`${childrenPrefix}-arrow-container`]]:
+                      childrenPrefix,
+                  },
+                  {
+                    [`${childrenPrefix}-arrow-container`]: childrenPrefix,
+                  }
+                )}
+              >
+                <div
+                  {...arrowProps}
+                  className={classnames(
+                    `${prefixCls}-arrow`,
+                    styles[`${prefixCls}-arrow`],
+                    {
+                      [styles[`${childrenPrefix}-arrow`]]: childrenPrefix,
+                    },
+                    {
+                      [`${childrenPrefix}-arrow`]: childrenPrefix,
+                    },
+                    arrowProps?.className
+                  )}
+                  style={{ ...this.arrowStyle, ...arrowProps?.style }}
+                />
+              </div>
+            )}
+          </span>
+        </ResizeObserver>
+      </CSSTransition>
+    )
+
+    // 如果 triggerRef 不存在，说明弹出层内容被销毁，可以隐藏portal。
+    const portal =
+      popupVisible || this.triggerRef ? (
+        <Portal getContainer={this.getContainer}>{portalContent}</Portal>
+      ) : null
+
+    return isExistChildren ? (
+      <React.Fragment>
+        {childrenComponent}
+        {portal}
+      </React.Fragment>
+    ) : (
+      portal
+    )
+  }
 }
 
 export const EventsByTriggerNeed = [
@@ -732,7 +1108,5 @@ export type EventsByTriggerNeedType =
   | 'onBlur'
   | 'onContextMenu'
   | 'onKeyDown'
-
-export { TriggerProps }
 
 export default Trigger

@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { Skeleton } from '@components/index'
+import { Skeleton, Tooltip } from '@components/index'
 
 function Home() {
-  return <Skeleton animation></Skeleton>
+  return <Tooltip content="123123">123</Tooltip>
+  // return <Skeleton animation></Skeleton>
 }
 
 export default Home

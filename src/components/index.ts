@@ -11,6 +11,7 @@ import Vanilla from './Vanilla'
 import Progress from './Progress'
 import Spin from './Spin'
 import Skeleton from './Skeleton'
+import Tooltip from './Tooltip'
 
 export {
   AppLoading,
@@ -26,4 +27,5 @@ export {
   Progress,
   Spin,
   Skeleton,
+  Tooltip
 }

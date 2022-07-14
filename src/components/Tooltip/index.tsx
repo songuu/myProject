@@ -16,6 +16,8 @@ import Trigger, { EventsByTriggerNeed } from '../Trigger'
 
 import { TooltipProps } from './interface'
 
+import styles from './index.module.less'
+
 export type TooltipHandle = {
   updatePopupPosition: () => void
 }
@@ -74,7 +76,7 @@ function Tooltip(baseProps: PropsWithChildren<TooltipProps>, ref) {
     []
   )
 
-  const prefixCls = `${tooltipPrefixCls}-tooltip`
+  const prefixCls = tooltipPrefixCls ? `${tooltipPrefixCls}-tooltip` : 'tooltip'
 
   const otherProps: any = {
     ...pick(rest, EventsByTriggerNeed),
@@ -99,7 +101,63 @@ function Tooltip(baseProps: PropsWithChildren<TooltipProps>, ref) {
     otherProps.popupVisible = false
   }
 
-  return <>123</>
+  return (
+    <Trigger
+      style={{
+        maxWidth: 350,
+        ...style,
+      }}
+      className={className}
+      ref={refTrigger}
+      classNames="zoomInFadeOut"
+      duration={{
+        enter: 300,
+        exit: 100,
+      }}
+      popup={() => {
+        return (
+          <div
+            style={{ backgroundColor: color }}
+            className={classnames(
+              styles[`${prefixCls}-content`],
+              styles[`${prefixCls}-content-${position}`],
+              {
+                [styles[`${prefixCls}-mini`]]: mini,
+              }
+            )}
+            role="tooltip"
+          >
+            <div className={styles[`${prefixCls}-content-inner`]}>
+              {renderedContent}
+            </div>
+          </div>
+        )
+      }}
+      position={position}
+      disabled={disabled}
+      trigger={trigger}
+      escToClose={escToClose}
+      showArrow
+      popupAlign={{
+        left: 12,
+        right: 12,
+        top: 12,
+        bottom: 12,
+      }}
+      mouseEnterDelay={200}
+      mouseLeaveDelay={200}
+      unmountOnExit={unmountOnExit}
+      popupHoverStay={popupHoverStay}
+      blurToHide={blurToHide}
+      childrenPrefix={childrenPrefix || prefixCls}
+      getPopupContainer={getPopupContainer}
+      onVisibleChange={onVisibleChange}
+      defaultPopupVisible={defaultPopupVisible}
+      {...otherProps}
+    >
+      {children}
+    </Trigger>
+  )
 }
 
 const TooltipComponent = forwardRef<

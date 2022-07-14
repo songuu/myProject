@@ -18,7 +18,7 @@ export interface TooltipProps {
    * @zh 弹出的内容
    * @en The content shown in popup
    */
-  content?: ReactNode;
+  content?: ReactNode | Function;
   /**
    * @zh 弹出层背景色
    * @en background color of the popup-layer

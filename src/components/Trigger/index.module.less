@@ -1,0 +1,61 @@
+@trigger-prefix-cls: ~'trigger';
+
+.@{trigger-prefix-cls} {
+  position: absolute;
+  z-index: 1000;
+  backface-visibility: hidden; // Prevent shaking
+  background-color: red;
+
+  &-arrow {
+    background-color: #fff;
+    content: '';
+    height: 8px;
+    width: 8px;
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+    transform: rotate(45deg);
+    transform-origin: 50% 50% 0;
+    z-index: -1;
+  }
+
+  &[trigger-placement='top'] &-arrow,
+  &[trigger-placement='tl'] &-arrow,
+  &[trigger-placement='tr'] &-arrow {
+    bottom: -(8px / 2);
+    margin-left: -(8px / 2);
+    border-top: none;
+    border-left: none;
+    border-bottom-right-radius: 2px;
+  }
+
+  &[trigger-placement='bottom'] &-arrow,
+  &[trigger-placement='bl'] &-arrow,
+  &[trigger-placement='br'] &-arrow {
+    top: -(8px / 2);
+    margin-left: -(8px / 2);
+    border-bottom: none;
+    border-right: none;
+    border-top-left-radius: 2px;
+  }
+
+  &[trigger-placement='left'] &-arrow,
+  &[trigger-placement='lt'] &-arrow,
+  &[trigger-placement='lb'] &-arrow {
+    right: -(8px / 2);
+    margin-top: -(8px / 2);
+    border-left: none;
+    border-bottom: none;
+    border-top-right-radius: 2px;
+  }
+
+  &[trigger-placement='right'] &-arrow,
+  &[trigger-placement='rt'] &-arrow,
+  &[trigger-placement='rb'] &-arrow {
+    left: -(8px / 2);
+    margin-top: -(8px / 2);
+    border-top: none;
+    border-right: none;
+    border-bottom-left-radius: 2px;
+  }
+}

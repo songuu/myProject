@@ -1,0 +1,27 @@
+@prefix: ~'';
+
+.tooltip {
+  &-content {
+    padding: 8px 12px;
+    background-color: rgb(29, 33, 41);
+    font-size: 14px;
+    border-radius: 2px;
+    color: #fff;
+    line-height: 1.5715;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    &-inner {
+      word-wrap: break-word;
+      text-align: left;
+    }
+  }
+
+  &-mini {
+    font-size: 14px;
+    padding: 4px 12px;
+  }
+}
+
+:global(.tooltip-arrow) {
+  background-color: rgb(29, 33, 41);
+}
