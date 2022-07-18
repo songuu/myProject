@@ -110,7 +110,7 @@ const defaultProps = {
   mouseEnterDelay: 100,
   mouseLeaveDelay: 100,
   autoFitPosition: true,
-};
+}
 
 class Trigger extends PureComponent<TriggerProps, TriggerState> {
   static getDerivedStateFromProps(nextProps: any, state: any) {
@@ -286,61 +286,64 @@ class Trigger extends PureComponent<TriggerProps, TriggerState> {
   }
 
   offScrollListeners = () => {
-    (this.scrollElements || []).forEach((item) => {
-      off(item, 'scroll', this.handleScroll);
-    });
-    this.scrollElements = null;
-  };
+    ;(this.scrollElements || []).forEach(item => {
+      off(item, 'scroll', this.handleScroll)
+    })
+    this.scrollElements = null
+  }
 
   offWindowResize = () => {
-    this.handleWindowResize = false;
-    off(window, 'resize', this.handleUpdatePosition);
-  };
+    this.handleWindowResize = false
+    off(window, 'resize', this.handleUpdatePosition)
+  }
 
   offContainerResize = () => {
     if (this.resizeObserver && this.observerContainer) {
-      this.resizeObserver.unobserve(this.observerContainer);
-      this.observerContainer = null;
+      this.resizeObserver.unobserve(this.observerContainer)
+      this.observerContainer = null
     }
-  };
+  }
 
   handleScroll = () => {
-    const currentProps = this.getMergedProps();
+    const currentProps = this.getMergedProps()
 
     if (currentProps.containerScrollToClose) {
-      this.setPopupVisible(false);
+      this.setPopupVisible(false)
     } else if (currentProps.updateOnScroll) {
-      this.handleUpdatePosition();
+      this.handleUpdatePosition()
     }
-  };
+  }
 
   onContainersScroll = () => {
     if (this.scrollElements) {
-      return;
+      return
     }
-    this.scrollElements = getScrollElements(this.childrenDom, this.popupContainer?.parentNode);
+    this.scrollElements = getScrollElements(
+      this.childrenDom,
+      this.popupContainer?.parentNode
+    )
 
-    this.scrollElements.forEach((item) => {
-      on(item, 'scroll', this.handleScroll);
-    });
-  };
+    this.scrollElements.forEach(item => {
+      on(item, 'scroll', this.handleScroll)
+    })
+  }
 
   onContainerResize = () => {
     // containerParent 相当于是通过getPopupContainer传入的节点
     // 因为 this.popupContainer 会被挂载到getPopupContainer返回的节点上
-    const containerParent = this.popupContainer?.parentNode;
+    const containerParent = this.popupContainer?.parentNode
     if (this.resizeObserver && this.observerContainer !== containerParent) {
       // 说明containerParent变了，取消之前的监听，监听新的container
-      this.offContainerResize();
-      containerParent && this.resizeObserver.observe(containerParent);
-      this.observerContainer = containerParent;
+      this.offContainerResize()
+      containerParent && this.resizeObserver.observe(containerParent)
+      this.observerContainer = containerParent
     }
-  };
+  }
 
   // getPopupContainer 改变时候触发
   handleUpdatePosition = throttleByRaf(() => {
-    this.updatePopupPosition();
-  });
+    this.updatePopupPosition()
+  })
 
   isClickTrigger = () => {
     const { trigger } = this.getMergedProps()
@@ -390,21 +393,21 @@ class Trigger extends PureComponent<TriggerProps, TriggerState> {
   clearTimer = () => {
     if (this.updatePositionTimer) {
       if (this.updatePositionTimer.cancel) {
-        this.updatePositionTimer.cancel();
+        this.updatePositionTimer.cancel()
       } else {
-        clearTimeout(this.updatePositionTimer);
-        this.updatePositionTimer = null;
+        clearTimeout(this.updatePositionTimer)
+        this.updatePositionTimer = null
       }
     }
     if (this.delayTimer) {
-      clearTimeout(this.delayTimer);
-      this.delayTimer = null;
+      clearTimeout(this.delayTimer)
+      this.delayTimer = null
     }
     if (this.mouseDownTimeout) {
-      clearTimeout(this.mouseDownTimeout);
-      this.mouseDownTimeout = null;
+      clearTimeout(this.mouseDownTimeout)
+      this.mouseDownTimeout = null
     }
-  };
+  }
 
   offClickOutside = () => {
     if (this.handleClickOutside) {
@@ -459,176 +462,177 @@ class Trigger extends PureComponent<TriggerProps, TriggerState> {
     return {}
   }
 
-    // 下拉框存在初始translateY/translateX，需要根据真实的弹出位置确定
-    getTransformTranslate = () => {
-      if (this.getMergedProps().classNames !== 'slideDynamicOrigin') {
-        return '';
-      }
-      switch (this.realPosition) {
-        case 'bottom':
-        case 'bl':
-        case 'br':
-          return 'scaleY(0.9) translateY(-4px)';
-        case 'top':
-        case 'tl':
-        case 'tr':
-          return 'scaleY(0.9) translateY(4px)';
-        default:
-          return '';
-      }
-    };
-  
-    getPopupStyle = (): any => {
-      if (this.unmount || !this.popupContainer) {
-        return;
-      }
-      const mountContainer = this.popupContainer as Element;
-      const content = findDOMNode(this.triggerRef) as HTMLElement;
-      const child: HTMLElement = findDOMNode(this) as HTMLElement;
-      const { style, arrowStyle, realPosition } = getStyle(
-        this.getMergedProps(),
-        content,
-        child,
-        mountContainer,
-        this.mouseLocation
-      );
-      this.realPosition = realPosition || (this.getMergedProps().position as string);
-      this.arrowStyle = arrowStyle || {};
-  
-      return {
-        ...style,
-        ...this.getTransformOrigin(this.realPosition),
-      };
-    };
+  // 下拉框存在初始translateY/translateX，需要根据真实的弹出位置确定
+  getTransformTranslate = () => {
+    if (this.getMergedProps().classNames !== 'slideDynamicOrigin') {
+      return ''
+    }
+    switch (this.realPosition) {
+      case 'bottom':
+      case 'bl':
+      case 'br':
+        return 'scaleY(0.9) translateY(-4px)'
+      case 'top':
+      case 'tl':
+      case 'tr':
+        return 'scaleY(0.9) translateY(4px)'
+      default:
+        return ''
+    }
+  }
 
-    showPopup = (callback: () => void = () => {}) => {
-      const popupStyle = this.getPopupStyle();
-  
-      this.setState(
-        {
-          popupStyle,
-        },
-        callback
-      );
-    };
-  
-    update = throttleByRaf((callback) => {
-      if (this.unmount || !this.state.popupVisible) {
-        return;
+  getPopupStyle = (): any => {
+    if (this.unmount || !this.popupContainer) {
+      return
+    }
+    const mountContainer = this.popupContainer as Element
+    const content = findDOMNode(this.triggerRef) as HTMLElement
+    const child: HTMLElement = findDOMNode(this) as HTMLElement
+    const { style, arrowStyle, realPosition } = getStyle(
+      this.getMergedProps(),
+      content,
+      child,
+      mountContainer,
+      this.mouseLocation
+    )
+    this.realPosition =
+      realPosition || (this.getMergedProps().position as string)
+    this.arrowStyle = arrowStyle || {}
+
+    return {
+      ...style,
+      ...this.getTransformOrigin(this.realPosition),
+    }
+  }
+
+  showPopup = (callback: () => void = () => {}) => {
+    const popupStyle = this.getPopupStyle()
+
+    this.setState(
+      {
+        popupStyle,
+      },
+      callback
+    )
+  }
+
+  update = throttleByRaf(callback => {
+    if (this.unmount || !this.state.popupVisible) {
+      return
+    }
+    const popupStyle = this.getPopupStyle()
+
+    this.setState(
+      {
+        popupStyle,
+      },
+      () => {
+        callback && callback()
       }
-      const popupStyle = this.getPopupStyle();
-  
+    )
+  })
+
+  updatePopupPosition = (delay = 0, callback?: () => void) => {
+    const currentVisible = this.state.popupVisible
+    if (!currentVisible) {
+      return
+    }
+    if (delay < 4) {
+      this.updatePositionTimer = this.update(callback)
+      return
+    }
+    this.updatePositionTimer = setTimeout(() => {
+      const popupStyle = this.getPopupStyle()
+
       this.setState(
         {
           popupStyle,
         },
         () => {
-          callback && callback();
+          callback && callback()
         }
-      );
-    });
-  
-    updatePopupPosition = (delay = 0, callback?: () => void) => {
-      const currentVisible = this.state.popupVisible;
-      if (!currentVisible) {
-        return;
-      }
-      if (delay < 4) {
-        this.updatePositionTimer = this.update(callback);
-        return;
-      }
-      this.updatePositionTimer = setTimeout(() => {
-        const popupStyle = this.getPopupStyle();
-  
-        this.setState(
-          {
-            popupStyle,
-          },
-          () => {
-            callback && callback();
-          }
-        );
-      }, delay);
-    };
-  
-    setPopupVisible = (visible: boolean, delay = 0, callback?: () => void) => {
-      const mergedProps = this.getMergedProps();
-      const { onVisibleChange } = mergedProps;
-      const currentVisible = this.state.popupVisible;
-  
-      if (visible !== currentVisible) {
-        this.delayToDo(delay, () => {
-          onVisibleChange && onVisibleChange(visible);
-          if (!('popupVisible' in mergedProps)) {
-            if (visible) {
-              this.setState(
-                {
-                  popupVisible: true,
-                },
-                () => {
-                  this.showPopup(callback);
-                }
-              );
-            } else {
-              this.setState(
-                {
-                  popupVisible: false,
-                },
-                () => {
-                  callback && callback();
-                }
-              );
-            }
+      )
+    }, delay)
+  }
+
+  setPopupVisible = (visible: boolean, delay = 0, callback?: () => void) => {
+    const mergedProps = this.getMergedProps()
+    const { onVisibleChange } = mergedProps
+    const currentVisible = this.state.popupVisible
+
+    if (visible !== currentVisible) {
+      this.delayToDo(delay, () => {
+        onVisibleChange && onVisibleChange(visible)
+        if (!('popupVisible' in mergedProps)) {
+          if (visible) {
+            this.setState(
+              {
+                popupVisible: true,
+              },
+              () => {
+                this.showPopup(callback)
+              }
+            )
           } else {
-            callback && callback();
+            this.setState(
+              {
+                popupVisible: false,
+              },
+              () => {
+                callback && callback()
+              }
+            )
           }
-        });
-      } else {
-        callback && callback();
-      }
-    };
-
-    delayToDo = (delay: number, callback: () => void) => {
-      if (delay) {
-        this.clearDelayTimer();
-        this.delayTimer = setTimeout(() => {
-          callback();
-          this.clearDelayTimer();
-        }, delay);
-      } else {
-        callback();
-      }
-    };
-  
-    clearDelayTimer() {
-      if (this.delayTimer) {
-        clearTimeout(this.delayTimer);
-        this.delayTimer = null;
-      }
+        } else {
+          callback && callback()
+        }
+      })
+    } else {
+      callback && callback()
     }
+  }
 
-      // 点击非popup内部，非children内部的节点，触发clickoutside 逻辑
+  delayToDo = (delay: number, callback: () => void) => {
+    if (delay) {
+      this.clearDelayTimer()
+      this.delayTimer = setTimeout(() => {
+        callback()
+        this.clearDelayTimer()
+      }, delay)
+    } else {
+      callback()
+    }
+  }
+
+  clearDelayTimer() {
+    if (this.delayTimer) {
+      clearTimeout(this.delayTimer)
+      this.delayTimer = null
+    }
+  }
+
+  // 点击非popup内部，非children内部的节点，触发clickoutside 逻辑
   onClickOutside = (e: any) => {
-    const { onClickOutside, clickOutsideToClose } = this.getMergedProps();
-    const triggerNode = findDOMNode(this.triggerRef);
-    const childrenDom = findDOMNode(this);
+    const { onClickOutside, clickOutsideToClose } = this.getMergedProps()
+    const triggerNode = findDOMNode(this.triggerRef)
+    const childrenDom = findDOMNode(this)
 
     if (
       !contains(triggerNode, e.target) &&
       !contains(childrenDom, e.target) &&
       !this.hasPopupMouseDown
     ) {
-      onClickOutside && onClickOutside();
+      onClickOutside && onClickOutside()
       if (clickOutsideToClose) {
         // 以下判断条件避免onVisibleChange触发两次
         // blurToHide 为true时不需要执行，因为onBlur里会执行setPopupVisible
         // hover 触发方式，不执行以下逻辑。因为mouseLeave里会执行setPopupVisible
         if (!this.isBlurToHide() && !this.isHoverTrigger()) {
-          this.setPopupVisible(false);
+          this.setPopupVisible(false)
         }
       }
     }
-  };
+  }
 
   onKeyDown = (e: any) => {
     const keyCode = e.keyCode || e.which
