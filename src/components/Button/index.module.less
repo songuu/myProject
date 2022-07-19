@@ -109,7 +109,7 @@
     height: ~'@{size-@{size}}';
     padding: 0;
     text-align: center;
-    border-radius: @radius-circle;
+    border-radius: 50%;
   }
 
   .@{btn-prefix-cls}-size-@{size}.@{btn-prefix-cls}-shape-round {
@@ -281,23 +281,23 @@
   }
 
   .@{btn-prefix-cls}-primary:not(:last-child) {
-    border-right: 1px solid #4080ff;
+    border-right: 1px solid @btn-primary-color-bg_hover;
   }
 
   .@{btn-prefix-cls}-secondary:not(:last-child) {
-    border-right: 1px solid rgb(22, 93, 255);
+    border-right: 1px solid @btn-secondary-color-bg_hover;
   }
 
   .@{btn-prefix-cls}-status-warning:not(:last-child) {
-    border-right: 1px solid rgb(255, 154, 46);
+    border-right: 1px solid @btn-primary-color-bg_warning_hover;
   }
 
   .@{btn-prefix-cls}-status-danger:not(:last-child) {
-    border-right: 1px solid rgb(247, 101, 96);
+    border-right: 1px solid @btn-primary-color-bg_danger_hover;
   }
 
   .@{btn-prefix-cls}-status-success:not(:last-child) {
-    border-right: 1px solid rgb(35, 195, 67);
+    border-right: 1px solid @btn-primary-color-bg_success_hover;
   }
 
   .@{btn-prefix-cls}-rtl.@{btn-prefix-cls}-outline:not(:first-child),
@@ -307,27 +307,27 @@
   }
 
   .@{btn-prefix-cls}-rtl.@{btn-prefix-cls}-primary:not(:last-child) {
-    border-left: 1px solid #4080ff;
+    border-left: 1px solid @btn-primary-color-bg_hover;
     border-right: 0;
   }
 
   .@{btn-prefix-cls}-rtl.@{btn-prefix-cls}-secondary:not(:last-child) {
-    border-left: 1px solid rgb(22, 93, 255);
+    border-left: 1px solid @btn-secondary-color-bg_hover;
     border-right: 0;
   }
 
   .@{btn-prefix-cls}-rtl.@{btn-prefix-cls}-status-warning:not(:last-child) {
-    border-left: 1px solid rgb(255, 154, 46);
+    border-left: 1px solid @btn-primary-color-bg_warning_hover;
     border-right: 0;
   }
 
   .@{btn-prefix-cls}-rtl.@{btn-prefix-cls}-status-danger:not(:last-child) {
-    border-left: 1px solid rgb(247, 101, 96);
+    border-left: 1px solid @btn-primary-color-bg_danger_hover;
     border-right: 0;
   }
 
   .@{btn-prefix-cls}-rtl.@{btn-prefix-cls}-status-success:not(:last-child) {
-    border-left: 1px solid rgb(35, 195, 67);
+    border-left: 1px solid @btn-primary-color-bg_success_hover;
     border-right: 0;
   }
 
@@ -346,12 +346,4 @@
 
 .@{btn-prefix-cls}-rtl {
   direction: rtl;
-}
-
-@{arco-theme-tag} {
-  &[arco-theme='dark'] {
-    .@{btn-prefix-cls}-primary.@{btn-prefix-cls}-disabled {
-      color: rgba(255, 255, 255, 30%);
-    }
-  }
 }

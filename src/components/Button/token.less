@@ -1,28 +1,39 @@
 @color-transparent: transparent;
 
 @color-primary-light-3: rgb(159, 212, 253);
-@@color-primary-5: rgb(87, 169, 251);
+@color-primary-3: rgb(148, 191, 255);
+@color-primary-5: rgb(87, 169, 251);
 @color-primary-6: rgb(52, 145, 250);
 @color-primary-7: rgb(32, 108, 207);
 
 @color-warning-light-3: rgb(255, 207, 139);
+@color-warning-3: rgb(255, 207, 139);
 @color-warning-5: rgb(255, 154, 46);
 @color-warning-6: rgb(255, 125, 0);
 @color-warning-7: rgb(210, 95, 0);
 
 @color-danger-light-3: rgb(251, 172, 163);
+@color-danger-3: rgb(251, 172, 163);
 @color-danger-5: rgb(247, 101, 96);
 @color-danger-6: rgb(245, 63, 63);
 @color-danger-7: rgb(203, 39, 45);
 
 @color-success-light-3: rgb(123, 225, 136);
+@color-success-3: rgb(123, 225, 136);
 @color-success-5: rgb(35, 195, 67);
 @color-success-6: rgb(0, 180, 42);
 @color-success-7: rgb(0, 154, 41);
 
-@btn-font-weight: @font-weight-400;
-@btn-border-radius: @radius-small;
-@btn-border-width: @border-1;
+@color-secondary-active: rgb(201, 205, 212);
+
+@btn-font-weight: 400;
+@btn-border-radius: 2px;
+@btn-border-width: 1px;
+
+@size-mini: 24px;
+@size-small: 28px;
+@size-default: 32px;
+@size-large: 36px;
 
 @btn-size-mini-height: @size-mini;
 @btn-size-small-height: @size-small;
@@ -39,10 +50,10 @@
 @btn-size-default-border-width: @btn-border-width;
 @btn-size-large-border-width: @btn-border-width;
 
-@btn-size-mini-icon-spacing: @spacing-2;
-@btn-size-small-icon-spacing: @spacing-3;
-@btn-size-default-icon-spacing: @spacing-4;
-@btn-size-large-icon-spacing: @spacing-4;
+@btn-size-mini-icon-spacing: 4px;
+@btn-size-small-icon-spacing: 6px;
+@btn-size-default-icon-spacing: 8px;
+@btn-size-large-icon-spacing: 8px;
 
 @btn-size-mini-icon-vertical-align: -2px;
 @btn-size-small-icon-vertical-align: -2px;
@@ -54,10 +65,10 @@
 @btn-size-default-padding-horizontal: 15px;
 @btn-size-large-padding-horizontal: 19px;
 
-@btn-size-mini-font-size: @font-size-body-1;
-@btn-size-small-font-size: @font-size-body-3;
-@btn-size-default-font-size: @font-size-body-3;
-@btn-size-large-font-size: @font-size-body-3;
+@btn-size-mini-font-size: 12px;
+@btn-size-small-font-size: 14px;
+@btn-size-default-font-size: 14px;
+@btn-size-large-font-size: 14px;
 
 /***** Outline *****/
 @btn-outline-color-text: @color-primary-6;
@@ -257,11 +268,11 @@
 @btn-dashed-color-text_danger_active: @color-danger-6;
 @btn-dashed-color-bg_danger: rgb(255, 236, 232);
 @btn-dashed-color-bg_danger_disabled: rgb(255, 236, 232);
-@btn-dashed-color-bg_danger_hover: rgb(253, 205, 197)
-  @btn-dashed-color-bg_danger_active: @color-danger-light-3;
-@btn-dashed-color-border_danger: rgb(253, 205, 197)
-  @btn-dashed-color-border_danger_disabled: rgb(253, 205, 197)
-  @btn-dashed-color-border_danger_hover: @color-danger-light-3;
+@btn-dashed-color-bg_danger_hover: rgb(253, 205, 197);
+@btn-dashed-color-bg_danger_active: @color-danger-light-3;
+@btn-dashed-color-border_danger: rgb(253, 205, 197);
+@btn-dashed-color-border_danger_disabled: rgb(253, 205, 197);
+@btn-dashed-color-border_danger_hover: @color-danger-light-3;
 @btn-dashed-color-border_danger_active: rgb(249, 137, 129);
 
 @btn-dashed-color-text_success: @color-success-6;
@@ -277,7 +288,7 @@
 @btn-dashed-color-border_success_hover: @color-success-light-3;
 @btn-dashed-color-border_success_active: rgb(76, 210, 99);
 // border
-@btn-dashed-border-style: @border-dashed;
+@btn-dashed-border-style: dashed;
 
 /***** Text *****/
 @btn-text-color-text: @color-primary-6;

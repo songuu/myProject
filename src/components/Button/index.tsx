@@ -56,7 +56,7 @@ const Button = (baseProps: ButtonProps, ref) => {
     htmlType,
     type,
     status,
-    size,
+    size = 'default',
     shape,
     href,
     anchorProps,
