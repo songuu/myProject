@@ -1,0 +1,35 @@
+@popconfirm-prefix-cls: ~'popconfirm';
+
+.@{popconfirm-prefix-cls} {
+  &-wrapper {
+  }
+
+  &-title {
+    position: relative;
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #1d2129;
+    display: flex;
+    align-items: flex-start;
+
+    &-icon {
+      font-size: 18px;
+      margin-right: 8px;
+      display: inline-flex;
+      align-items: center;
+      height: 1.5715 * 14px;
+
+      .icon-exclamation-circle-fill {
+        color: #ff7d00;
+      }
+    }
+  }
+
+  &-btn {
+    text-align: right;
+
+    > button {
+      margin-left: 8px;
+    }
+  }
+}

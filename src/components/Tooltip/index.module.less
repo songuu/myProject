@@ -29,3 +29,32 @@
 :global(.tooltip-arrow) {
   background-color: rgb(29, 33, 41);
 }
+
+.popconfirm-tooltip{
+  &-content {
+    color: rgb(78, 89, 105);
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 10%);
+    max-width: none;
+    width: 100%;
+    font-size: 14px;
+    border-radius: 4px;
+    line-height: 1.5715;
+    box-sizing: border-box;
+    border: 1px solid rgb(229, 230, 235);
+    padding: 16px;
+
+    &-inner {
+      word-wrap: break-word;
+      text-align: left;
+    }
+  }
+
+  .popconfirm-btn {
+    text-align: right;
+
+    > button {
+      margin-left: 8px;
+    }
+  }
+}

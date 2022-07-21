@@ -13,6 +13,7 @@ import Spin from './Spin'
 import Skeleton from './Skeleton'
 import Tooltip from './Tooltip'
 import Button from './Button'
+import Popconfirm from './Popconfirm'
 
 export {
   AppLoading,
@@ -29,5 +30,6 @@ export {
   Spin,
   Skeleton,
   Tooltip,
-  Button
+  Button,
+  Popconfirm
 }
