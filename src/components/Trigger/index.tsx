@@ -979,11 +979,13 @@ class Trigger extends PureComponent<TriggerProps, TriggerState> {
     if (child.props.className) {
       mergeProps.className = child.props.className
     }
+
     if (childrenPrefix && popupVisible) {
       mergeProps.className = mergeProps.className
-        ? `${styles[mergeProps.className]} ${styles[`${childrenPrefix}-open`]}}`
-        : styles[`${childrenPrefix}-open`]
+        ? `${mergeProps.className} ${childrenPrefix}-open`
+        : `${childrenPrefix}-open`
     }
+
     // 只有在focus触发时，设置tabIndex，点击tab键，能触发focus事件，展示弹出框
     if (this.isFocusTrigger()) {
       mergeProps.tabIndex = disabled ? -1 : 0
@@ -1075,10 +1077,6 @@ class Trigger extends PureComponent<TriggerProps, TriggerState> {
                 className={classnames(
                   `${prefixCls}-arrow-container`,
                   {
-                    [styles[`${childrenPrefix}-arrow-container`]]:
-                      childrenPrefix,
-                  },
-                  {
                     [`${childrenPrefix}-arrow-container`]: childrenPrefix,
                   }
                 )}
@@ -1088,9 +1086,6 @@ class Trigger extends PureComponent<TriggerProps, TriggerState> {
                   className={classnames(
                     `${prefixCls}-arrow`,
                     styles[`${prefixCls}-arrow`],
-                    {
-                      [styles[`${childrenPrefix}-arrow`]]: childrenPrefix,
-                    },
                     {
                       [`${childrenPrefix}-arrow`]: childrenPrefix,
                     },

@@ -30,7 +30,7 @@
   background-color: rgb(29, 33, 41);
 }
 
-.popconfirm-tooltip{
+.popconfirm-tooltip {
   &-content {
     color: rgb(78, 89, 105);
     background-color: #fff;
@@ -57,4 +57,30 @@
       margin-left: 8px;
     }
   }
+}
+
+.popover-tooltip {
+  &-content {
+    color: rgb(78, 89, 105);
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: none;
+    width: 100%;
+    font-size: 14px;
+    border-radius: 4px;
+    line-height: 1.5715;
+    box-sizing: border-box;
+    border: 1px solid rgb(229, 230, 235);
+
+    &-inner {
+      word-wrap: break-word;
+      text-align: left;
+    }
+  }
+}
+
+:global(.trigger-arrow) {
+  background-color: #fff;
+  border: 1px solid rgb(229, 230, 235);
+  z-index: 1;
 }

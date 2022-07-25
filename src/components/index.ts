@@ -14,6 +14,7 @@ import Skeleton from './Skeleton'
 import Tooltip from './Tooltip'
 import Button from './Button'
 import Popconfirm from './Popconfirm'
+import Popover from './Popover'
 
 export {
   AppLoading,
@@ -31,5 +32,6 @@ export {
   Skeleton,
   Tooltip,
   Button,
-  Popconfirm
+  Popconfirm,
+  Popover,
 }

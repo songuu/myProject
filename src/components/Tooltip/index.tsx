@@ -111,8 +111,6 @@ function Tooltip(baseProps: PropsWithChildren<TooltipProps>, ref) {
     }
   }
 
-  console.log("321312", `${prefixCls}-content`)
-
   return (
     <Trigger
       style={{

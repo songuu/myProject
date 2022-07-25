@@ -1,0 +1,17 @@
+@popover-prefix-cls: ~'popover';
+
+.@{popover-prefix-cls} {
+  &-inner {
+    padding: 12px 16px;
+  }
+
+  &-title {
+    font-size: 16px;
+    color: rgb(29, 33, 41);
+    font-weight: 500;
+  }
+
+  &-title + &-inner-content {
+    margin-top: 4px;
+  }
+}
