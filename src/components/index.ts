@@ -15,6 +15,8 @@ import Tooltip from './Tooltip'
 import Button from './Button'
 import Popconfirm from './Popconfirm'
 import Popover from './Popover'
+import Portal from './Portal'
+import Drawer from './Drawer'
 
 export {
   AppLoading,
@@ -34,4 +36,6 @@ export {
   Button,
   Popconfirm,
   Popover,
+  Portal,
+  Drawer,
 }

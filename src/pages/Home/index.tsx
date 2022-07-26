@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import {
   Skeleton,
@@ -8,9 +8,11 @@ import {
   Popconfirm,
   Message,
   Popover,
+  Drawer,
 } from '@components/index'
 
 function Home() {
+  const [visible, setVisible] = useState(false)
   // return <Tooltip content="123123" trigger='hover' color="#1880ff"><button>点击一下</button></Tooltip>
   // return <Skeleton animation></Skeleton>
   // return <Button type="primary">点击一下</Button>
@@ -31,7 +33,7 @@ function Home() {
       <Button>Delete</Button>
     </Popconfirm>
   ) */
-  return (
+  /* return (
     <Popover
       popupVisible={true}
       title="123"
@@ -44,6 +46,32 @@ function Home() {
     >
       312
     </Popover>
+  ) */
+  return (
+    <>
+      <Button
+        onClick={() => {
+          setVisible(true)
+        }}
+      >
+        点击
+      </Button>
+      <Drawer
+        width={332}
+        title={<span>标题</span>}
+        visible={visible}
+        onOk={() => {
+          setVisible(false)
+        }}
+        onCancel={() => {
+          setVisible(false)
+        }}
+      >
+        <div>Here is an example text.</div>
+
+        <div>Here is an example text.</div>
+      </Drawer>
+    </>
   )
 }
 
