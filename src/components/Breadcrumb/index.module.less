@@ -1,0 +1,80 @@
+@breadcrumb-prefix-cls: ~'breadcrumb';
+
+.@{breadcrumb-prefix-cls} {
+  display: inline-block;
+  font-size: 14px;
+  color: rgb(78, 89, 105);
+
+  &-icon {
+    color: rgb(78, 89, 105);
+  }
+
+  &-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 4px;
+    vertical-align: middle;
+    line-height: 24px;
+    color: rgb(78, 89, 105);
+
+    > icon {
+      color: rgb(134, 144, 156);
+    }
+
+    a {
+      display: inline-block;
+      border-radius: 2px;
+      padding: 0 4px;
+      margin: 0 -4px;
+      text-decoration: none;
+      color: rgb(78, 89, 105);
+      background-color: rgb(242, 243, 245);
+
+      &:hover {
+        background-color: rgb(242, 243, 245);
+        color: rgb(22, 93, 255);
+      }
+    }
+
+    &:last-child {
+      color: rgb(29, 33, 41);
+      font-weight: 500;
+    }
+
+    &-ellipses {
+      display: inline-block;
+      position: relative;
+      top: -3px;
+      padding: 0 4px;
+      color: rgb(78, 89, 105);
+    }
+
+    &-separator {
+      display: inline-block;
+      margin: 0 4px;
+      vertical-align: middle;
+      line-height: 24px;
+      color: rgb(201, 205, 212);
+
+      svg {
+        width: 12px;
+        height: 12px;
+        // fill: rgb(201, 205, 212);
+      }
+    }
+
+    &-with-dropdown {
+      cursor: pointer;
+    }
+
+    &-dropdown-icon {
+      font-size: 12px;
+      margin-left: 4px;
+      color: rgb(78, 89, 105);
+
+      &-active svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

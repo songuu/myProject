@@ -9,7 +9,10 @@ import {
   Message,
   Popover,
   Drawer,
+  Breadcrumb,
 } from '@components/index'
+
+const BreadcrumbItem = Breadcrumb.Item
 
 function Home() {
   const [visible, setVisible] = useState(false)
@@ -47,7 +50,7 @@ function Home() {
       312
     </Popover>
   ) */
-  return (
+  /* return (
     <>
       <Button
         onClick={() => {
@@ -72,6 +75,12 @@ function Home() {
         <div>Here is an example text.</div>
       </Drawer>
     </>
+  ) */
+  return (
+    <Breadcrumb>
+      <BreadcrumbItem>Home1</BreadcrumbItem>
+      <BreadcrumbItem>Home2</BreadcrumbItem>
+    </Breadcrumb>
   )
 }
 
