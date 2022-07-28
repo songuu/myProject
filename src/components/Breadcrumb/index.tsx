@@ -90,35 +90,17 @@ const Breadcrumb = (baseProps: PropsWithChildren<BreadcrumbProps>, ref) => {
     const paths = []
     const delta = routes.length - maxCount
 
-    return 1232
-
-    /* return routes.map((route, index) => {
+    return routes.map((route, index) => {
       paths.push((route.path || '').replace(/^\//, ''))
 
-      const droplist = route.children ? (
-        <Menu>
-          {route.children.map(item => {
-            return (
-              <Menu.Item key={item.path || item.breadcrumbName}>
-                {itemRender(item, routes, paths)}
-              </Menu.Item>
-            )
-          })}
-        </Menu>
-      ) : null
-
       return getValidChild(
-        <Item
-          prefixCls={prefixCls}
-          key={route.path || route.breadcrumbName}
-          droplist={droplist}
-        >
+        <Item prefixCls={prefixCls} key={route.path || route.breadcrumbName}>
           {itemRender(route, routes, paths)}
         </Item>,
         delta,
         index
       )
-    }) */
+    })
   }
 
   const getItemsByChildren = () => {
@@ -136,7 +118,7 @@ const Breadcrumb = (baseProps: PropsWithChildren<BreadcrumbProps>, ref) => {
       )
     })
   }
-
+  
   return (
     <div
       role="list"

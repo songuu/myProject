@@ -54,7 +54,7 @@ export interface BreadCrumbItemProps extends CustomHTMLElement {
    * @zh 下拉菜单的内容，等同于下拉菜单组件的 droplist 属性
    * @en The dropdown menu
    */
-//   droplist?: DropdownProps['droplist']
+  // droplist?: DropdownProps['droplist']
   /**
    * @zh 下拉菜单的属性 [DropdownProps](/react/components/dropdown)
    * @en The dropdown props [DropdownProps](/react/components/dropdown)

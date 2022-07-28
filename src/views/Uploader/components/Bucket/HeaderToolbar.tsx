@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 
 import { Layout } from '@mytypes/common'
 
-import { SvgIcon, ButtonIcon } from '@components/index'
+import { SvgIcon, ButtonIcon, Breadcrumb } from '@components/index'
 
 import styles from './index.module.less'
 
@@ -32,7 +32,12 @@ const HeaderToolbar: React.FC<PropTypes> = ({
         <ButtonIcon onclick={onRefreshBucket}>
           <SvgIcon iconName="reload" iconClass={styles['svg-icon']} />
         </ButtonIcon>
-        <div className={styles.breadcrumb}>
+        <Breadcrumb separator=">">
+          {myNavigators().map((item, index) => {
+            return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+          })}
+        </Breadcrumb>
+        {/* <div className={styles.breadcrumb}>
           {myNavigators().map((item, index) => {
             return (
               <div className={styles['breadcrumb_item']} key={item}>
@@ -42,7 +47,7 @@ const HeaderToolbar: React.FC<PropTypes> = ({
               </div>
             )
           })}
-        </div>
+        </div> */}
       </div>
       <div className={styles['toolbar-right']}>搜索</div>
     </div>

@@ -14,6 +14,21 @@ import {
 
 const BreadcrumbItem = Breadcrumb.Item
 
+const routers = [
+  {
+    path: '/',
+    breadcrumbName: '首页',
+  },
+  {
+    path: '/#',
+    breadcrumbName: '首页',
+  },
+  {
+    path: '/#',
+    breadcrumbName: '首页1',
+  },
+]
+
 function Home() {
   const [visible, setVisible] = useState(false)
   // return <Tooltip content="123123" trigger='hover' color="#1880ff"><button>点击一下</button></Tooltip>
@@ -77,9 +92,9 @@ function Home() {
     </>
   ) */
   return (
-    <Breadcrumb>
-      <BreadcrumbItem>Home1</BreadcrumbItem>
-      <BreadcrumbItem>Home2</BreadcrumbItem>
+    <Breadcrumb routes={routers}>
+      {/* <BreadcrumbItem>Home1</BreadcrumbItem>
+      <BreadcrumbItem>Home2</BreadcrumbItem> */}
     </Breadcrumb>
   )
 }
