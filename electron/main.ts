@@ -65,6 +65,17 @@ function createWindow() {
   mainWindow.webContents.openDevTools()
 }
 
+function createTasks() {
+  app.setUserTasks([{
+    program: process.execPath,
+    arguments: "--new-tab",
+    iconPath: Icon,
+    iconIndex: 0,
+    title: "新窗口",
+    description: "打开新窗口"
+  }]);
+}
+
 function registerListeners() {
   log('registerListeners')
   ipcMain.on('message', (_, message) => {
@@ -136,6 +147,8 @@ app.commandLine.appendSwitch('ignore-gpu-blacklist') // 忽略gpu黑名单
 app
   .on('ready', async () => {
     createWindow()
+
+    createTasks()
 
     logger.info('初始化成功')
 
