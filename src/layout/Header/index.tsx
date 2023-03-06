@@ -53,6 +53,12 @@ const Header: React.FC<IBaseHeaderProps> = () => {
         >
           我的
         </NavLink>
+        <NavLink
+          style={status => ({ color: status.isActive ? '#335eea' : '#000' })}
+          to="/main_window/chat"
+        >
+          chatGpt
+        </NavLink>
       </div>
       <div className={styles['header-right']}>
         <div className={styles['header-right-search']}>

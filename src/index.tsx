@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react'
+import React, { StrictMode, useState, useTransition } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -17,6 +17,25 @@ try {
 const rootElement = document.getElementById('root')
 
 const root = createRoot(rootElement as Element)
+
+/* const App = () => {
+  const [count, updateCount] = useState(0)
+  const [isPending, startTransition] = useTransition()
+
+  const onClick = () => {
+    // 使用了并发特性useTransition
+    startTransition(() => {
+      // 本次更新是并发更新
+      updateCount(count => count + 1)
+    })
+  }
+  return (
+    <>
+      {isPending ? 'loading' : '111'}
+      <h3 onClick={onClick}>{count}</h3>
+    </>
+  )
+} */
 
 root.render(
   <Provider store={store}>
