@@ -17,6 +17,14 @@ export type UPDATE_SHORTCUT_TYPE = typeof UPDATE_SHORTCUT
 export const SHOW_LOGIN = 'SHOW_LOGIN'
 export type SHOW_LOGIN_TYPE = typeof SHOW_LOGIN
 
+// * chat
+export const SET_CHAT_HISTORY = 'SET_CHAT_HISTORY'
+export type SET_CHAT_HISTORY_TYPE = typeof SET_CHAT_HISTORY
+export const UPDATE_CHAT_HISTORY = 'UPDATE_CHAT_HISTORY'
+export type UPDATE_CHAT_HISTORY_TYPE = typeof UPDATE_CHAT_HISTORY
+export const DELETE_CHAT_HISTORY = 'DELETE_CHAT_HISTORY'
+export type DELETE_CHAT_HISTORY_TYPE = typeof DELETE_CHAT_HISTORY
+
 export type ShortcutType = {
   id: string
   name: string
@@ -29,5 +37,11 @@ export type UpdatecutType = {
   type: string
   shortcut: string
 }
+
+export type ChatHistoryType = {}
+
+export type UpdateHistoryType = {}
+
+export type DeleteHistoryType = {}
 
 export enum Types {}

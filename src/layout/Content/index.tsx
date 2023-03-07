@@ -13,13 +13,13 @@ const Home = lazy(() => import('@pages/Home'))
 const Explore = lazy(() => import('@pages/Explore'))
 const Library = lazy(() => import('@pages/Library'))
 const Setting = lazy(() => import('@pages/Setting'))
-const Chat = lazy(() => import('@pages/Chat'))
+const Chat = lazy(() => import('@root/pages/Chat'))
 
 interface IBaseContentProps {}
 
 const Content: React.FC<IBaseContentProps> = () => {
   const location = useLocation()
-  
+
   return (
     <div className={styles.content_outer}>
       <Suspense fallback={<PageLoading />}>
