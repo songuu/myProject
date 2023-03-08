@@ -12,7 +12,7 @@ import { setShowLogin } from './app'
 
 import { updateApplycation } from './application'
 
-import { addChatHistory, updateChatHistory, deleteChatHistory } from './chat'
+import { setChatHistory, updateChatHistory, deleteChatHistory, setChatSetting } from './chat'
 
 /** 自定义通用同步Action */
 export interface CommonAction<T = any> {
@@ -46,7 +46,8 @@ export {
   updateShortcut,
   setShowLogin,
   updateApplycation,
-  addChatHistory,
+  setChatHistory,
   updateChatHistory,
   deleteChatHistory,
+  setChatSetting
 }

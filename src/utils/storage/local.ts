@@ -1,4 +1,4 @@
-import { deCrypto, enCrypto } from '../crypto'
+import { deCrypto, enCrypto } from '../../components/crypto'
 
 interface StorageData<T = any> {
   data: T

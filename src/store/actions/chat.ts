@@ -1,7 +1,8 @@
 import * as types from '../action-types'
 
 export interface AddChatHistoryAction {
-  type: types.SET_CHAT_HISTORY_TYPE
+  type: types.SET_CHAT_HISTORY_TYPE,
+  payload: types.ChatHistoryType[]
 }
 
 export interface UpdateChatHistoryAction {
@@ -14,8 +15,16 @@ export interface DeleteChatHistoryAction {
   payload: types.DeleteHistoryType
 }
 
-export const addChatHistory = (): AddChatHistoryAction => ({
+export interface SetChatSettingAction {
+  type: types.SET_CHAT_SETTING_TYPE,
+  payload: types.ChatSettingType
+}
+
+export const setChatHistory = (
+  payload: types.ChatHistoryType[]
+): AddChatHistoryAction => ({
   type: types.SET_CHAT_HISTORY,
+  payload,
 })
 
 export const updateChatHistory = (
@@ -32,7 +41,15 @@ export const deleteChatHistory = (
   payload,
 })
 
+export const setChatSetting = (
+  payload: types.ChatSettingType
+): SetChatSettingAction => ({
+  type: types.SET_CHAT_SETTING,
+  payload,
+})
+
 export type SettingsActions =
   | AddChatHistoryAction
   | UpdateChatHistoryAction
   | DeleteChatHistoryAction
+  | SetChatSettingAction

@@ -4,11 +4,12 @@ import Button from '@components/Button'
 
 interface ITxtExporterProps {
   data: any
+  keys: string[]
 }
 
-function TxtExporter({ data }: ITxtExporterProps) {
+function TxtExporter({ data, keys }: ITxtExporterProps) {
   const handleExport = () => {
-    const text = data.map(item => `${item.name}\t${item.age}`).join('\n')
+    const text = data.map(item => keys.map(key => `${item[key]}`)).join('\n')
 
     const filename = 'data.txt'
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })

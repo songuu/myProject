@@ -24,6 +24,8 @@ export const UPDATE_CHAT_HISTORY = 'UPDATE_CHAT_HISTORY'
 export type UPDATE_CHAT_HISTORY_TYPE = typeof UPDATE_CHAT_HISTORY
 export const DELETE_CHAT_HISTORY = 'DELETE_CHAT_HISTORY'
 export type DELETE_CHAT_HISTORY_TYPE = typeof DELETE_CHAT_HISTORY
+export const SET_CHAT_SETTING = 'SET_CHAT_SETTING'
+export type SET_CHAT_SETTING_TYPE = typeof SET_CHAT_SETTING
 
 export type ShortcutType = {
   id: string
@@ -38,10 +40,15 @@ export type UpdatecutType = {
   shortcut: string
 }
 
+export type ChatSettingType = {
+  apiKey: string,
+  apiURL: string,
+}
+
 export type ChatHistoryType = {}
 
 export type UpdateHistoryType = {}
 
 export type DeleteHistoryType = {}
 
-export enum Types {}
+export enum Types { }

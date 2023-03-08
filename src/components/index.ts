@@ -39,5 +39,5 @@ export {
   Popover,
   Portal,
   Drawer,
-  Breadcrumb,
+  Breadcrumb
 }

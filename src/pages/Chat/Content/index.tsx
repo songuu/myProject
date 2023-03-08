@@ -1,16 +1,22 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import axios from 'axios'
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
-import { updateChatHistory } from '@root/store/actions'
+import { setChatHistory } from '@root/store/actions'
+
+import { Button } from 'baseui/button'
 
 import styles from './index.module.less'
+
+const defaultApiUrl = 'https://api.openai.com'
 
 const ChatBot = () => {
   const dispatch = useAppDispatch()
 
+  const chatSetting = useAppSelector(state => state.chat.chatSetting)
+
   const [inputValue, setInputValue] = useState('')
-  const [chatHistory, setChatHistory] = useState<any>([])
+  const [chatHistorys, setChatHistorys] = useState<any>([])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
@@ -25,12 +31,12 @@ const ChatBot = () => {
 
   const handleSubmit = async () => {
     if (inputValue === '') return
-    setChatHistory([...chatHistory, { message: inputValue, isBot: false }])
+    setChatHistorys([...chatHistorys, { message: inputValue, isBot: false }])
 
     setInputValue('')
     // https://platform.openai.com/account/api-keys
     const response = await axios.post(
-      'https://api.openai.com/v1/completions',
+      `${chatSetting.apiURL || defaultApiUrl}/v1/completions`,
       {
         prompt: `Q: ${inputValue}\nA:`,
         model: 'text-davinci-003',
@@ -45,25 +51,29 @@ const ChatBot = () => {
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer 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`,
+          Authorization: `Bearer ${chatSetting.apiKey}`,
         },
       }
     )
 
     const ll = [
-      ...chatHistory,
+      ...chatHistorys,
       { message: inputValue, isBot: false },
       { message: response.data.choices[0].text.trim(), isBot: true },
     ]
 
-    dispatch(updateChatHistory(ll))
-    setChatHistory(ll)
+    dispatch(setChatHistory(ll))
+    setChatHistorys(ll)
   }
+
+  const idAllow = useMemo(() => {
+    return !!chatSetting.apiKey
+  }, [chatSetting])
 
   return (
     <div className={styles['chat-bot-container']}>
       <div className={styles['chat-bot-messages']}>
-        {chatHistory.map((chat, index) => (
+        {chatHistorys.map((chat, index) => (
           <div
             key={index}
             className={`${styles['message-container']} ${
@@ -91,7 +101,9 @@ const ChatBot = () => {
           onChange={handleChange}
           onKeyDown={handleInputKeyDown}
         />
-        <button type="submit">发送</button>
+        <Button disabled={!idAllow} size="compact">
+          发送
+        </Button>
       </form>
     </div>
   )
