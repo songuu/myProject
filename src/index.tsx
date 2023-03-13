@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import store from './store'
 import App from './App'
 import '@styles/index.less'
+import '@styles/tailwind.css'
 
 const importAll = (requireContext: __WebpackModuleApi.RequireContext) =>
   requireContext.keys().forEach(requireContext)

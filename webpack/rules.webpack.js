@@ -68,7 +68,7 @@ module.exports = [
         loader: 'svg-sprite-loader',
       },
       {
-        loader: 'svgo-loader'
+        loader: 'svgo-loader',
       },
     ],
     /* type: 'asset/resource',

@@ -122,7 +122,7 @@ const Sider = () => {
             >
               <Input autoFocus type="password" size="compact" />
             </FormItem>
-            <FormItem required name="apiURL" label="API URL">
+            <FormItem name="apiURL" label="API URL">
               <Input size="compact" />
             </FormItem>
             <div
