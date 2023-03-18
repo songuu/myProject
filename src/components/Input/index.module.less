@@ -1,0 +1,54 @@
+.input {
+  width: 100%;
+  cursor: text;
+  line-height: 1.5;
+  z-index: auto;
+  outline: none;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  border-radius: 3px;
+  background-color: #fff;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 14px;
+  border: 1px solid #ccc;
+
+  &:focus-within {
+    outline: none;
+    border-color: #0099ff;
+  }
+
+  &-wrapper {
+    width: 100%;
+    overflow: hidden;
+    display: inline-flex;
+    flex-grow: 1;
+    position: relative;
+    padding-inline: 12px;
+
+    &-inner {
+      height: 100%;
+      width: 100%;
+      padding-inline: 0;
+      padding-block: 7px;
+      word-break: break-word;
+      display: inline-block;
+      vertical-align: bottom;
+      box-sizing: border-box;
+      line-height: 1.6;
+      margin: 0;
+      resize: none;
+      white-space: pre-wrap;
+      -webkit-appearance: none;
+      scrollbar-width: none;
+      width: 100%;
+      min-width: 0;
+      text-decoration-color: #0099ff;
+      color: rgb(51, 54, 57);
+      caret-color: #0099ff;
+      background-color: transparent;
+      border: none;
+      outline: none;
+    }
+  }
+}

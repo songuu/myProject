@@ -13,6 +13,7 @@ const Home = lazy(() => import('@pages/Home'))
 const Explore = lazy(() => import('@pages/Explore'))
 const Library = lazy(() => import('@pages/Library'))
 const Setting = lazy(() => import('@pages/Setting'))
+const Answer = lazy(() => import('@root/pages/Answer'))
 const Chat = lazy(() => import('@root/pages/Chat'))
 
 interface IBaseContentProps {}
@@ -34,6 +35,7 @@ const Content: React.FC<IBaseContentProps> = () => {
             <Route path="uploader" element={<Uploader />} />
           </Route>
           <Route path="setting" element={<Setting />} />
+          <Route path="answer" element={<Answer />} />
           <Route path="chat" element={<Chat />} />
           <Route path="*" element={<Navigate to="home" />} />
         </Routes>

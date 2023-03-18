@@ -85,11 +85,14 @@ const Popconfirm = (baseProps: PropsWithChildren<PopconfirmProps>, ref) => {
   }
 
   const onCancelPopconfirm = (e: any) => {
+    e.stopPropagation()
     closePopconfirm()
     props.onCancel && props.onCancel(e)
   }
 
   const onConfirmPopconfirm = (e: any) => {
+    e.stopPropagation()
+    e.preventDefault()
     const _onConfirm = props.onOk || props.onConfirm
 
     let ret
@@ -133,7 +136,9 @@ const Popconfirm = (baseProps: PropsWithChildren<PopconfirmProps>, ref) => {
     return (
       <div className={styles[`${prefixCls}-wrapper`]}>
         <div className={styles[`${prefixCls}-title`]}>
-          {icon && <span className={styles[`${prefixCls}-title-icon`]}>{icon}</span>}
+          {icon && (
+            <span className={styles[`${prefixCls}-title-icon`]}>{icon}</span>
+          )}
           <div className={styles[`${prefixCls}-title-text`]}>{title}</div>
         </div>
         <div className={styles[`${prefixCls}-btn`]}>

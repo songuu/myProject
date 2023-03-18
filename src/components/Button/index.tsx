@@ -69,7 +69,6 @@ const Button = (baseProps: ButtonProps, ref) => {
     long,
     ...rest
   } = props
-
   const iconNode = loading ? (
     <SvgIcon iconName="loading" iconClass={styles['svg-icon']} />
   ) : (

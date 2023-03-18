@@ -1,27 +1,28 @@
 import React, { Suspense } from 'react'
 
+import { LightTheme, BaseProvider } from 'baseui'
+import { Provider as StyletronProvider } from 'styletron-react'
+import { Client as Styletron } from 'styletron-engine-atomic'
+
 import Router from '@router/index'
 
 import { AppLoading } from '@components/index'
+
+const engine = new Styletron()
 
 interface IAppProps {}
 
 const App: React.FC<IAppProps> = () => {
   return (
-    <>
-      {/* <Suspense fallback={'加载中1...'}>
-        <div>1</div>
-      </Suspense>
-      <Suspense fallback={'加载中2...'}>
-        <div>2</div>
-      </Suspense>
-      <Suspense fallback={'加载中3...'}>
-        <div>3</div>
-      </Suspense> */}
-      <Suspense fallback={<AppLoading />}>
-        <Router />
-      </Suspense>
-    </>
+    <StyletronProvider value={engine}>
+      <BaseProvider theme={LightTheme}>
+        <div className="h-[100vh]">
+          <Suspense fallback={<AppLoading />}>
+            <Router />
+          </Suspense>
+        </div>
+      </BaseProvider>
+    </StyletronProvider>
   )
 }
 

@@ -1,15 +1,28 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 
-import Sider from './Sider'
-import Content from './Content'
+import { Route, Routes } from 'react-router-dom'
 
-import styles from './index.module.less'
+import Sider from './components/sider'
 
-export default function index() {
+import Content from './components/content'
+
+function Chat() {
   return (
-    <div className={styles['content']}>
-      <Sider />
-      <Content />
+    <div className="h-full dark:bg-[#24272e] transition-all p-0">
+      <div className="h-full overflow-hidden border rounded-md shadow-md dark:border-neutral-800">
+        <div className="z-40 flex h-full transition">
+          <Sider />
+          <div className='flex-1 h-full'>
+            <Routes>
+              <Route path="/" element={<Content />}>
+                <Route path=":id" element={<Content />} />
+              </Route>
+            </Routes>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
+
+export default Chat

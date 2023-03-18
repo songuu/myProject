@@ -190,6 +190,56 @@ export const api = {
   clearTransferDoneList: () => {
     return asyncSend('clear-transfer-done-list', TransferStatus.done)
   },
+
+  // 获取chat设置
+  getChatSetting: () => {
+    return asyncSend('getChatSetting')
+  },
+
+  // 设置chat设置
+  setChatSetting: (payload: any) => {
+    return asyncSend('setChatSetting', payload)
+  },
+
+  // 重置chat设置
+  resetChatSetting: () => {
+    return asyncSend('resetChatSetting')
+  },
+
+  // 获取chat列表
+  getChatSessions: () => {
+    return asyncSend('getChatSessions')
+  },
+
+  // 删除chat 对话
+  deleteChatSession: (payload: any) => {
+    return asyncSend('deleteChatSession', payload)
+  },
+
+  // 新增chat 对话
+  addChatSession: (payload: any) => {
+    return asyncSend('addChatSession', payload)
+  },
+
+  // 清空chat 对话列表
+  clearChatSessions: () => {
+    return asyncSend('clearChatSessions')
+  },
+
+  // 编辑chat 对话
+  editChatSession: (payload: any) => {
+    return asyncSend('editChatSession', payload)
+  },
+
+  // 设置选中的chat 对话
+  setActiveChatSession: (payload: any) => {
+    return asyncSend('setActiveChatSession', payload)
+  },
+
+  // 获取选中的chat 对话
+  getActiveChatSession: () => {
+    return asyncSend('getActiveChatSession')
+  },
 }
 
 contextBridge.exposeInMainWorld('Main', api)

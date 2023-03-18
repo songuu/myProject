@@ -2,12 +2,6 @@ import React, { useCallback, useState, useEffect } from 'react'
 
 import toast, { Toaster } from 'react-hot-toast'
 
-import { Client as Styletron } from 'styletron-engine-atomic'
-
-import { Provider as StyletronProvider } from 'styletron-react'
-
-import { LightTheme, BaseProvider } from 'baseui'
-
 import { Select, Value, Option } from 'baseui/select'
 
 import { Input } from 'baseui/input'
@@ -26,7 +20,6 @@ import { ss } from '@utils/storage/local'
 
 import styles from './index.module.less'
 
-const engine = new Styletron()
 
 const { Form, FormItem, useForm } = createForm<any>()
 
@@ -102,50 +95,46 @@ const Sider = () => {
 
   return (
     <div className={styles['sider']}>
-      <StyletronProvider value={engine}>
-        <BaseProvider theme={LightTheme}>
-          <Form
-            form={form}
+      <Form
+        form={form}
+        style={{
+          padding: '0 10px',
+          overflowX: 'hidden',
+        }}
+        onFinish={onSubmmit}
+        initialValues={values}
+        onValuesChange={onChange}
+      >
+        <FormItem
+          required
+          name="apiKey"
+          label="API Key"
+          caption="https://platform.openai.com/account/api-keys 生成key"
+        >
+          <Input autoFocus type="password" size="compact" />
+        </FormItem>
+        <FormItem name="apiURL" label="API URL">
+          <Input size="compact" />
+        </FormItem>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
+            gap: 10,
+          }}
+        >
+          <div
             style={{
-              padding: '0 10px',
-              overflowX: 'hidden',
+              marginRight: 'auto',
             }}
-            onFinish={onSubmmit}
-            initialValues={values}
-            onValuesChange={onChange}
-          >
-            <FormItem
-              required
-              name="apiKey"
-              label="API Key"
-              caption="https://platform.openai.com/account/api-keys 生成key"
-            >
-              <Input autoFocus type="password" size="compact" />
-            </FormItem>
-            <FormItem name="apiURL" label="API URL">
-              <Input size="compact" />
-            </FormItem>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'row',
-                gap: 10,
-              }}
-            >
-              <div
-                style={{
-                  marginRight: 'auto',
-                }}
-              />
-              <Button isLoading={loading} size="compact">
-                Save
-              </Button>
-            </div>
-            <Toaster />
-          </Form>
-        </BaseProvider>
-      </StyletronProvider>
+          />
+          <Button isLoading={loading} size="compact">
+            Save
+          </Button>
+        </div>
+        <Toaster />
+      </Form>
     </div>
   )
 }

@@ -18,6 +18,7 @@ import Popover from './Popover'
 import Portal from './Portal'
 import Drawer from './Drawer'
 import Breadcrumb from './Breadcrumb'
+import Input from './Input'
 
 export {
   AppLoading,
@@ -39,5 +40,6 @@ export {
   Popover,
   Portal,
   Drawer,
-  Breadcrumb
+  Breadcrumb,
+  Input,
 }

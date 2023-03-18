@@ -42,7 +42,6 @@ const ChatBot = () => {
     ])
 
     setInputValue('')
-
     const ll = [...chatHistorys, { message: inputValue, isBot: false }]
 
     // https://platform.openai.com/account/api-keys

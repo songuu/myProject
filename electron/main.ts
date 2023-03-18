@@ -12,6 +12,7 @@ import { makeTray } from './tray'
 
 import InitOssIpcMain from './ipcMain/oss'
 import InitSettingIpcMain from './ipcMain/setting'
+import InitChatIpcMain from './ipcMain/chat'
 
 const path = require('path')
 
@@ -118,9 +119,13 @@ function registerListeners() {
 
   const settingIpc = new InitSettingIpcMain(mainWindow, updateSystemShortcut)
 
+  const chatIpc = new InitChatIpcMain(mainWindow)
+
   ossIpc.init()
 
   settingIpc.init()
+
+  chatIpc.init()
 }
 
 // * 系统层面的功能

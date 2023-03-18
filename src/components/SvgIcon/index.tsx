@@ -21,6 +21,7 @@ const SvgIcon: React.FC<Iprops> = ({ iconName, iconClass, mystyle }) => {
     <svg
       className={classnames(styles['svg-icon'], iconClass)}
       aria-hidden="true"
+      style={mystyle}
     >
       <use xlinkHref={myIconName} />
     </svg>
