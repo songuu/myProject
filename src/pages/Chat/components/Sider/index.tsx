@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 
 import { v4 as uuidv4 } from 'uuid'
 
-import { useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
+
+import { useAppDispatch } from '@root/store/index'
+
+import { clearChatSessions, addChatSession } from '@root/store/actions'
 
 import { Button } from '@root/components'
 
@@ -11,7 +15,10 @@ import List from './list'
 import SettingModal from './setting-modal'
 
 const Sider = () => {
-  const navigate = useNavigate()
+  const [, setSearch] = useSearchParams()
+
+  const dispatch = useAppDispatch()
+
   const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
 
   const handleClose = () => {
@@ -21,25 +28,24 @@ const Sider = () => {
     setIsSettingModalOpen(false)
   }
 
-  const handleNewSession = () => {
+  const handleNewSession = async () => {
     const id = uuidv4()
-    window.Main.addChatSession({
+
+    const data = {
       id,
-      title: 'New Chat',
+      title: '新对话',
       isEdit: false,
-    }).then((r: boolean) => {
-      if (r) {
-        navigate({ search: `/main_window/chat?id=${id}` })
-      }
-    })
+    }
+
+    await dispatch(addChatSession(data))
+
+    setSearch(`id=${id}`)
   }
 
-  const handleClearAllSession = () => {
-    window.Main.clearChatSessions().then((r: boolean) => {
-      if (r) {
-        navigate({ search: `/main_window/chat` })
-      }
-    })
+  const handleClearAllSession = async () => {
+    await dispatch(clearChatSessions())
+
+    setSearch(`id=''`)
   }
 
   return (

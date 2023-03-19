@@ -11,9 +11,13 @@ import {
 import { KIND as ButtonKind } from 'baseui/button'
 import { Input } from 'baseui/input'
 
+import { useAppSelector, useAppDispatch } from '@root/store/index'
+
 import { createForm } from '@components/Form'
 
 import { ChatSettingType } from '@root/store/action-types'
+
+import { getChatSetting, setChatSetting } from '@root/store/actions'
 
 const { Form, FormItem, useForm } = createForm<any>()
 
@@ -25,6 +29,10 @@ interface IProps {
 
 const SettingModal: React.FC<IProps> = ({ isOpen, onClose, onOk }) => {
   const [form] = useForm()
+
+  const dispatch = useAppDispatch()
+
+  const settings = useAppSelector(state => state.chat.chatSetting)
 
   const [loading, setLoading] = useState(false)
 
@@ -44,15 +52,9 @@ const SettingModal: React.FC<IProps> = ({ isOpen, onClose, onOk }) => {
 
   const onSubmmit = useCallback(async (data: any) => {
     setLoading(true)
-    window.Main.setChatSetting(data)
-      .then((r: boolean) => {
-        if (r) {
-          onOk()
-        }
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+    await dispatch(setChatSetting(data))
+    await onOk()
+    setLoading(false)
   }, [])
 
   const onChange = useCallback(
@@ -62,21 +64,20 @@ const SettingModal: React.FC<IProps> = ({ isOpen, onClose, onOk }) => {
     []
   )
 
-  const initState = async () => {
-    const chatSetting = await window.Main.getChatSetting()
-
-    if (chatSetting) {
-      setValues(chatSetting)
-    }
-  }
-
   useEffect(() => {
     if (isOpen) {
-      initState().then(r => r)
+      dispatch(getChatSetting())
     } else {
       form.resetFields()
     }
   }, [isOpen])
+
+  useEffect(() => {
+    if (settings) {
+      form.setFieldsValue(settings)
+      setValues(settings)
+    }
+  }, [settings])
 
   return (
     <Modal

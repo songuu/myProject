@@ -2,6 +2,8 @@ import { ipcMain, globalShortcut } from 'electron'
 
 import { cloneDeep } from 'lodash'
 
+import { v4 as uuidv4 } from 'uuid'
+
 import { IpcResponse } from '../services/interface'
 
 import { configStore } from '../services/config'
@@ -91,6 +93,18 @@ class InitChatIpcMain {
       }
     })
 
+    // 获取chatgpt 具体历史记录
+    registerIpc('getChatSession', async (id: any) => {
+      try {
+        const chatSessions: any = configStore.get('chat.sessions')
+        const chatSession =
+          chatSessions.find((item: any) => item.id === id)?.data || []
+        return success(chatSession)
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
+
     // 删除chatgpt 历史记录
     registerIpc('deleteChatSession', async (id: any) => {
       try {
@@ -130,19 +144,23 @@ class InitChatIpcMain {
     registerIpc('clearChatSessions', async () => {
       try {
         configStore.set('chat.sessions', [])
+        configStore.set('chat.activeSession', '')
         return success(true)
       } catch (err: any) {
         return fail(1, err.message)
       }
     })
 
-    // 编辑chatgpt 历史记录 [名称，对话内容，编辑状态]
-    registerIpc('editChatSession', async (data: any) => {
+    // 编辑chatgpt 历史记录 [名称，编辑状态]
+    registerIpc('updateChatSession', async (data: any) => {
       try {
         const chatSessions: any = configStore.get('chat.sessions')
         const newChatSessions = chatSessions.map((item: any) => {
           if (item.id === data.id) {
-            return data
+            return {
+              ...item,
+              ...data,
+            }
           }
           return item
         })
@@ -168,6 +186,94 @@ class InitChatIpcMain {
       try {
         const activeSession = configStore.get('chat.activeSession')
         return success(activeSession)
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
+
+    // 新增chatgpt 对话内容
+    registerIpc('addChatSessionDataById', async (data: any) => {
+      const activeId = configStore.get('chat.activeSession')
+      try {
+        if (!data.id && !activeId) {
+          const id = uuidv4()
+
+          await configStore.set('chat.sessions', [
+            {
+              id,
+              title: data.data.text,
+              data: [data.data],
+              edit: false,
+            },
+          ])
+          await configStore.set('chat.activeSession', id)
+        }
+        const chatSessions: any = configStore.get('chat.sessions')
+
+        const index = chatSessions.findIndex((item: any) => item.id === data.id)
+
+        if (index > -1) {
+          chatSessions[index].data
+            ? chatSessions[index].data.push(data.data)
+            : (chatSessions[index].data = [data.data])
+          if (chatSessions[index].title === '新对话') {
+            chatSessions[index].title = data.data.text
+          }
+        }
+        configStore.set('chat.sessions', chatSessions)
+        return success(true)
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
+
+    // 编辑chatgpt 对话内容
+    registerIpc('updateChatSessionDataById', async (data: any) => {
+      try {
+        const chatSessions: any = configStore.get('chat.sessions')
+
+        const session = chatSessions.find((item: any) => item.id === data.id)
+
+        if (session) {
+          session.data[data.index] = data.data
+          configStore.set('chat.sessions', chatSessions)
+        }
+        return success(true)
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
+
+    // 删除chatgpt 对话指定内容
+    registerIpc('deleteChatSessionDataById', async (data: any) => {
+      try {
+        const chatSessions: any = configStore.get('chat.sessions')
+
+        const session = chatSessions.find((item: any) => item.id === data.id)
+
+        if (session) {
+          session.data.splice(data.index, 1)
+
+          configStore.set('chat.sessions', chatSessions)
+        }
+        return success(true)
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
+
+    // 删除chatgpt 对话内容
+    registerIpc('deleteChatSessionById', async (id: any) => {
+      try {
+        const chatSessions: any = configStore.get('chat.sessions')
+
+        const index = chatSessions.findIndex((item: any) => item.id === id)
+
+        if (index > -1) {
+          chatSessions[index].data = []
+          configStore.set('chat.sessions', chatSessions)
+        }
+        return success(true)
       } catch (err: any) {
         return fail(1, err.message)
       }

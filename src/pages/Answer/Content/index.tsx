@@ -6,7 +6,7 @@ import { useAppSelector, useAppDispatch } from '@root/store/index'
 
 import { setChatHistory } from '@root/store/actions'
 
-import useScrollToBottom from '@root/hooks/scrollToBottom'
+import useScrollToBottom from '@hooks/scrollToBottom'
 
 import styles from './index.module.less'
 

@@ -1,75 +1,65 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import { Input, SIZE } from 'baseui/input'
 
+import { useAppSelector, useAppDispatch } from '@root/store/index'
+
 import { SvgIcon, Popconfirm } from '@root/components'
 
+import {
+  getChatSessions,
+  setChatSessions,
+  deleteChatSession,
+  updateChatSession,
+  setActiveChatSession,
+} from '@root/store/actions'
+
 const List = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
+  const [search] = useSearchParams()
 
-  const [list, setList] = useState([])
+  const dispatch = useAppDispatch()
 
-  const [activeId, setActiveId] = useState('')
+  const list = useAppSelector(state => state.chat.sessions)
 
-  const initState = async () => {
-    const chatSessions = await window.Main.getChatSessions()
+  const activeId = useAppSelector(state => state.chat.activeSession) || ''
 
-    const activeId = await window.Main.getActiveChatSession()
-
-    if (chatSessions.length > 0 && activeId) {
-      setList(chatSessions)
-      setActiveId(activeId)
-    } else {
-      setList([])
-      setActiveId('')
-      navigate({ search: `/main_window/chat` })
-    }
-  }
-
-  const isActive = (id: string) => {
-    return activeId === id
-  }
+  const isActive = useCallback(
+    (id: string) => {
+      return activeId === id
+    },
+    [activeId, list]
+  )
 
   const handleSelect = (id: string) => {
     if (isActive(id)) return
-    window.Main.setActiveChatSession(id).then((r: boolean) => {
-      if (r) {
-        setActiveId(id)
-        navigate({ search: `/main_window/chat?id=${id}` })
-      }
-    })
+    dispatch(setActiveChatSession(id))
   }
 
   const handleEdit = (item: any, isEdit: boolean) => {
-    window.Main.editChatSession({
-      ...item,
-      isEdit,
-    }).then((r: boolean) => {
-      if (r) {
-        initState().then(r => r)
-      }
-    })
+    dispatch(
+      updateChatSession({
+        ...item,
+        isEdit,
+      })
+    )
   }
 
   const handleEnter = (e: any, item: any, isEdit: boolean) => {
     if (e.key === 'Enter') {
-      window.Main.editChatSession({
-        ...item,
-        isEdit,
-      }).then((r: boolean) => {
-        if (r) {
-          initState().then(r => r)
-        }
-      })
+      dispatch(
+        updateChatSession({
+          ...item,
+          isEdit,
+        })
+      )
     }
   }
 
   useEffect(() => {
-    initState().then(r => r)
-  }, [location.search])
+    dispatch(getChatSessions())
+  }, [search])
 
   return (
     <div className="flex flex-col gap-2 p-4 pb-0 text-sm">
@@ -115,7 +105,7 @@ const List = () => {
                           return item
                         })
 
-                        setList(newList)
+                        dispatch(setChatSessions(newList))
                       }}
                     />
                   ) : (
@@ -143,13 +133,7 @@ const List = () => {
                       <Popconfirm
                         title="确定删除么？"
                         onOk={() => {
-                          window.Main.deleteChatSession(item.id).then(
-                            (r: boolean) => {
-                              if (r) {
-                                initState().then(r => r)
-                              }
-                            }
-                          )
+                          dispatch(deleteChatSession(item.id))
                         }}
                         onCancel={() => {}}
                       >

@@ -12,7 +12,26 @@ import { setShowLogin } from './app'
 
 import { updateApplycation } from './application'
 
-import { setChatHistory, updateChatHistory, deleteChatHistory, setChatSetting } from './chat'
+import {
+  setChatHistory,
+  updateChatHistory,
+  deleteChatHistory,
+  setChatSetting,
+  getChatSetting,
+  getChatSessions,
+  getChatSession,
+  deleteChatSession,
+  clearChatSessions,
+  setChatSessions,
+  getActiveChatSession,
+  setActiveChatSession,
+  updateChatSession,
+  addChatSession,
+  addChatSessionDataById,
+  updateChatSessionDataById,
+  deleteChatSessionDataById,
+  deleteChatSessionById
+} from './chat'
 
 /** 自定义通用同步Action */
 export interface CommonAction<T = any> {
@@ -49,5 +68,19 @@ export {
   setChatHistory,
   updateChatHistory,
   deleteChatHistory,
-  setChatSetting
+  getChatSetting,
+  setChatSetting,
+  getChatSessions,
+  setChatSessions,
+  clearChatSessions,
+  getChatSession,
+  deleteChatSession,
+  updateChatSession,
+  addChatSession,
+  getActiveChatSession,
+  setActiveChatSession,
+  addChatSessionDataById,
+  updateChatSessionDataById,
+  deleteChatSessionDataById,
+  deleteChatSessionById
 }

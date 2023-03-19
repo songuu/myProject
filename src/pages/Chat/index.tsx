@@ -26,3 +26,7 @@ function Chat() {
 }
 
 export default Chat
+
+// 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
+// docker run --name chatgpt-web --rm -it -p 3003:3003 --env OPENAI_API_KEY=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 chatgpt-web
+// docker run --name chatgpt-web -d -p 3003:3003 --env OPENAI_API_KEY=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 chatgpt-web

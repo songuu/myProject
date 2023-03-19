@@ -211,6 +211,10 @@ export const api = {
     return asyncSend('getChatSessions')
   },
 
+  getChatSession: (payload: any) => {
+    return asyncSend('getChatSession', payload)
+  },
+
   // 删除chat 对话
   deleteChatSession: (payload: any) => {
     return asyncSend('deleteChatSession', payload)
@@ -227,8 +231,8 @@ export const api = {
   },
 
   // 编辑chat 对话
-  editChatSession: (payload: any) => {
-    return asyncSend('editChatSession', payload)
+  updateChatSession: (payload: any) => {
+    return asyncSend('updateChatSession', payload)
   },
 
   // 设置选中的chat 对话
@@ -239,6 +243,26 @@ export const api = {
   // 获取选中的chat 对话
   getActiveChatSession: () => {
     return asyncSend('getActiveChatSession')
+  },
+
+  // 新增chat 消息
+  addChatSessionDataById: (payload: any) => {
+    return asyncSend('addChatSessionDataById', payload)
+  },
+
+  // 编辑chat 消息
+  updateChatSessionDataById: (payload: any) => {
+    return asyncSend('updateChatSessionDataById', payload)
+  },
+
+  // 删除chat 指定消息
+  deleteChatSessionDataById: (payload: any) => {
+    return asyncSend('deleteChatSessionDataById', payload)
+  },
+
+  // 删除chat 消息
+  deleteChatSessionById: (payload: any) => {
+    return asyncSend('deleteChatSessionById', payload)
   },
 }
 

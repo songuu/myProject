@@ -26,6 +26,12 @@ export const DELETE_CHAT_HISTORY = 'DELETE_CHAT_HISTORY'
 export type DELETE_CHAT_HISTORY_TYPE = typeof DELETE_CHAT_HISTORY
 export const SET_CHAT_SETTING = 'SET_CHAT_SETTING'
 export type SET_CHAT_SETTING_TYPE = typeof SET_CHAT_SETTING
+export const SET_ACTIVE_SESSION = 'SET_ACTIVE_SESSION'
+export type SET_ACTIVE_SESSION_TYPE = typeof SET_ACTIVE_SESSION
+export const SET_SESSIONS = 'SET_SESSIONS'
+export type SET_SESSIONS_TYPE = typeof SET_SESSIONS
+export const SET_SESSION = 'SET_SESSION'
+export type SET_SESSION_TYPE = typeof SET_SESSION
 
 export type ShortcutType = {
   id: string

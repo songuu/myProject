@@ -67,14 +67,16 @@ function createWindow() {
 }
 
 function createTasks() {
-  app.setUserTasks([{
-    program: process.execPath,
-    arguments: "--new-tab",
-    iconPath: Icon,
-    iconIndex: 0,
-    title: "新窗口",
-    description: "打开新窗口"
-  }]);
+  app.setUserTasks([
+    {
+      program: process.execPath,
+      arguments: '--new-tab',
+      iconPath: Icon,
+      iconIndex: 0,
+      title: '新窗口',
+      description: '打开新窗口',
+    },
+  ])
 }
 
 function registerListeners() {
@@ -168,11 +170,21 @@ app
             'Content-Security-Policy': [
               "default-src 'self' 'unsafe-inline' data:",
             ],
+            'Access-Control-Allow-Origin': ['*'],
           },
           details.responseHeaders
         ),
       })
     })
+
+    session.defaultSession.webRequest.onBeforeRequest(
+      {
+        urls: ['http://localhost:3031/api/*'],
+      },
+      (details, callback) => {
+        callback({ redirectURL: 'http://localhost:3003/' })
+      }
+    )
   })
   .whenReady()
   .then(() => {
@@ -186,8 +198,7 @@ app
       'ok',
       (e: Event, data: Buffer, bounds: any, name?: string) => {
         log('ok')
-        const shortcuts: any =
-          configStore.store.settings.storage ?? []
+        const shortcuts: any = configStore.store.settings.storage ?? []
 
         const newShortcut = shortcuts.concat([name])
 

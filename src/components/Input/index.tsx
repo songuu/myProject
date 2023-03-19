@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './index.module.less' // 导入样式文件
 
 interface InputProps {
@@ -6,6 +6,9 @@ interface InputProps {
   type?: string
   value?: string
   onChange?: (value: string) => void
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  onKeyUp?: (event: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
 function Input(props: InputProps) {
@@ -14,10 +17,12 @@ function Input(props: InputProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     setValue(value)
-    if (props.onChange) {
-      props.onChange(value)
-    }
+    props.onChange && props.onChange(value)
   }
+
+  useEffect(() => {
+    setValue(props.value || '')
+  }, [props.value])
 
   const { placeholder, type } = props
   return (
@@ -28,6 +33,9 @@ function Input(props: InputProps) {
           placeholder={placeholder || ''}
           value={value}
           onChange={handleChange}
+          onKeyDown={props.onKeyDown}
+          onKeyPress={props.onKeyPress}
+          onKeyUp={props.onKeyUp}
           className={styles['input-wrapper-inner']}
         />
       </div>

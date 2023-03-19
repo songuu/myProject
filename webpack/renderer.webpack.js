@@ -20,9 +20,10 @@ module.exports = {
       '@mytypes': path.resolve(__dirname, '../src/types'),
       '@libs': path.resolve(__dirname, '../src/libs'),
       '@hooks': path.resolve(__dirname, '../src/hooks'),
+      '@api': path.resolve(__dirname, '../src/api'),
     },
   },
   module: {
     rules: require('./rules.webpack'),
-  },
+  }
 }

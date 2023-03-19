@@ -2,8 +2,11 @@ import * as types from '../action-types'
 import { RootActions } from '../actions'
 
 export interface ChatsStateProps {
-  historys: types.ChatHistoryType[],
-  chatSetting: types.ChatSettingType,
+  historys: types.ChatHistoryType[]
+  chatSetting: types.ChatSettingType
+  activeSession: string
+  sessions: any[]
+  session: any[]
 }
 
 const initialState: ChatsStateProps = {
@@ -11,7 +14,10 @@ const initialState: ChatsStateProps = {
   chatSetting: {
     apiKey: '',
     apiURL: 'https://api.openai.com',
-  }
+  },
+  activeSession: '',
+  sessions: [],
+  session: [],
 }
 
 export default (state = initialState, action: RootActions): ChatsStateProps => {
@@ -45,6 +51,21 @@ export default (state = initialState, action: RootActions): ChatsStateProps => {
       return {
         ...state,
         chatSetting: action.payload,
+      }
+    case types.SET_ACTIVE_SESSION:
+      return {
+        ...state,
+        activeSession: action.payload,
+      }
+    case types.SET_SESSIONS:
+      return {
+        ...state,
+        sessions: action.payload,
+      }
+    case types.SET_SESSION:
+      return {
+        ...state,
+        session: action.payload,
       }
     default:
       return state
