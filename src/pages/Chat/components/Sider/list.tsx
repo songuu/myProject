@@ -70,7 +70,7 @@ const List = () => {
               key={item.id}
               className={`relative px-2 flex items-center gap-3 px-3 py-3 break-all border rounded-md cursor-pointer hover:bg-neutral-100 group dark:border-neutral-800 dark:hover:bg-[#24272e] ${
                 isActive(item.id)
-                  ? 'border-[#4b9e5f] bg-neutral-100 text-[#4b9e5f] dark:bg-[#24272e] dark:border-[#4b9e5f] pr-14'
+                  ? 'border-[#335eea] bg-neutral-100 text-[#335eea] dark:bg-[#24272e] dark:border-[#335eea] pr-14'
                   : ''
               }`}
               onClick={() => handleSelect(item.id)}
@@ -78,7 +78,7 @@ const List = () => {
               <div className="flex items-center gap-2">
                 <div
                   className={`flex items-center justify-center w-7 h-7 bg-gray-200 rounded-full  ${
-                    isActive(item.id) ? 'text-[#4b9e5f]' : 'text-white'
+                    isActive(item.id) ? 'text-[#335eea]' : 'text-white'
                   }`}
                 >
                   <SvgIcon iconName="chat" />
@@ -120,7 +120,7 @@ const List = () => {
                       className="p-1 w-[22px] h-[22px] flex items-center justify-center"
                       onClick={() => handleEdit(item, false)}
                     >
-                      <SvgIcon iconName="save" className="text-[#4b9e5f]" />
+                      <SvgIcon iconName="save" className="text-[#335eea]" />
                     </button>
                   ) : (
                     <>
@@ -128,7 +128,7 @@ const List = () => {
                         className="p-1 w-[22px] h-[22px] flex items-center justify-center"
                         onClick={() => handleEdit(item, true)}
                       >
-                        <SvgIcon iconName="edit" className="text-[#4b9e5f]" />
+                        <SvgIcon iconName="edit" className="text-[#335eea]" />
                       </button>
                       <Popconfirm
                         title="确定删除么？"
@@ -140,7 +140,7 @@ const List = () => {
                         <div className="p-1 w-[22px] h-[22px] flex items-center justify-center">
                           <SvgIcon
                             iconName="remove"
-                            className="text-[#4b9e5f]"
+                            className="text-[#335eea]"
                           />
                         </div>
                       </Popconfirm>

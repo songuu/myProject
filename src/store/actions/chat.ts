@@ -290,6 +290,24 @@ export const deleteChatSessionDataById = (id: string) => {
   }
 }
 
+export const getChatSessionDataMsgByIdAndIndex = async (data: { id: string, index: number }) => {
+  const r = await window.Main.getChatSessionDataMsgByIdAndIndex(data)
+
+  if (r) {
+    return r
+  }
+}
+
+export const toggleUsingContext = (useContext: boolean) => {
+  return async (dispatch: AppDispatch) => {
+    dispatch({
+      type: types.SET_USING_CONTEXT,
+      payload: useContext,
+    })
+  }
+
+}
+
 export type SettingsActions =
   | AddChatHistoryAction
   | UpdateChatHistoryAction

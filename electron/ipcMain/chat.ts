@@ -277,6 +277,25 @@ class InitChatIpcMain {
         return fail(1, err.message)
       }
     })
+
+    // 获取chatgpt 对话指定内容
+    registerIpc('getChatSessionDataMsgByIdAndIndex', async (data: {
+      id: string
+      index: number
+    }) => {
+      try {
+        const chatSessions: Chat.Session[] = configStore.get('chat.sessions')
+
+        const session = chatSessions.find((item: Chat.Session) => item.id === data.id)
+
+        if (session && session.data) {
+          return success(session.data[data.index])
+        }
+        return success([])
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
   }
 }
 

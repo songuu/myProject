@@ -264,6 +264,11 @@ export const api = {
   deleteChatSessionDataById: (payload: any) => {
     return asyncSend('deleteChatSessionDataById', payload)
   },
+
+  // 获取chat 指定消息
+  getChatSessionDataMsgByIdAndIndex: (payload: any) => {
+    return asyncSend('getChatSessionDataMsgByIdAndIndex', payload)
+  }
 }
 
 contextBridge.exposeInMainWorld('Main', api)

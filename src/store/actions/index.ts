@@ -30,7 +30,9 @@ import {
   addChatSessionDataById,
   updateChatSessionDataById,
   deleteChatSessionDataMsgById,
-  deleteChatSessionDataById
+  deleteChatSessionDataById,
+  getChatSessionDataMsgByIdAndIndex,
+  toggleUsingContext
 } from './chat'
 
 /** 自定义通用同步Action */
@@ -82,5 +84,7 @@ export {
   addChatSessionDataById,
   updateChatSessionDataById,
   deleteChatSessionDataMsgById,
-  deleteChatSessionDataById
+  deleteChatSessionDataById,
+  getChatSessionDataMsgByIdAndIndex,
+  toggleUsingContext
 }

@@ -7,6 +7,7 @@ export interface ChatsStateProps {
   activeSession: string
   sessions: any[]
   session: any[]
+  usingContext: boolean
 }
 
 const initialState: ChatsStateProps = {
@@ -18,6 +19,7 @@ const initialState: ChatsStateProps = {
   activeSession: '',
   sessions: [],
   session: [],
+  usingContext: false,
 }
 
 export default (state = initialState, action: RootActions): ChatsStateProps => {
@@ -66,6 +68,11 @@ export default (state = initialState, action: RootActions): ChatsStateProps => {
       return {
         ...state,
         session: action.payload,
+      }
+    case types.SET_USING_CONTEXT:
+      return {
+        ...state,
+        usingContext: action.payload,
       }
     default:
       return state

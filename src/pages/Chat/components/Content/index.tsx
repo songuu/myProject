@@ -15,6 +15,8 @@ import {
   updateChatSessionDataById,
   deleteChatSessionDataMsgById,
   deleteChatSessionDataById,
+  getChatSessionDataMsgByIdAndIndex,
+  toggleUsingContext,
 } from '@root/store/actions'
 
 import { fetchChatAPIProcess } from '@root/api/chat'
@@ -36,6 +38,8 @@ const ChatContent = () => {
 
   const dataSources = useAppSelector(state => state.chat.session) || []
 
+  const usingContext = useAppSelector(state => state.chat.usingContext) || false
+
   const [value, setValue] = useState('')
 
   const [loading, setLoading] = useState(false)
@@ -47,7 +51,9 @@ const ChatContent = () => {
   const bottomRef = useRef<HTMLDivElement>(null)
 
   const conversationList = useMemo(() => {
-    return dataSources.filter((item: Chat.Chat) => !item.inversion && !item.error)
+    return dataSources.filter(
+      (item: Chat.Chat) => !item.inversion && !item.error
+    )
   }, [dataSources])
 
   const scrollToBottom = () => {
@@ -97,6 +103,12 @@ const ChatContent = () => {
 
   const handleStop = () => {
     if (loading) {
+      const index = dataRef.current.length - 1
+      const lastData = dataRef.current[index]
+
+      if (lastData?.text === '' && lastData?.loading) {
+        dispatch(deleteChatSessionDataMsgById({ id: activeId, index }))
+      }
       controller.abort()
       setLoading(false)
     }
@@ -142,7 +154,7 @@ const ChatContent = () => {
     const lastContext =
       conversationList[conversationList.length - 1]?.conversationOptions
 
-    if (lastContext) {
+    if (lastContext && usingContext) {
       options = {
         ...lastContext,
       }
@@ -224,9 +236,65 @@ const ChatContent = () => {
       await fetchChatAPIOnce()
     } catch (error: any) {
       const errorMessage = error?.message || '请求失败'
+      console.log('errorMessage', errorMessage)
 
-      if (error.message === 'cancel') {
+      if (error.message === 'canceled') {
+        const olaData = dataRef.current[dataRef.current.length - 1]
+
+        const newData = {
+          id: activeId || '',
+          index: dataRef.current.length - 1,
+          data: {
+            ...olaData,
+            loading: false,
+          },
+        }
+
+        dispatch(updateChatSessionDataById(newData))
+
+        scrollToBottom()
+        return
       }
+
+      const currentChat = await getChatSessionDataMsgByIdAndIndex({
+        id: activeId || '',
+        index: dataRef.current.length - 1,
+      })
+
+      if (currentChat?.text !== '') {
+        const newData = {
+          id: activeId || '',
+          index: dataRef.current.length - 1,
+          data: {
+            ...currentChat,
+            error: false,
+            loading: false,
+            text: `${currentChat.text}\n[${errorMessage}]`,
+          },
+        }
+
+        dispatch(updateChatSessionDataById(newData))
+
+        return
+      }
+
+      const newData = {
+        id: activeId || '',
+        index: dataRef.current.length - 1,
+        data: {
+          dateTime: new Date().toLocaleString(),
+          text: errorMessage,
+          inversion: false,
+          error: true,
+          loading: false,
+          conversationOptions: null,
+          requestOptions: { prompt: message, options: { ...options } },
+        },
+      }
+
+      dispatch(updateChatSessionDataById(newData))
+
+      scrollToBottom()
     } finally {
       setLoading(false)
     }
@@ -237,7 +305,7 @@ const ChatContent = () => {
 
     controller = new AbortController()
 
-    const { requestOptions } = dataSources[index]
+    const { requestOptions } = dataRef.current[index]
 
     let message = requestOptions?.prompt ?? ''
 
@@ -318,8 +386,38 @@ const ChatContent = () => {
     } catch (error: any) {
       const errorMessage = error?.message || '请求失败'
 
-      if (error.message === 'cancel') {
+      if (error.message === 'canceled') {
+        const olaData = dataRef.current[index]
+
+        const newData = {
+          id: activeId || '',
+          index,
+          data: {
+            ...olaData,
+            loading: false,
+          },
+        }
+
+        dispatch(updateChatSessionDataById(newData))
+
+        return
       }
+
+      const newData = {
+        id: activeId || '',
+        index,
+        data: {
+          dateTime: new Date().toLocaleString(),
+          text: errorMessage,
+          inversion: false,
+          error: true,
+          loading: false,
+          conversationOptions: null,
+          requestOptions: { prompt: message, ...options },
+        },
+      }
+
+      dispatch(updateChatSessionDataById(newData))
     } finally {
       setLoading(false)
     }
@@ -328,6 +426,10 @@ const ChatContent = () => {
   const handleDelete = (index: number) => {
     if (loading) return
     dispatch(deleteChatSessionDataMsgById({ id: activeId || '', index }))
+  }
+
+  const handleChangeUsingContext = () => {
+    dispatch(toggleUsingContext(!usingContext))
   }
 
   useEffect(() => {
@@ -417,10 +519,16 @@ const ChatContent = () => {
                 </span>
               </Button>
             </div>
-
             <div>
-              <Button style={{ backgroundColor: '#fff' }} onClick={handleClear}>
-                <span className="text-xl text-[#4f555e] dark:text-white">
+              <Button
+                style={{ backgroundColor: '#fff' }}
+                onClick={handleChangeUsingContext}
+              >
+                <span
+                  className={`text-xl ${
+                    usingContext ? 'text-[#335eea]' : 'text-[#a8071a]'
+                  }`}
+                >
                   <SvgIcon
                     mystyle={{ width: '20px', height: '20px' }}
                     iconName="note"
@@ -428,7 +536,6 @@ const ChatContent = () => {
                 </span>
               </Button>
             </div>
-
             <div className="n-auto-complete">
               <Input
                 value={value}

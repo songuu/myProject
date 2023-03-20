@@ -17,7 +17,7 @@ const Text: React.FC<IProps> = ({
     <div
       className={`text-black text-wrap min-w-[20px] rounded-md px-3 py-2 ${
         inversion
-          ? 'bg-[#d2f9d1] dark:bg-[#a1dc95]'
+          ? 'bg-[#c9e7ff] dark:bg-[#a1dc95]'
           : 'bg-[#f4f6f8] dark:bg-[#1e1e20]'
       } ${error && 'text-red-500'}`}
     >

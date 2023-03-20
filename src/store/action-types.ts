@@ -32,6 +32,8 @@ export const SET_SESSIONS = 'SET_SESSIONS'
 export type SET_SESSIONS_TYPE = typeof SET_SESSIONS
 export const SET_SESSION = 'SET_SESSION'
 export type SET_SESSION_TYPE = typeof SET_SESSION
+export const SET_USING_CONTEXT = 'SET_USING_CONTEXT'
+export type SET_USING_CONTEXT_TYPE = typeof SET_USING_CONTEXT
 
 export type ShortcutType = {
   id: string
