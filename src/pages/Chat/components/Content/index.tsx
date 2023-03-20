@@ -28,7 +28,7 @@ const openLongReply = true
 let controller = new AbortController()
 
 const ChatContent = () => {
-  const [search, setSearch] = useSearchParams()
+  const [search] = useSearchParams()
 
   const dispatch = useAppDispatch()
 
@@ -42,12 +42,12 @@ const ChatContent = () => {
 
   const [exportLoading, setExportLoading] = useState(false)
 
-  const dataRef = useRef<any[]>([])
+  const dataRef = useRef<Chat.Chat[]>([])
 
-  const bottomRef = useRef<any>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
 
   const conversationList = useMemo(() => {
-    return dataSources.filter((item: any) => !item.inversion && !item.error)
+    return dataSources.filter((item: Chat.Chat) => !item.inversion && !item.error)
   }, [dataSources])
 
   const scrollToBottom = () => {
@@ -371,7 +371,7 @@ const ChatContent = () => {
           >
             {dataSources.length > 0 ? (
               <div>
-                {dataSources.map((item: any, index: number) => {
+                {dataSources.map((item: Chat.Chat, index: number) => {
                   return <MessageCom key={index} {...item} index={index} />
                 })}
                 <div className="sticky bottom-0 left-0 flex justify-center">
