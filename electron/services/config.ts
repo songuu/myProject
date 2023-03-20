@@ -16,7 +16,10 @@ const initialConfig = {
   },
   chat: {
     activeSession: '',
-    setting: {},
+    setting: {
+      apiKey: '',
+      apiURL: ''
+    },
     sessions: [],
   },
 }
@@ -36,7 +39,7 @@ export interface ConfigStore {
 
   chat: {
     activeSession: string
-    setting: any
+    setting?: Chat.Setting
     sessions: any[]
   }
 }

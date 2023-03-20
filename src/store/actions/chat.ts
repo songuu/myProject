@@ -1,5 +1,7 @@
 import * as types from '../action-types'
 
+import { AppDispatch } from '../index'
+
 export interface AddChatHistoryAction {
   type: types.SET_CHAT_HISTORY_TYPE
   payload: types.ChatHistoryType[]
@@ -42,7 +44,7 @@ export const deleteChatHistory = (
 })
 
 export const setChatSetting = (payload: types.ChatSettingType) => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     const r = await window.Main.setChatSetting(payload)
     if (r) {
       dispatch({
@@ -54,7 +56,7 @@ export const setChatSetting = (payload: types.ChatSettingType) => {
 }
 
 export const getChatSetting = () => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     const setting = await window.Main.getChatSetting()
     if (setting) {
       dispatch({
@@ -66,7 +68,7 @@ export const getChatSetting = () => {
 }
 
 export const getChatSessions = () => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     const sessions = await window.Main.getChatSessions()
     if (sessions) {
       dispatch({
@@ -77,8 +79,8 @@ export const getChatSessions = () => {
   }
 }
 
-export const setChatSessions = (data: any) => {
-  return (dispatch: any) => {
+export const setChatSessions = (data: Chat.Session[]) => {
+  return (dispatch: AppDispatch) => {
     dispatch({
       type: types.SET_SESSIONS,
       payload: data,
@@ -87,7 +89,7 @@ export const setChatSessions = (data: any) => {
 }
 
 export const getChatSessionById = (id: string) => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     const session = await window.Main.getChatSessionById(id)
     if (session) {
       dispatch({
@@ -99,7 +101,7 @@ export const getChatSessionById = (id: string) => {
 }
 
 export const deleteChatSessionById = (id: string) => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     const r = await window.Main.deleteChatSessionById(id)
     if (r) {
       const sessions = await window.Main.getChatSessions()
@@ -120,8 +122,8 @@ export const deleteChatSessionById = (id: string) => {
   }
 }
 
-export const addChatSession = (data: any) => {
-  return async (dispatch: any) => {
+export const addChatSession = (data: Chat.Session) => {
+  return async (dispatch: AppDispatch) => {
     const r = await window.Main.addChatSession(data)
     if (r) {
       const sessions = await window.Main.getChatSessions()
@@ -138,7 +140,7 @@ export const addChatSession = (data: any) => {
 }
 
 export const clearChatSessions = () => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     const r = await window.Main.clearChatSessions()
     if (r) {
       dispatch({
@@ -157,8 +159,8 @@ export const clearChatSessions = () => {
   }
 }
 
-export const updateChatSession = (data: any) => {
-  return async (dispatch: any) => {
+export const updateChatSession = (data: Chat.Session) => {
+  return async (dispatch: AppDispatch) => {
     const r = await window.Main.updateChatSession(data)
     if (r) {
       const sessions = await window.Main.getChatSessions()
@@ -171,7 +173,7 @@ export const updateChatSession = (data: any) => {
 }
 
 export const setActiveChatSession = (id: string) => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     const r = await window.Main.setActiveChatSession(id)
 
     if (r) {
@@ -184,7 +186,7 @@ export const setActiveChatSession = (id: string) => {
 }
 
 export const getActiveChatSession = () => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     const session = await window.Main.getActiveChatSession()
     if (session) {
       dispatch({
@@ -195,8 +197,11 @@ export const getActiveChatSession = () => {
   }
 }
 
-export const addChatSessionDataById = (data: any) => {
-  return async (dispatch: any) => {
+export const addChatSessionDataById = (data: {
+  id: string,
+  data: Chat.Chat
+}) => {
+  return async (dispatch: AppDispatch) => {
     const r = await window.Main.addChatSessionDataById(data)
     if (r) {
       const sessions = await window.Main.getChatSessions()
@@ -218,8 +223,12 @@ export const addChatSessionDataById = (data: any) => {
   }
 }
 
-export const updateChatSessionDataById = (data: any) => {
-  return async (dispatch: any) => {
+export const updateChatSessionDataById = (data: {
+  id: string,
+  index: number,
+  data: Chat.Chat
+}) => {
+  return async (dispatch: AppDispatch) => {
     const r = await window.Main.updateChatSessionDataById(data)
     if (r) {
       const sessions = await window.Main.getChatSessions()
@@ -238,8 +247,11 @@ export const updateChatSessionDataById = (data: any) => {
   }
 }
 
-export const deleteChatSessionDataMsgById = (data: any) => {
-  return async (dispatch: any) => {
+export const deleteChatSessionDataMsgById = (data: {
+  id: string,
+  index: number,
+}) => {
+  return async (dispatch: AppDispatch) => {
     const r = await window.Main.deleteChatSessionDataMsgById(data)
     if (r) {
       const sessions = await window.Main.getChatSessions()
@@ -259,7 +271,7 @@ export const deleteChatSessionDataMsgById = (data: any) => {
 }
 
 export const deleteChatSessionDataById = (id: string) => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     const r = await window.Main.deleteChatSessionDataById(id)
     if (r) {
       const sessions = await window.Main.getChatSessions()

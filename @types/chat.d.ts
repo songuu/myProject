@@ -9,15 +9,21 @@ declare namespace Chat {
     requestOptions: { prompt: string; options?: ConversationRequest | null }
   }
 
-  interface History {
+  interface Setting {
+    apiKey: string,
+    apiURL: string,
+  }
+
+  interface Session {
     title: string
     isEdit: boolean
-    id: number
+    id: string
+    data?: Chat[]
   }
 
   interface ChatState {
     active: number | null
-    history: History[]
+    history: Session[]
     chat: { id: number; data: Chat[] }[]
   }
 

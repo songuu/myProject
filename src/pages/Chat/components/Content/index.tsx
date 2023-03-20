@@ -14,6 +14,7 @@ import {
   addChatSessionDataById,
   updateChatSessionDataById,
   deleteChatSessionDataMsgById,
+  deleteChatSessionDataById,
 } from '@root/store/actions'
 
 import { fetchChatAPIProcess } from '@root/api/chat'
@@ -56,7 +57,7 @@ const ChatContent = () => {
   const handleClear = () => {
     if (loading) return
 
-    dispatch(deleteChatSessionDataMsgById(activeId))
+    dispatch(deleteChatSessionDataById(activeId))
   }
 
   const handleExport = async () => {
