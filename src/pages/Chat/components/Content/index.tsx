@@ -38,7 +38,7 @@ const ChatContent = () => {
 
   const dataSources = useAppSelector(state => state.chat.session) || []
 
-  const usingContext = useAppSelector(state => state.chat.usingContext) || false
+  const usingContext = useAppSelector(state => state.chat.usingContext)
 
   const [value, setValue] = useState('')
 

@@ -10,14 +10,15 @@ import defaultAvatar from '@imgs/default-avatar.png'
 
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
-// @ts-ignore
-import { ShortcutType } from '@root/store/reducer/settings'
+import { ShortcutType } from '@root/store/action-types'
 
 import {
   changeEnableGlobalShortcut,
   resetShortcuts,
   updateShortcut,
 } from '@root/store/actions'
+
+import pkg from '../../../package.json'
 
 const validShortcutCodes: string[] = [
   '=',
@@ -252,6 +253,7 @@ const Setting = () => {
   return (
     <div className={styles['setting-page']} onClick={clickOutside}>
       <div className={styles['setting-page-container']}>
+        <h2 className="text-xl font-bold mb-2">版本 - {pkg.version}</h2>
         <div className={styles['setting-page-useinfo']}>
           <div className={styles['setting-page-left']}>
             <img className={styles.avatar} src={defaultAvatar} />

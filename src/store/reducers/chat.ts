@@ -19,7 +19,7 @@ const initialState: ChatsStateProps = {
   activeSession: '',
   sessions: [],
   session: [],
-  usingContext: false,
+  usingContext: true,
 }
 
 export default (state = initialState, action: RootActions): ChatsStateProps => {
