@@ -9,11 +9,11 @@ import { SvgIcon, Button, Input, Message } from '@components/index'
 import html2canvas from 'html2canvas'
 
 import {
-  getChatSession,
+  getChatSessionById,
   getActiveChatSession,
   addChatSessionDataById,
   updateChatSessionDataById,
-  deleteChatSessionDataById,
+  deleteChatSessionDataMsgById,
 } from '@root/store/actions'
 
 import { fetchChatAPIProcess } from '@root/api/chat'
@@ -56,7 +56,7 @@ const ChatContent = () => {
   const handleClear = () => {
     if (loading) return
 
-    dispatch(deleteChatSessionDataById(activeId))
+    dispatch(deleteChatSessionDataMsgById(activeId))
   }
 
   const handleExport = async () => {
@@ -326,7 +326,7 @@ const ChatContent = () => {
 
   const handleDelete = (index: number) => {
     if (loading) return
-    dispatch(deleteChatSessionDataById({ id: activeId || '', index }))
+    dispatch(deleteChatSessionDataMsgById({ id: activeId || '', index }))
   }
 
   useEffect(() => {
@@ -335,7 +335,7 @@ const ChatContent = () => {
 
   useEffect(() => {
     if (activeId) {
-      dispatch(getChatSession(activeId))
+      dispatch(getChatSessionById(activeId))
 
       scrollToBottom()
     }

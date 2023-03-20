@@ -11,7 +11,7 @@ import { SvgIcon, Popconfirm } from '@root/components'
 import {
   getChatSessions,
   setChatSessions,
-  deleteChatSession,
+  deleteChatSessionById,
   updateChatSession,
   setActiveChatSession,
 } from '@root/store/actions'
@@ -133,7 +133,7 @@ const List = () => {
                       <Popconfirm
                         title="确定删除么？"
                         onOk={() => {
-                          dispatch(deleteChatSession(item.id))
+                          dispatch(deleteChatSessionById(item.id))
                         }}
                         onCancel={() => {}}
                       >

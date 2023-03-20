@@ -211,13 +211,13 @@ export const api = {
     return asyncSend('getChatSessions')
   },
 
-  getChatSession: (payload: any) => {
-    return asyncSend('getChatSession', payload)
+  getChatSessionById: (payload: any) => {
+    return asyncSend('getChatSessionById', payload)
   },
 
   // 删除chat 对话
-  deleteChatSession: (payload: any) => {
-    return asyncSend('deleteChatSession', payload)
+  deleteChatSessionById: (payload: any) => {
+    return asyncSend('deleteChatSessionById', payload)
   },
 
   // 新增chat 对话
@@ -256,13 +256,13 @@ export const api = {
   },
 
   // 删除chat 指定消息
-  deleteChatSessionDataById: (payload: any) => {
-    return asyncSend('deleteChatSessionDataById', payload)
+  deleteChatSessionDataMsgById: (payload: any) => {
+    return asyncSend('deleteChatSessionDataMsgById', payload)
   },
 
   // 删除chat 消息
-  deleteChatSessionById: (payload: any) => {
-    return asyncSend('deleteChatSessionById', payload)
+  deleteChatSessionDataById: (payload: any) => {
+    return asyncSend('deleteChatSessionDataById', payload)
   },
 }
 

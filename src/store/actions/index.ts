@@ -19,8 +19,8 @@ import {
   setChatSetting,
   getChatSetting,
   getChatSessions,
-  getChatSession,
-  deleteChatSession,
+  getChatSessionById,
+  deleteChatSessionById,
   clearChatSessions,
   setChatSessions,
   getActiveChatSession,
@@ -29,8 +29,8 @@ import {
   addChatSession,
   addChatSessionDataById,
   updateChatSessionDataById,
-  deleteChatSessionDataById,
-  deleteChatSessionById
+  deleteChatSessionDataMsgById,
+  deleteChatSessionDataById
 } from './chat'
 
 /** 自定义通用同步Action */
@@ -73,14 +73,14 @@ export {
   getChatSessions,
   setChatSessions,
   clearChatSessions,
-  getChatSession,
-  deleteChatSession,
+  getChatSessionById,
+  deleteChatSessionById,
   updateChatSession,
   addChatSession,
   getActiveChatSession,
   setActiveChatSession,
   addChatSessionDataById,
   updateChatSessionDataById,
-  deleteChatSessionDataById,
-  deleteChatSessionById
+  deleteChatSessionDataMsgById,
+  deleteChatSessionDataById
 }

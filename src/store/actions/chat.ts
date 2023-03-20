@@ -86,9 +86,9 @@ export const setChatSessions = (data: any) => {
   }
 }
 
-export const getChatSession = (id: string) => {
+export const getChatSessionById = (id: string) => {
   return async (dispatch: any) => {
-    const session = await window.Main.getChatSession(id)
+    const session = await window.Main.getChatSessionById(id)
     if (session) {
       dispatch({
         type: types.SET_SESSION,
@@ -98,9 +98,9 @@ export const getChatSession = (id: string) => {
   }
 }
 
-export const deleteChatSession = (id: string) => {
+export const deleteChatSessionById = (id: string) => {
   return async (dispatch: any) => {
-    const r = await window.Main.deleteChatSession(id)
+    const r = await window.Main.deleteChatSessionById(id)
     if (r) {
       const sessions = await window.Main.getChatSessions()
       const activeSession = await window.Main.getActiveChatSession()
@@ -201,7 +201,7 @@ export const addChatSessionDataById = (data: any) => {
     if (r) {
       const sessions = await window.Main.getChatSessions()
       const actionId = await window.Main.getActiveChatSession()
-      const session = await window.Main.getChatSession(data.id)
+      const session = await window.Main.getChatSessionById(data.id)
       dispatch({
         type: types.SET_SESSIONS,
         payload: sessions,
@@ -223,7 +223,7 @@ export const updateChatSessionDataById = (data: any) => {
     const r = await window.Main.updateChatSessionDataById(data)
     if (r) {
       const sessions = await window.Main.getChatSessions()
-      const session = await window.Main.getChatSession(data.id)
+      const session = await window.Main.getChatSessionById(data.id)
 
       dispatch({
         type: types.SET_SESSIONS,
@@ -238,12 +238,12 @@ export const updateChatSessionDataById = (data: any) => {
   }
 }
 
-export const deleteChatSessionDataById = (data: any) => {
+export const deleteChatSessionDataMsgById = (data: any) => {
   return async (dispatch: any) => {
-    const r = await window.Main.deleteChatSessionDataById(data)
+    const r = await window.Main.deleteChatSessionDataMsgById(data)
     if (r) {
       const sessions = await window.Main.getChatSessions()
-      const session = await window.Main.getChatSession(data.id)
+      const session = await window.Main.getChatSessionById(data.id)
 
       dispatch({
         type: types.SET_SESSIONS,
@@ -258,12 +258,12 @@ export const deleteChatSessionDataById = (data: any) => {
   }
 }
 
-export const deleteChatSessionById = (id: string) => {
+export const deleteChatSessionDataById = (id: string) => {
   return async (dispatch: any) => {
-    const r = await window.Main.deleteChatSessionById(id)
+    const r = await window.Main.deleteChatSessionDataById(id)
     if (r) {
       const sessions = await window.Main.getChatSessions()
-      const session = await window.Main.getChatSession(id)
+      const session = await window.Main.getChatSessionById(id)
 
       dispatch({
         type: types.SET_SESSIONS,

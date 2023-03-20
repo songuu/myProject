@@ -8,8 +8,6 @@ import shortcuts from '../../src/constants/shortcuts'
 export const appDir = path.join(app.getPath('appData'), 'storage')
 export const downloadDir = app.getPath('downloads')
 
-console.log('appDir', appDir)
-
 const initialConfig = {
   settings: {
     enableGlobalShortcut: true,
