@@ -49,7 +49,7 @@ const Sider = () => {
   }
 
   return (
-    <div className="flex flex-col h-full w-[260px] border-r-zinc-50 border-r-2">
+    <div className="flex flex-col h-full w-[260px] border-r-zinc-50 dark:border-r-gray-600 border-r-2">
       <main className="flex flex-col flex-1 min-h-0">
         <div className="p-4 pb-0">
           <Button

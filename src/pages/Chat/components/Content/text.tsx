@@ -32,7 +32,7 @@ const Text: React.FC<IProps> = ({
             />
           ) : (
             <div
-              className="markdown-body"
+              className="markdown-body dark:text-white"
               dangerouslySetInnerHTML={{ __html: text }}
             />
           )}

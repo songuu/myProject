@@ -544,7 +544,6 @@ const ChatContent = () => {
                 onKeyDown={handleSend}
               />
             </div>
-
             <Button type="primary" onClick={handleSubmit}>
               <span className="text-xl text-[#fff] dark:text-white">
                 <SvgIcon

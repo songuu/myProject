@@ -58,11 +58,11 @@ const Header: React.FC<IBaseHeaderProps> = () => {
   }
 
   const focusClass = useMemo(() => {
-    return inputFocus ? 'bg-opacity-100 text-[#335eea]' : 'text-black'
+    return inputFocus ? 'bg-opacity-100 text-[#335eea] dark:text-white' : 'text-black'
   }, [inputFocus])
 
   return (
-    <div className="box-border text-[#040F42] text-opacity-90 flex  justify-between h-[59px] leading-[59px] overflow-hidden px-[18px]">
+    <div className="box-border dark:bg-[#1a1a1a] text-[#040F42] text-opacity-90 flex  justify-between h-[59px] leading-[59px] overflow-hidden px-[18px]">
       <div className="flex items-center">
         <ButtonIcon onclick={() => navigate(-1)}>
           <SvgIcon iconName="arrow-left" iconClass=" w-[16px] h-[16px]" />
@@ -77,12 +77,12 @@ const Header: React.FC<IBaseHeaderProps> = () => {
             <NavLink
               key={index}
               style={status => ({
-                '-webkit-app-region': 'no-drag',
-                '-webkit-user-drag': 'none',
-                color: status.isActive ? '#335eea' : '#000',
+                WebkitAppRegion: 'no-drag',
+                WebkitUserDrag: 'none',
+                color: status.isActive ? '#335eea' : '',
               })}
               to={item.to}
-              className="flex-shrink-0 mx-[12px] py-[6px] px-[10px] text-[18px] font-bold  text-black hover:bg-gray-200 active:scale-[0.92] transition-colors duration-200 cursor-default"
+              className="flex-shrink-0 mx-[12px] py-[6px] px-[10px] text-[18px] font-bold  text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 active:scale-[0.92] transition-colors duration-200 cursor-default"
             >
               {item.name}
             </NavLink>
@@ -94,7 +94,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
           className="flex justify-end"
           style={{
             // @ts-ignore
-            '-webkit-app-region': 'no-drag',
+            WebkitAppRegion: 'no-drag',
           }}
         >
           <div
@@ -138,7 +138,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
             setIsOpen(true)
           }
         >
-          <SvgIcon iconName="settings" iconClass={styles['svg-icon']} />
+          <SvgIcon iconName="settings" iconClass="w-[15px] h-[15px]" />
           <span>设置</span>
         </ContextItem>
         <ContextItem
@@ -146,11 +146,11 @@ const Header: React.FC<IBaseHeaderProps> = () => {
             dispatch(setShowLogin())
           }}
         >
-          <SvgIcon iconName="login" iconClass={styles['svg-icon']} />
+          <SvgIcon iconName="login" iconClass="w-[15px] h-[15px]" />
           <span>登录</span>
         </ContextItem>
         <ContextItem>
-          <SvgIcon iconName="logout" iconClass={styles['svg-icon']} />
+          <SvgIcon iconName="logout" iconClass="w-[15px] h-[15px]" />
           <span>登出</span>
         </ContextItem>
       </ContextMenu>

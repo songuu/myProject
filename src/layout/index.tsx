@@ -19,7 +19,7 @@ const BaseLayout: React.FC<IBaseLayoutProps> = () => {
   return (
     <div className="min-w-[600px] min-h-full w-full h-full overflow-hidden relative">
       <OperationHeader />
-      <div className="w-full h-[calc(100%_-_2rem)] overflow-hidden">
+      <div className="w-full h-[calc(100%_-_30px)] overflow-hidden">
         <Header />
         <Content />
       </div>
