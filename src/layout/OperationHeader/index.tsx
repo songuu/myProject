@@ -18,10 +18,22 @@ function OperationHeader() {
     window.Main.toggleWindow()
   }
   return (
-    <div className={styles.header}>
-      <div className={styles['header-title']}>{APPCATIONTITLE}</div>
-      <div className={styles['header-main']}>
-        <p onClick={min}>
+    <div
+      style={{
+        // @ts-ignore
+        '-webkit-app-region': 'drag',
+      }}
+      className="w-full select-none h-[30px] bg-white border-[#f2f2f2] border-[1px] border-solid flex justify-between items-center"
+    >
+      <div className="pl-[5px] tracking-widest">{APPCATIONTITLE}</div>
+      <div
+        className="select-auto flex items-center w-[75px]"
+        style={{
+          // @ts-ignore
+          '-webkit-app-region': 'no-drag',
+        }}
+      >
+        <p onClick={min} className="text-[#999] pl-[10px] inline-block m-[5px]">
           <svg
             viewBox="0 0 1024 1024"
             version="1.1"
