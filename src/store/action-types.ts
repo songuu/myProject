@@ -12,6 +12,8 @@ export type CHANGE_ENABLE_GLOBAL_SHORTCUT_TYPE =
   typeof CHANGE_ENABLE_GLOBAL_SHORTCUT
 export const UPDATE_SHORTCUT = 'UPDATE_SHORTCUT'
 export type UPDATE_SHORTCUT_TYPE = typeof UPDATE_SHORTCUT
+export const SET_THEME = 'SET_THEME'
+export type SET_THEME_TYPE = typeof SET_THEME
 
 // * login
 export const SHOW_LOGIN = 'SHOW_LOGIN'
@@ -52,6 +54,8 @@ export type ChatSettingType = {
   apiKey: string,
   apiURL: string,
 }
+
+export type Theme = 'light' | 'dark'
 
 export type ChatHistoryType = {}
 

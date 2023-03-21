@@ -13,6 +13,11 @@ export interface UpdateShortcutAction {
   payload: types.UpdatecutType
 }
 
+export interface SetThemeAction {
+  type: types.SET_THEME_TYPE
+  payload: types.Theme
+}
+
 export const resetShortcuts = (): ResetShortcutsAction => ({
   type: types.RESET_SHORTCUTS,
 })
@@ -29,7 +34,13 @@ export const updateShortcut = (
   payload,
 })
 
+export const setTheme = (payload: types.Theme): SetThemeAction => ({
+  type: types.SET_THEME,
+  payload,
+})
+
 export type SettingsActions =
   | ResetShortcutsAction
   | ChangeEnableGlobalShortcutAction
   | UpdateShortcutAction
+  | SetThemeAction

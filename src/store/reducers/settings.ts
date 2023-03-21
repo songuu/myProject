@@ -11,12 +11,14 @@ export interface SettingsStateProps {
   enableGlobalShortcut: boolean
   shortcuts: types.ShortcutType[]
   enabledPlaylistCategories: string[]
+  theme: types.Theme
 }
 
 const initialState: SettingsStateProps = {
   enableGlobalShortcut: true,
   shortcuts: shortcuts,
   enabledPlaylistCategories,
+  theme: 'dark',
 }
 
 export default (
@@ -46,6 +48,11 @@ export default (
           }
           return item
         }),
+      }
+    case types.SET_THEME:
+      return {
+        ...state,
+        theme: action.payload,
       }
     default:
       return state

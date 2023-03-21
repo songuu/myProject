@@ -2,6 +2,16 @@ import React, { useRef, useState } from 'react'
 
 import { NavLink, useNavigate } from 'react-router-dom'
 
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalButton,
+  SIZE,
+  ROLE,
+} from 'baseui/modal'
+
 import { useAppDispatch } from '@root/store/index'
 
 import { ContextMenu, SvgIcon, ButtonIcon } from '@components/index'
@@ -11,6 +21,8 @@ import { MenuImperativeProps, ContextItem } from '@components/ContextMenu/index'
 import { setShowLogin } from '@root/store/actions'
 
 import defaultAvatar from '@imgs/default-avatar.png'
+
+import SettingModal from '@root/pages/Setting'
 
 import styles from './index.module.less'
 
@@ -22,7 +34,13 @@ const Header: React.FC<IBaseHeaderProps> = () => {
 
   const [inputFocus, setInputFocus] = useState<boolean>(false)
 
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
   const contextRef = useRef<MenuImperativeProps>(null)
+
+  const handleClose = () => {
+    setIsOpen(false)
+  }
 
   return (
     <div className={styles.header}>
@@ -97,9 +115,10 @@ const Header: React.FC<IBaseHeaderProps> = () => {
       <ContextMenu ref={contextRef}>
         <ContextItem
           onclick={() =>
-            navigate({
+            /* navigate({
               pathname: '/main_window/setting',
-            })
+            }) */
+            setIsOpen(true)
           }
         >
           <SvgIcon iconName="settings" iconClass={styles['svg-icon']} />
@@ -118,6 +137,20 @@ const Header: React.FC<IBaseHeaderProps> = () => {
           <span>登出</span>
         </ContextItem>
       </ContextMenu>
+      <Modal
+        onClose={handleClose}
+        closeable
+        isOpen={isOpen}
+        animate
+        autoFocus
+        size={SIZE.full}
+        role={ROLE.dialog}
+      >
+        <ModalHeader>设置</ModalHeader>
+        <ModalBody>
+          <SettingModal />
+        </ModalBody>
+      </Modal>
     </div>
   )
 }

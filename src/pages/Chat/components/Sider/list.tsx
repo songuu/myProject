@@ -114,7 +114,7 @@ const List = () => {
                 </div>
               </div>
               {isActive(item.id) && (
-                <div className="absolute z-10 flex visible right-1">
+                <div className="absolute z-1 flex visible right-1">
                   {item.isEdit ? (
                     <button
                       className="p-1 w-[22px] h-[22px] flex items-center justify-center"

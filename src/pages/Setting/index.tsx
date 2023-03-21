@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 
-import { SvgIcon } from '@components/index'
+import { SvgIcon, ButtonIcon } from '@components/index'
 
 import classnames from 'classnames'
 
@@ -10,12 +10,13 @@ import defaultAvatar from '@imgs/default-avatar.png'
 
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
-import { ShortcutType } from '@root/store/action-types'
+import { ShortcutType, Theme } from '@root/store/action-types'
 
 import {
   changeEnableGlobalShortcut,
   resetShortcuts,
   updateShortcut,
+  setTheme,
 } from '@root/store/actions'
 
 import pkg from '../../../package.json'
@@ -39,6 +40,19 @@ type KeyItem = {
   code: string
 }
 
+const themeOptions: { label: string; theme: Theme; icon: string }[] = [
+  {
+    label: 'Light',
+    theme: 'light',
+    icon: 'sun',
+  },
+  {
+    label: 'Dark',
+    theme: 'dark',
+    icon: 'moon',
+  },
+]
+
 const Setting = () => {
   const dispatch = useAppDispatch()
 
@@ -46,7 +60,9 @@ const Setting = () => {
     state => state.settings.enableGlobalShortcut
   )
 
-  const [shortcuts, setShortcuts] = useState<KeyItem[]>([])
+  const theme = useAppSelector(state => state.settings.theme)
+
+  const [shortcuts, setShortcuts] = useState<ShortcutType[]>([])
 
   const [shortcutInput, setShortcutInput] = useState({
     id: '',
@@ -254,6 +270,27 @@ const Setting = () => {
     <div className={styles['setting-page']} onClick={clickOutside}>
       <div className={styles['setting-page-container']}>
         <h2 className="text-xl font-bold mb-2">版本 - {pkg.version}</h2>
+        <div className="flex items-center space-x-4">
+          <span className="flex-shrink-0 w-[40px]">主题</span>
+          <div className="flex flex-wrap items-center gap-4">
+            {themeOptions.map((item: any) => {
+              return (
+                <ButtonIcon
+                  onclick={() => {
+                    dispatch(setTheme(item.theme))
+                  }}
+                >
+                  <SvgIcon
+                    iconName={item.icon}
+                    iconClass={`w-4 h-4 ${
+                      item.theme === theme ? 'text-blue-600' : ''
+                    }`}
+                  />
+                </ButtonIcon>
+              )
+            })}
+          </div>
+        </div>
         <div className={styles['setting-page-useinfo']}>
           <div className={styles['setting-page-left']}>
             <img className={styles.avatar} src={defaultAvatar} />

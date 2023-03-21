@@ -465,11 +465,14 @@ const ChatContent = () => {
   return (
     <div className="flex flex-col w-full h-full">
       <main className="flex-1 overflow-hidden">
-        <div id="scrollRef" className="h-full overflow-hidden overflow-y-auto">
+        <div
+          id="scrollRef"
+          className="h-full overflow-hidden overflow-y-auto dark:bg-[#101014]"
+        >
           <div
             id="image-wrapper"
             ref={bottomRef}
-            className="w-full max-w-screen-xl m-auto dark:bg-[#101014] p-4"
+            className="w-full max-w-screen-xl m-auto  p-4"
           >
             {dataSources.length > 0 ? (
               <div>
@@ -495,47 +498,44 @@ const ChatContent = () => {
       <footer className="p-4">
         <div className="w-full max-w-screen-xl m-auto">
           <div className="flex items-center justify-between space-x-2">
-            <div>
-              <Button style={{ backgroundColor: '#fff' }} onClick={handleClear}>
-                <span className="text-xl text-[#4f555e] dark:text-white">
-                  <SvgIcon
-                    mystyle={{ width: '20px', height: '20px' }}
-                    iconName="delete"
-                  />
-                </span>
-              </Button>
-            </div>
-            <div>
-              <Button
-                loading={exportLoading}
-                style={{ backgroundColor: '#fff' }}
-                onClick={handleExport}
+            <Button
+              className="bg-white dark:bg-[#24272e] dark:text-white"
+              onClick={handleClear}
+            >
+              <span className="text-xl">
+                <SvgIcon
+                  iconClass="w-[20px] h-[20px] text-[#4f555e] dark:text-white"
+                  iconName="del"
+                />
+              </span>
+            </Button>
+            <Button
+              loading={exportLoading}
+              className="bg-white dark:bg-[#24272e] dark:text-white"
+              onClick={handleExport}
+            >
+              <span className="text-xl">
+                <SvgIcon
+                  iconClass="w-[20px] h-[20px] text-[#4f555e] dark:text-white"
+                  iconName="download1"
+                />
+              </span>
+            </Button>
+            <Button
+              className="bg-white dark:bg-[#24272e] dark:text-white"
+              onClick={handleChangeUsingContext}
+            >
+              <span
+                className={`text-xl ${
+                  usingContext ? 'text-[#335eea]' : 'text-[#a8071a]'
+                }`}
               >
-                <span className="text-xl text-[#4f555e] dark:text-white">
-                  <SvgIcon
-                    mystyle={{ width: '20px', height: '20px' }}
-                    iconName="download1"
-                  />
-                </span>
-              </Button>
-            </div>
-            <div>
-              <Button
-                style={{ backgroundColor: '#fff' }}
-                onClick={handleChangeUsingContext}
-              >
-                <span
-                  className={`text-xl ${
-                    usingContext ? 'text-[#335eea]' : 'text-[#a8071a]'
-                  }`}
-                >
-                  <SvgIcon
-                    mystyle={{ width: '20px', height: '20px' }}
-                    iconName="note"
-                  />
-                </span>
-              </Button>
-            </div>
+                <SvgIcon
+                  mystyle={{ width: '20px', height: '20px' }}
+                  iconName="note"
+                />
+              </span>
+            </Button>
             <div className="n-auto-complete">
               <Input
                 value={value}

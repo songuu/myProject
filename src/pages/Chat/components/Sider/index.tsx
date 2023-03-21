@@ -54,7 +54,7 @@ const Sider = () => {
         <div className="p-4 pb-0">
           <Button
             type="dashed"
-            style={{ backgroundColor: '#fff', width: '100%' }}
+            className="bg-white w-full dark:bg-[#24272e] dark:text-white"
             onClick={handleNewSession}
           >
             新对话
@@ -66,7 +66,7 @@ const Sider = () => {
         <div className="p-4 pb-0">
           <Button
             type="dashed"
-            style={{ backgroundColor: '#fff', width: '100%' }}
+            className="bg-white w-full dark:bg-[#24272e] dark:text-white"
             onClick={handleClearAllSession}
           >
             清除所有对话
@@ -75,7 +75,7 @@ const Sider = () => {
         <div className="p-4">
           <Button
             type="dashed"
-            style={{ backgroundColor: '#fff', width: '100%' }}
+            className="bg-white w-full dark:bg-[#24272e] dark:text-white"
             onClick={() => {
               setIsSettingModalOpen(true)
             }}

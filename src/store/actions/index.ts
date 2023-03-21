@@ -6,6 +6,7 @@ import {
   resetShortcuts,
   changeEnableGlobalShortcut,
   updateShortcut,
+  setTheme
 } from './settings'
 
 import { setShowLogin } from './app'
@@ -67,6 +68,7 @@ export {
   updateShortcut,
   setShowLogin,
   updateApplycation,
+  setTheme,
   setChatHistory,
   updateChatHistory,
   deleteChatHistory,
