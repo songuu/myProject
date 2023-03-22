@@ -58,10 +58,10 @@ const themeOptions: { label: string; theme: Theme; icon: string }[] = [
 ]
 
 const shortcutTableCol =
-  'min-w-[192px] p-[8px] flex items-center first:pl-0 first:min-w-[128px]'
+  'min-w-[192px] p-[8px] flex items-center first:pl-0 first:min-w-[128px] dark:text-white'
 
 const keyboardInput =
-  'font-semibold bg-[#f5f5f7] rounded-[8px] px-[12px] py-[8px] min-w-[146px] min-h-[34px] box-border'
+  'font-semibold bg-[#f5f5f7] rounded-[8px] px-[12px] py-[8px] min-w-[146px] min-h-[34px] box-border dark:text-black'
 
 const keyboardInputActive = 'text-[#335eea] bg-[#eaeffd]'
 
@@ -178,7 +178,7 @@ const Setting = () => {
 
     setRecordedShortcut([])
 
-    dispatch(changeEnableGlobalShortcut(false))
+    // dispatch(changeEnableGlobalShortcut(false))
   }
 
   const formatShortcut = (shortcut: any) => {
@@ -273,35 +273,14 @@ const Setting = () => {
 
     setRecordedShortcut([])
 
-    dispatch(changeEnableGlobalShortcut(true))
+    // dispatch(changeEnableGlobalShortcut(true))
   }
 
   return (
     <div className="flex" onClick={clickOutside}>
       <div className="w-[720px] mt-[24px] mb-[64px]">
         <HeadingMedium>版本 - {pkg.version}</HeadingMedium>
-        <div className="flex items-center space-x-4">
-          <span className="flex-shrink-0 w-[40px]">主题</span>
-          <div className="flex flex-wrap items-center gap-4">
-            {themeOptions.map((item: any) => {
-              return (
-                <ButtonIcon
-                  onclick={() => {
-                    dispatch(setTheme(item.theme))
-                  }}
-                >
-                  <SvgIcon
-                    iconName={item.icon}
-                    iconClass={`w-4 h-4 ${
-                      item.theme === theme ? 'text-blue-600' : ''
-                    }`}
-                  />
-                </ButtonIcon>
-              )
-            })}
-          </div>
-        </div>
-        <div className="flex items-center justify-between bg-[#eaeffd] text-[#000] px-[20px] py-[16px] rounded-[16px]">
+        <div className="mt-[24px] flex items-center justify-between bg-[#eaeffd] text-[#000] px-[20px] py-[16px] rounded-[16px]">
           <div className="flex items-center">
             <img
               className="w-[64px] h-[64px] rounded-full"
@@ -322,10 +301,10 @@ const Setting = () => {
             </button>
           </div>
         </div>
-        <div>
+        <div className="mt-[24px]">
           <HeadingSmall>快捷键</HeadingSmall>
           <div className="my-[24px] flex items-center justify-between text-black">
-            <div className="text-lg font-medium">启用全局快捷键</div>
+            <div className="text-lg font-medium dark:text-white">启用全局快捷键</div>
             <div>
               <Switch checked={enableGlobalShortcut} onChange={handleToggle} />
             </div>
@@ -400,15 +379,36 @@ const Setting = () => {
               )
             })}
             <button
-              className="text-black font-semibold duration-200 mt-[12px] px-[12px] py-[8px] rounded-[8px] hover:scale-105  active:scale-95"
+              className="bg-gray-100 text-black font-semibold duration-200 mt-[12px] px-[12px] py-[8px] rounded-[8px] hover:scale-105  active:scale-95"
               onClick={restoreDefaultShortcuts}
             >
               恢复默认快捷键
             </button>
           </div>
         </div>
-        <div>
+        <div className="mt-[24px]">
           <HeadingSmall>其他</HeadingSmall>
+          <div className="flex items-center space-x-4">
+            <span className="flex-shrink-0 w-[40px]">主题</span>
+            <div className="flex flex-wrap items-center gap-4">
+              {themeOptions.map((item: any) => {
+                return (
+                  <ButtonIcon
+                    onclick={() => {
+                      dispatch(setTheme(item.theme))
+                    }}
+                  >
+                    <SvgIcon
+                      iconName={item.icon}
+                      iconClass={`w-4 h-4 ${
+                        item.theme === theme ? 'text-blue-600' : ''
+                      }`}
+                    />
+                  </ButtonIcon>
+                )
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>

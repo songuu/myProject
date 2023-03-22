@@ -61,18 +61,24 @@ class InitSettingIpcMain {
     registerIpc('switchGlobalShortcutStatusTemporary', async status => {
       log('switchGlobalShortcutStatusTemporary')
 
-      configStore.set('settings.enableGlobalShortcut', status)
+      try {
+        configStore.set('settings.enableGlobalShortcut', status)
 
-      if (status) {
-        if (this.mainWindow) {
-          registerGlobalShortcut(
-            this.mainWindow,
-            configStore.store,
-            this.updateSystemShortcut
-          )
+        if (status) {
+          if (this.mainWindow) {
+            registerGlobalShortcut(
+              this.mainWindow,
+              configStore.store,
+              this.updateSystemShortcut
+            )
+          }
+        } else {
+          globalShortcut.unregisterAll()
         }
-      } else {
-        globalShortcut.unregisterAll()
+
+        return success(true)
+      } catch (err: any) {
+        return fail(1, err.message)
       }
     })
 

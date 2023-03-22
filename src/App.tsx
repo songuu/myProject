@@ -19,11 +19,11 @@ const engine = new Styletron()
 interface IAppProps {}
 
 const App: React.FC<IAppProps> = () => {
-  /* const innerTheme = useMemo(() => {
-    return theme === 'light' ? LightTheme : DarkTheme
-  }, [theme]) */
-
   const theme = useAppSelector(state => state.settings.theme)
+
+  const innerTheme = useMemo(() => {
+    return theme === 'light' ? LightTheme : DarkTheme
+  }, [theme])
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -35,7 +35,7 @@ const App: React.FC<IAppProps> = () => {
 
   return (
     <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>
+      <BaseProvider theme={innerTheme}>
         <div className="h-[100vh]">
           <Suspense fallback={<AppLoading />}>
             <Router />

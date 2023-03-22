@@ -121,7 +121,7 @@ function registerListeners() {
 
   const settingIpc = new InitSettingIpcMain(mainWindow, updateSystemShortcut)
 
-  const chatIpc = new InitChatIpcMain(mainWindow)
+  const chatIpc = new InitChatIpcMain()
 
   ossIpc.init()
 
