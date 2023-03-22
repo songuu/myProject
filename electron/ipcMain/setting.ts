@@ -61,9 +61,9 @@ class InitSettingIpcMain {
     registerIpc('switchGlobalShortcutStatusTemporary', async status => {
       log('switchGlobalShortcutStatusTemporary')
 
-      if (status === 'disable') {
-        globalShortcut.unregisterAll()
-      } else {
+      configStore.set('settings.enableGlobalShortcut', status)
+
+      if (status) {
         if (this.mainWindow) {
           registerGlobalShortcut(
             this.mainWindow,
@@ -71,7 +71,15 @@ class InitSettingIpcMain {
             this.updateSystemShortcut
           )
         }
+      } else {
+        globalShortcut.unregisterAll()
       }
+    })
+
+    registerIpc('getEnableGlobalShortcut', async () => {
+      log('getenableGlobalShortcut')
+
+      return success(configStore.get('settings.enableGlobalShortcut'))
     })
 
     // 获取快捷键

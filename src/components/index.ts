@@ -19,6 +19,7 @@ import Portal from './Portal'
 import Drawer from './Drawer'
 import Breadcrumb from './Breadcrumb'
 import Input from './Input'
+import Switch from './Switch'
 
 export {
   AppLoading,
@@ -42,4 +43,5 @@ export {
   Drawer,
   Breadcrumb,
   Input,
+  Switch
 }

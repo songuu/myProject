@@ -16,7 +16,7 @@ export interface SettingsStateProps {
 
 const initialState: SettingsStateProps = {
   enableGlobalShortcut: true,
-  shortcuts: shortcuts,
+  shortcuts,
   enabledPlaylistCategories,
   theme: 'dark',
 }
@@ -31,10 +31,10 @@ export default (
         ...state,
         shortcuts: shortcuts,
       }
-    case types.CHANGE_ENABLE_GLOBAL_SHORTCUT:
+    case types.SET_ENABLE_GLOBAL_SHORTCUT:
       return {
         ...state,
-        enableGlobalShortcut: !state.enableGlobalShortcut,
+        enableGlobalShortcut: action.payload,
       }
     case types.UPDATE_SHORTCUT:
       return {

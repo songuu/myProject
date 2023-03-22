@@ -61,7 +61,7 @@ const ContextMenu: React.FC<IProps> = forwardRef((props, ref) => {
   }))
 
   return (
-    <div className={styles['context-menu']}>
+    <div className="w-0 h-0 select-none">
       {visible && children && (
         <div
           ref={menuRef}

@@ -4,7 +4,7 @@ import { SvgIcon, ButtonIcon } from '@components/index'
 
 import classnames from 'classnames'
 
-import styles from './index.module.less'
+import { HeadingMedium, HeadingSmall } from 'baseui/typography'
 
 import defaultAvatar from '@imgs/default-avatar.png'
 
@@ -14,10 +14,14 @@ import { ShortcutType, Theme } from '@root/store/action-types'
 
 import {
   changeEnableGlobalShortcut,
+  getEnableGlobalShortcut,
+  getShortcuts,
   resetShortcuts,
   updateShortcut,
   setTheme,
 } from '@root/store/actions'
+
+import { Switch } from '@components/index'
 
 import pkg from '../../../package.json'
 
@@ -53,16 +57,26 @@ const themeOptions: { label: string; theme: Theme; icon: string }[] = [
   },
 ]
 
+const shortcutTableCol =
+  'min-w-[192px] p-[8px] flex items-center first:pl-0 first:min-w-[128px]'
+
+const keyboardInput =
+  'font-semibold bg-[#f5f5f7] rounded-[8px] px-[12px] py-[8px] min-w-[146px] min-h-[34px] box-border'
+
+const keyboardInputActive = 'text-[#335eea] bg-[#eaeffd]'
+
 const Setting = () => {
   const dispatch = useAppDispatch()
 
+  const shortcuts = useAppSelector(
+    state => state.settings.shortcuts
+  ) as ShortcutType[]
+
   const enableGlobalShortcut = useAppSelector(
     state => state.settings.enableGlobalShortcut
-  )
+  ) as boolean
 
   const theme = useAppSelector(state => state.settings.theme)
-
-  const [shortcuts, setShortcuts] = useState<ShortcutType[]>([])
 
   const [shortcutInput, setShortcutInput] = useState({
     id: '',
@@ -139,9 +153,8 @@ const Setting = () => {
   }, [recordedShortcut])
 
   const initState = async () => {
-    const shortcuts = await window.Main.getShortcuts()
-
-    setShortcuts(shortcuts ?? [])
+    dispatch(getShortcuts())
+    dispatch(getEnableGlobalShortcut())
   }
 
   useEffect(() => {
@@ -149,7 +162,7 @@ const Setting = () => {
   }, [])
 
   const handleToggle = () => {
-    dispatch(changeEnableGlobalShortcut())
+    dispatch(changeEnableGlobalShortcut(!enableGlobalShortcut))
   }
 
   const readyToRecordShortcut = (id: string, type: string) => {
@@ -165,7 +178,7 @@ const Setting = () => {
 
     setRecordedShortcut([])
 
-    window.Main.switchGlobalShortcutStatusTemporary('disable')
+    dispatch(changeEnableGlobalShortcut(false))
   }
 
   const formatShortcut = (shortcut: any) => {
@@ -188,7 +201,7 @@ const Setting = () => {
       .replace('Control', 'Ctrl')
   }
 
-  const saveShortcut = () => {
+  const saveShortcut = async () => {
     const { id, type } = shortcutInput
 
     const payload = {
@@ -200,14 +213,11 @@ const Setting = () => {
       ),
     }
 
-    window.Main.updateShortcut(payload)
+    await dispatch(updateShortcut(payload))
 
-    setTimeout(() => {
-      initState()
-      setRecordedShortcutComputed('')
-      recordedShortcutComputedRef.current = ''
-      setRecordedShortcut([])
-    }, 500)
+    setRecordedShortcutComputed('')
+    recordedShortcutComputedRef.current = ''
+    setRecordedShortcut([])
   }
 
   const handleShortcutKeydown = (e: React.KeyboardEvent) => {
@@ -249,7 +259,7 @@ const Setting = () => {
   }
 
   const restoreDefaultShortcuts = () => {
-    window.Main.restoreDefaultShortcuts()
+    dispatch(resetShortcuts())
   }
 
   const clickOutside = () => {
@@ -263,13 +273,13 @@ const Setting = () => {
 
     setRecordedShortcut([])
 
-    window.Main.switchGlobalShortcutStatusTemporary('enable')
+    dispatch(changeEnableGlobalShortcut(true))
   }
 
   return (
-    <div className={styles['setting-page']} onClick={clickOutside}>
-      <div className={styles['setting-page-container']}>
-        <h2 className="text-xl font-bold mb-2">版本 - {pkg.version}</h2>
+    <div className="flex" onClick={clickOutside}>
+      <div className="w-[720px] mt-[24px] mb-[64px]">
+        <HeadingMedium>版本 - {pkg.version}</HeadingMedium>
         <div className="flex items-center space-x-4">
           <span className="flex-shrink-0 w-[40px]">主题</span>
           <div className="flex flex-wrap items-center gap-4">
@@ -291,78 +301,70 @@ const Setting = () => {
             })}
           </div>
         </div>
-        <div className={styles['setting-page-useinfo']}>
-          <div className={styles['setting-page-left']}>
-            <img className={styles.avatar} src={defaultAvatar} />
-            <div className={styles.info}>
-              <div className={styles.nickname}>user</div>
-              <div className={styles['extra-info']}>12</div>
+        <div className="flex items-center justify-between bg-[#eaeffd] text-[#000] px-[20px] py-[16px] rounded-[16px]">
+          <div className="flex items-center">
+            <img
+              className="w-[64px] h-[64px] rounded-full"
+              src={defaultAvatar}
+            />
+            <div className="ml-[24px]">
+              <div className="mb-[2px] text-[20px] font-semibold">user</div>
+              <div>12</div>
             </div>
           </div>
-          <div className={styles['setting-page-right']}>
-            <button>
-              <SvgIcon iconName="logout" iconClass={styles['svg-icon']} />
+          <div>
+            <button className="flex items-center text-lg px-[12px] py-[8px] opacity-60 text-black duration-200 mx-[12px] hover:opacity-100 hover:bg-[#eaeffd] hover:text-[#335eea] active:opacity-100 active:scale-95 active:duration-200">
+              <SvgIcon
+                iconName="logout"
+                iconClass="w-[18px] h-[18px] mr-[4px]"
+              />
               <span>登出</span>
             </button>
           </div>
         </div>
-        <div className={styles['setting-page-items']}>
-          <h3>快捷键</h3>
-          <div className={styles['setting-page-item']}>
-            <div className={styles['setting-page-left']}>
-              <div className={styles['setting-page-item-title']}>
-                启用全局快捷键
-              </div>
-            </div>
-            <div className={styles['setting-page-right']}>
-              <div className={styles.toggle}>
-                <input
-                  checked={enableGlobalShortcut}
-                  id="enable-enable-global-shortcut"
-                  type="checkbox"
-                  name="enable-enable-global-shortcut"
-                  onChange={handleToggle}
-                />
-                <label htmlFor="enable-enable-global-shortcut"></label>
-              </div>
+        <div>
+          <HeadingSmall>快捷键</HeadingSmall>
+          <div className="my-[24px] flex items-center justify-between text-black">
+            <div className="text-lg font-medium">启用全局快捷键</div>
+            <div>
+              <Switch checked={enableGlobalShortcut} onChange={handleToggle} />
             </div>
           </div>
           <div
             id="shortcut-table"
-            className={classnames(
-              styles['shortcut-table'],
-              !enableGlobalShortcut ? styles['shortcut-table-enable'] : ''
-            )}
+            className="text-black select-none focus:outline-none"
             tabIndex={0}
             onKeyDown={(e: React.KeyboardEvent) => handleShortcutKeydown(e)}
             onKeyUp={(e: React.KeyboardEvent) => handleShortcutKeyup(e)}
           >
             <div
-              className={classnames(
-                styles['shortcut-table-row'],
-                styles['shortcut-table-row-head']
-              )}
+              className={`flex opcaity-60 text-sm font-medium ${
+                !enableGlobalShortcut && 'last:opacity-50'
+              }`}
             >
-              <div className={styles['shortcut-table-col']}>功能</div>
-              <div className={styles['shortcut-table-col']}>快捷键</div>
-              <div className={styles['shortcut-table-col']}>全局快捷键</div>
+              <div className={shortcutTableCol}>功能</div>
+              <div className={shortcutTableCol}>快捷键</div>
+              <div className={shortcutTableCol}>全局快捷键</div>
             </div>
             {shortcuts.map((shortcut: ShortcutType) => {
               return (
-                <div className={styles['shortcut-table-row']} key={shortcut.id}>
-                  <div className={styles['shortcut-table-col']}>
-                    {shortcut.name}
-                  </div>
-                  <div className={styles['shortcut-table-col']}>
+                <div
+                  className={`flex ${
+                    !enableGlobalShortcut && 'last:opacity-100'
+                  }`}
+                  key={shortcut.id}
+                >
+                  <div className={shortcutTableCol}>{shortcut.name}</div>
+                  <div className={shortcutTableCol}>
                     <div
                       onClick={() =>
                         readyToRecordShortcut(shortcut.id, 'shortcut')
                       }
                       className={classnames(
-                        styles['keyboard-input'],
+                        keyboardInput,
                         shortcutInput.id === shortcut.id &&
                           shortcutInput.type === 'shortcut'
-                          ? styles['keyboard-input-active']
+                          ? keyboardInputActive
                           : ''
                       )}
                     >
@@ -373,17 +375,17 @@ const Setting = () => {
                         : formatShortcut(shortcut.shortcut)}
                     </div>
                   </div>
-                  <div className={styles['shortcut-table-col']}>
+                  <div className={shortcutTableCol}>
                     <div
                       onClick={() =>
                         readyToRecordShortcut(shortcut.id, 'globalShortcut')
                       }
                       className={classnames(
-                        styles['keyboard-input'],
+                        keyboardInput,
                         shortcutInput.id === shortcut.id &&
                           shortcutInput.type === 'globalShortcut' &&
                           enableGlobalShortcut
-                          ? styles['keyboard-input-active']
+                          ? keyboardInputActive
                           : ''
                       )}
                     >
@@ -398,15 +400,15 @@ const Setting = () => {
               )
             })}
             <button
-              className={styles['restore-default-shortcut']}
+              className="text-black font-semibold duration-200 mt-[12px] px-[12px] py-[8px] rounded-[8px] hover:scale-105  active:scale-95"
               onClick={restoreDefaultShortcuts}
             >
               恢复默认快捷键
             </button>
           </div>
         </div>
-        <div className={styles['setting-page-items']}>
-          <h3>其他</h3>
+        <div>
+          <HeadingSmall>其他</HeadingSmall>
         </div>
       </div>
     </div>

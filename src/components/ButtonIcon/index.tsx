@@ -17,7 +17,10 @@ const ButtonIcon: React.FC<IProps> = ({
 }) => {
   return (
     <button
-      className={classnames(styles['button-icon'], classname)}
+      className={classnames(
+        'rounded-xl flex items-center justify-start m-[4px] p-[8px] bg-transparent first:ml-0 hover:bg-gray-200 active:scale-92',
+        classname
+      )}
       onClick={onclick}
     >
       {children}

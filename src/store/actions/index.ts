@@ -3,8 +3,10 @@ import { Dispatch } from 'react'
 import { Action, AnyAction } from 'redux'
 
 import {
-  resetShortcuts,
+  getEnableGlobalShortcut,
   changeEnableGlobalShortcut,
+  getShortcuts,
+  resetShortcuts,
   updateShortcut,
   setTheme
 } from './settings'
@@ -63,8 +65,10 @@ export interface RootActionsCreator {
 }
 
 export {
-  resetShortcuts,
+  getEnableGlobalShortcut,
   changeEnableGlobalShortcut,
+  getShortcuts,
+  resetShortcuts,
   updateShortcut,
   setShowLogin,
   updateApplycation,

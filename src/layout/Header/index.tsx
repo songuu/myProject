@@ -16,8 +16,6 @@ import defaultAvatar from '@imgs/default-avatar.png'
 
 import SettingModal from '@root/pages/Setting'
 
-import styles from './index.module.less'
-
 interface IBaseHeaderProps {}
 
 const links = [
@@ -49,7 +47,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
 
   const [inputFocus, setInputFocus] = useState<boolean>(false)
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(true)
 
   const contextRef = useRef<MenuImperativeProps>(null)
 
@@ -58,7 +56,9 @@ const Header: React.FC<IBaseHeaderProps> = () => {
   }
 
   const focusClass = useMemo(() => {
-    return inputFocus ? 'bg-opacity-100 text-[#335eea] dark:text-white' : 'text-black'
+    return inputFocus
+      ? 'bg-opacity-100 text-[#335eea] dark:text-white'
+      : 'text-black'
   }, [inputFocus])
 
   return (
@@ -122,7 +122,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
           </div>
         </div>
         <img
-          className={styles['header-right-avatar']}
+          className="h-[30px] select-none ml-[10px] rounded-full cursor-pointer app-region-drag user-drag-none hover:filter hover:brightness-75 transition-all duration-200"
           src={defaultAvatar}
           onClick={(e: React.MouseEvent<HTMLDivElement>) => {
             contextRef.current?.openMenu(e)
@@ -160,13 +160,15 @@ const Header: React.FC<IBaseHeaderProps> = () => {
         isOpen={isOpen}
         animate
         autoFocus
-        size={SIZE.full}
+        size={720}
         role={ROLE.dialog}
       >
-        <ModalHeader>设置</ModalHeader>
-        <ModalBody>
-          <SettingModal />
-        </ModalBody>
+        <div className="w-[720px]">
+          <ModalHeader>设置</ModalHeader>
+          <ModalBody>
+            <SettingModal />
+          </ModalBody>
+        </div>
       </Modal>
     </div>
   )

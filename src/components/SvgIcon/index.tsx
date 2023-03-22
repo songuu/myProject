@@ -4,8 +4,6 @@ import classnames from 'classnames'
 
 // require('../../static/icons/search.svg')
 
-import styles from './index.module.less'
-
 type Iprops = {
   iconClass?: string
   iconName: string
@@ -19,7 +17,7 @@ const SvgIcon: React.FC<Iprops> = ({ iconName, iconClass, mystyle }) => {
 
   return (
     <svg
-      className={classnames(styles['svg-icon'], iconClass)}
+      className={classnames('fill-current', iconClass)}
       aria-hidden="true"
       style={mystyle}
     >

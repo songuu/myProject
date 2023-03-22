@@ -4,7 +4,6 @@ import { Route, Routes, useLocation, Navigate } from 'react-router-dom'
 
 import { PageLoading } from '@root/components'
 
-import styles from './index.module.less'
 import Book from '@views/Book'
 import Daybook from '@views/Daybook'
 import Snapshot from '@views/Snapshot'
@@ -22,7 +21,7 @@ const Content: React.FC<IBaseContentProps> = () => {
   const location = useLocation()
 
   return (
-    <div className={`${styles.content_outer} dark:bg-[#24272e]`}>
+    <div className="overflow-auto h-[calc(100%_-_60px)] dark:bg-[#24272e]">
       <Suspense fallback={<PageLoading />}>
         <Routes location={location}>
           <Route path="home" element={<Home />} />

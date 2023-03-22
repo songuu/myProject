@@ -66,9 +66,13 @@ export const api = {
     ipcRenderer.send('toggle-max')
   },
 
+  getEnableGlobalShortcut() {
+    return asyncSend('getEnableGlobalShortcut')
+  },
+
   // 开始设置快捷键状态
-  switchGlobalShortcutStatusTemporary: (status: 'enable' | 'disable') => {
-    ipcRenderer.send('switchGlobalShortcutStatusTemporary', status)
+  switchGlobalShortcutStatusTemporary: (status: boolean) => {
+    return asyncSend('switchGlobalShortcutStatusTemporary', status)
   },
 
   // 获取快捷键
