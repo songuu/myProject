@@ -4,27 +4,43 @@ import { Input } from 'baseui/input'
 
 import { Button, SIZE } from 'baseui/button'
 
+import { useAppDispatch } from '@root/store'
+
+import { addApp } from '@root/store/actions'
+
+import { FormType } from '@root/store/action-types'
+
 import { createForm } from '@components/Form'
 
 const { Form, FormItem, useForm } = createForm<any>()
 
-interface FormType {
-  name: string
-  type: string
-  AK: string
-  SK: string
+interface IProps {
+  onSuccess: () => void
 }
 
-const AddForm = () => {
+const AddForm: React.FC<IProps> = ({ onSuccess }) => {
+  const dispatch = useAppDispatch()
   const [form] = useForm()
 
+  const [loading, setLoading] = useState<boolean>(false)
+
   const [values, setValues] = useState<FormType>({
-    name: '',
-    type: '',
-    AK: '',
-    SK: '',
+    name: 'test',
+    type: 'qiniu',
+    ak: 'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU',
+    sk: 'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y',
   })
-  const onSubmmit = useCallback(async (data: FormType) => {}, [])
+  const onSubmmit = useCallback(async (data: FormType) => {
+    setLoading(true)
+    try {
+      await dispatch(addApp(data))
+      onSuccess()
+    } catch (err) {
+      console.log(err)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   const onChange = useCallback(
     (_changes: Partial<FormType>, values_: FormType) => {
@@ -51,14 +67,18 @@ const AddForm = () => {
         <FormItem required name="type" label="类型">
           <Input size="compact" />
         </FormItem>
-        <FormItem required name="AK" label="AK">
+        <FormItem required name="ak" label="AK">
           <Input size="compact" />
         </FormItem>
-        <FormItem required name="SK" label="SK">
+        <FormItem required name="sk" label="SK">
           <Input size="compact" type="password" />
         </FormItem>
       </Form>
-      <Button onClick={() => form.submit()} size={SIZE.compact}>
+      <Button
+        isLoading={loading}
+        onClick={() => form.submit()}
+        size={SIZE.compact}
+      >
         确定
       </Button>
     </>

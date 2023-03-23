@@ -106,18 +106,17 @@ export const api = {
   },
 
   // 添加应用[绑定应用]
-  addApp(
-    name: string,
-    type: OssType,
-    ak: string,
+  addApp(params: {
+    name: string
+    type: OssType
+    ak: string
     sk: string
-  ): Promise<AppStore> {
-    const app = { name, type, ak, sk }
-    return asyncSend('add-app', app)
+  }): Promise<AppStore> {
+    return asyncSend('add-app', params)
   },
 
   // 获取应用
-  getApp(): Promise<AppStore> {
+  getApps(): Promise<AppStore> {
     return asyncSend('get-apps')
   },
 
@@ -272,7 +271,7 @@ export const api = {
   // 获取chat 指定消息
   getChatSessionDataMsgByIdAndIndex: (payload: any) => {
     return asyncSend('getChatSessionDataMsgByIdAndIndex', payload)
-  }
+  },
 }
 
 contextBridge.exposeInMainWorld('Main', api)

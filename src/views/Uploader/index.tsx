@@ -22,10 +22,6 @@ enum OssType {
   qiniu,
 }
 
-const OssTypeMap = {
-  [OssType.qiniu]: '七牛云',
-}
-
 const audio = new Audio(audioSrc)
 
 function Uploader() {

@@ -44,7 +44,7 @@ const Apps: React.FC<IProps> = ({ apps }) => {
               <img
                 src={app.cover}
                 alt={app.name}
-                className="w-full select-none rounded-xl border-[1px] border-solid border-gray-800"
+                className="w-full select-none rounded-xl dark:border-[1px] dark:border-solid dark:border-gray-800"
                 style={{
                   // @ts-ignore
                   'aspect-ratio': '1/1',
@@ -63,7 +63,7 @@ const Apps: React.FC<IProps> = ({ apps }) => {
               )}
             </div>
             <div
-              className="text-center mt-[8px] font-base font-semibold hover:text-decoration-underline line-clamp-2 text-black dark:text-white"
+              className="text-center mt-[8px] font-base font-semibold hover:underline hover:underline-offset-4 line-clamp-2 text-black dark:text-white"
               onClick={() => navigate(app.short)}
             >
               {app.name}

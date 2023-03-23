@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
-import classnames from 'classnames'
-
 import { HeadingXSmall } from 'baseui/typography'
 
 import { AppStore } from '@mytypes/common'
 
-import { SvgIcon, Empty, Message, Button } from '@components/index'
-
-import { hiddenTextFilter } from '@libs/utils'
+import { Empty, Message, Button } from '@components/index'
 
 import AddForm from './add-form'
 
@@ -20,10 +16,6 @@ import styles from './index.module.less'
 
 enum OssType {
   qiniu,
-}
-
-const OssTypeMap: any = {
-  [OssType.qiniu]: '七牛云',
 }
 
 enum ServicesPage {
@@ -65,7 +57,7 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
       const id = app._id
       await window.Main.deleteApp(String(id))
 
-      const allApps: any = await window.Main.getApp()
+      const allApps: any = await window.Main.getApps()
 
       setApps(allApps)
 
@@ -94,7 +86,7 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
 
   // 初始化应用
   const initState = async () => {
-    const allApps: any = await window.Main.getApp()
+    const allApps: any = await window.Main.getApps()
 
     setApps(allApps)
   }
@@ -103,16 +95,6 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
     initState().then(r => r)
   }, [])
 
-  const renderIcon = (type: OssType) => {
-    switch (type) {
-      case OssType.qiniu:
-        return <SvgIcon iconName="qiniu" iconClass={styles['svg-icon']} />
-
-      default:
-        return null
-    }
-  }
-
   const submit = async () => {
     /*  if (Object.keys(forms.current).every((item: any) => !forms.current[item])) {
       alert('请完善信息')
@@ -120,29 +102,7 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
     }
  */
     try {
-      setLoading(true)
-
-      const params = {
-        type: OssType.qiniu,
-        ak: 'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU', // forms.current.AK,
-        sk: 'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y', // forms.current.SK,
-      }
-      const buckets = await window.Main.getBuckets(params)
-
-      const app = await window.Main.addApp(
-        'oversea1234', // forms.current.name,
-        OssType.qiniu,
-        'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU',
-        'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y'
-      )
-
-      const allApps = await window.Main.getApp()
-
-      setApps(allApps)
-
-      // const addedApp = [allApps].find(i => i.sk === sk)
-
-      onAppSwitch(allApps)
+      onAppSwitch(apps[0])
 
       setPage(ServicesPage.list)
     } catch (error: any) {
@@ -151,6 +111,8 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
     }
   }
 
+  const handleAddSuccess = () => {}
+
   const renderSwitch = (param: ServicesPage) => {
     switch (param) {
       case ServicesPage.list:
@@ -158,7 +120,9 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
           <section className={appsMainWrapperCss}>
             <div className={styles['apps-main-wrapper-left']}>
               <div className={styles['apps-main-wrapper-header']}>
-                <Button onClick={_toAddPage}>添加</Button>
+                <Button type="primary" onClick={_toAddPage}>
+                  添加
+                </Button>
               </div>
               <BucketList
                 apps={apps}
@@ -188,7 +152,7 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
             </div>
             <div className="w-full h-full flex items-center flex-col justify-center overflow-hidden">
               <HeadingXSmall>新增配置</HeadingXSmall>
-              <AddForm />
+              <AddForm onSuccess={handleAddSuccess} />
             </div>
           </section>
         )

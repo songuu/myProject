@@ -12,8 +12,7 @@ export type SET_SHORTCUTS_TYPE = typeof SET_SHORTCUTS
 export const RESET_SHORTCUTS = 'RESET_SHORTCUTS'
 export type RESET_SHORTCUTS_TYPE = typeof RESET_SHORTCUTS
 export const SET_ENABLE_GLOBAL_SHORTCUT = 'SET_ENABLE_GLOBAL_SHORTCUT'
-export type SET_ENABLE_GLOBAL_SHORTCUT_TYPE =
-  typeof SET_ENABLE_GLOBAL_SHORTCUT
+export type SET_ENABLE_GLOBAL_SHORTCUT_TYPE = typeof SET_ENABLE_GLOBAL_SHORTCUT
 export const UPDATE_SHORTCUT = 'UPDATE_SHORTCUT'
 export type UPDATE_SHORTCUT_TYPE = typeof UPDATE_SHORTCUT
 export const SET_THEME = 'SET_THEME'
@@ -41,6 +40,16 @@ export type SET_SESSION_TYPE = typeof SET_SESSION
 export const SET_USING_CONTEXT = 'SET_USING_CONTEXT'
 export type SET_USING_CONTEXT_TYPE = typeof SET_USING_CONTEXT
 
+// * bucket
+export const SET_ACTIVE_BUCKET = 'SET_ACTIVE_BUCKET'
+export type SET_ACTIVE_BUCKET_TYPE = typeof SET_ACTIVE_BUCKET
+export const SET_BUCKETS = 'SET_BUCKETS'
+export type SET_BUCKETS_TYPE = typeof SET_BUCKETS
+export const SET_ALL_APPS = 'SET_ALL_APPS'
+export type SET_ALL_APPS_TYPE = typeof SET_ALL_APPS
+export const SET_ACTIVE_APP = 'SET_ACTIVE_APP'
+export type SET_ACTIVE_APP_TYPE = typeof SET_ACTIVE_APP
+
 export type ShortcutType = {
   id: string
   name: string
@@ -55,8 +64,8 @@ export type UpdatecutType = {
 }
 
 export type ChatSettingType = {
-  apiKey: string,
-  apiURL: string,
+  apiKey: string
+  apiURL: string
 }
 
 export type Theme = 'light' | 'dark'
@@ -67,4 +76,17 @@ export type UpdateHistoryType = {}
 
 export type DeleteHistoryType = {}
 
-export enum Types { }
+export enum Types {}
+
+export enum OssType {
+  qiniu,
+  ali,
+  tencent,
+}
+
+export type FormType = {
+  name: string
+  type: any
+  ak: string
+  sk: string
+}
