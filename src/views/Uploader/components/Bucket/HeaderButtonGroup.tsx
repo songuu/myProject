@@ -1,12 +1,13 @@
 import React from 'react'
 
-import styles from './index.module.less'
+import { Button } from '@components/index'
 
 interface PropTypes {
   fileUpload: () => void
   selectedItems: string[]
   onDownload: () => void
   onDelete: () => void
+  bucketMeta?: any
 }
 
 const HeaderButtonGroup: React.FC<PropTypes> = ({
@@ -17,16 +18,24 @@ const HeaderButtonGroup: React.FC<PropTypes> = ({
   bucketMeta,
 }) => {
   return (
-    <div className={styles['buttons-wrapper']}>
-      <button disabled={!bucketMeta} onClick={fileUpload}>
+    <div className="box-border pr-[12px] py-[8px] w-full leading-[56px] border-b-[1px] border-b-[#f0f0f0] border-b-solid">
+      <Button disabled={!bucketMeta} onClick={fileUpload}>
         上传文件
-      </button>
-      <button disabled={selectedItems.length === 0} onClick={onDownload}>
+      </Button>
+      <Button
+        disabled={selectedItems.length === 0}
+        onClick={onDownload}
+        className="ml-5"
+      >
         下载
-      </button>
-      <button disabled={selectedItems.length === 0} onClick={onDelete}>
+      </Button>
+      <Button
+        disabled={selectedItems.length === 0}
+        onClick={onDelete}
+        className="ml-5"
+      >
         删除
-      </button>
+      </Button>
     </div>
   )
 }

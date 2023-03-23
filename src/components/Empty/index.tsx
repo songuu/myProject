@@ -19,20 +19,22 @@ function Empty(baseProps: EmptyProps, ref: React.Ref<any>) {
   return (
     <div
       ref={ref}
-      className={classnames(styles.empty, className)}
+      className={classnames('w-full py-[10px] box-border', className)}
       style={style}
     >
-      <div className={styles.wrapper}>
-        <div className={styles.image}>
+      <div className="w-full box-border text-center text-[#A9AEB8]">
+        <div className="mb-[4px] leading-none text-[48px]">
           {imgSrc ? (
             <img alt={alt} src={imgSrc} />
           ) : (
-            <SvgIcon iconName="empty" iconClass={styles['svg-icon']} />
+            <SvgIcon
+              iconName="empty"
+              iconClass="stroke-current fill-none inline-block text-current align-[-2px]"
+            />
           )}
         </div>
-        {title && <div className={styles.title}>{title}</div>}
-        <div className={styles.description}>{description || noData}</div>
-
+        {title && <div className="text-lg text-[#6B7785]">{title}</div>}
+        <div className="text-[#A9AEB8]">{description || noData}</div>
         {children ?? null}
       </div>
     </div>

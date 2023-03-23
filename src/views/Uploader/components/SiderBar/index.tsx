@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import classnames from 'classnames'
 
+import { HeadingMedium, HeadingSmall, HeadingXSmall } from 'baseui/typography'
+
 import { UploaderPage } from '@constants/enums'
 
 import FileIcon from '@imgs/file.png'
@@ -9,8 +11,6 @@ import SettingIcon from '@imgs/setting.png'
 import DoneIcon from '@imgs/done.png'
 import DownloadIcon from '@imgs/download.png'
 import AppsIcon from '@imgs/apps.png'
-
-import styles from './index.module.less'
 
 interface IProps {
   bucketList: string[]
@@ -25,6 +25,11 @@ type ProgressItem = {
   progress: number
 }
 
+const listItemCss =
+  'h-[36px] flex items-center px-[8px] my-[6px] mr-[8px] cursor-pointer text-[#7a7a7b] hover:text-[#335EEA] flex-row text-lg'
+
+const listItemIconCss = 'inline-block w-[12px] h-[12px]'
+
 const SiderBar: React.FC<IProps> = ({
   activePage,
   activeBucket,
@@ -37,10 +42,10 @@ const SiderBar: React.FC<IProps> = ({
   const activeTag = (page: UploaderPage, bucket: string) => {
     return bucket
       ? activePage === page && activeBucket === bucket
-        ? styles['sidebar-container-sidebar-list-active']
+        ? 'bg-[#eaeffd] rounded-xl text-[#335EEA]'
         : ''
       : activePage === page
-      ? styles['sidebar-container-sidebar-list-active']
+      ? 'bg-[#eaeffd] rounded-xl text-[#335EEA]'
       : ''
   }
 
@@ -56,25 +61,23 @@ const SiderBar: React.FC<IProps> = ({
   }
 
   return (
-    <div className={styles['the-sidebar-wrapper']}>
-      <section className={styles['sidebar-container']}>
-        <div className={styles['sidebar-container-title']}>
-          <div className={styles['sidebar-container-title-text']}>储存空间</div>
-        </div>
-        <ul className={styles['sidebar-container-sidebar-list']}>
+    <div className="w-[225px] overflow-auto">
+      <section className="mb-[30px]">
+        <HeadingMedium>储存空间</HeadingMedium>
+        <ul className="p-0 m-0">
           {bucketList.length ? (
             bucketList.map((bucket: string) => (
               <div
                 role="presentation"
                 className={classnames(
-                  styles['sidebar-container-sidebar-list-item'],
+                  listItemCss,
                   activeTag(UploaderPage.bucket, bucket)
                 )}
                 key={bucket}
                 onClick={() => tabChange(UploaderPage.bucket, bucket)}
               >
                 <img className="icon" src={FileIcon} alt="" />
-                <div className="name" title={bucket}>
+                <div className="ml-2 text-sm" title={bucket}>
                   {bucket}
                 </div>
               </div>
@@ -82,8 +85,8 @@ const SiderBar: React.FC<IProps> = ({
           ) : (
             <li
               className={classnames(
-                styles['sidebar-container-sidebar-list-item'],
-                styles['sidebar-container-sidebar-list-disabled']
+                listItemCss,
+                'opacity-30 cursor-not-allowed'
               )}
             >
               <img className="icon" src={FileIcon} alt="" />
@@ -92,69 +95,46 @@ const SiderBar: React.FC<IProps> = ({
           )}
         </ul>
       </section>
-      <section className={styles['sidebar-container']}>
-        <div className={styles['sidebar-container-title']}>
-          <div className={styles['sidebar-container-title-text']}>传输列表</div>
-          {showProgress && '进度条'}
-        </div>
-        <div className={styles['sidebar-container-sidebar-list']}>
+      <section className="mb-[30px]">
+        <HeadingSmall>传输列表{showProgress && '进度条'}</HeadingSmall>
+        <div className="p-0 m-0">
           <div
             role="presentation"
             onClick={() => tabChange(UploaderPage.transferList, '')}
             className={classnames(
-              styles['sidebar-container-sidebar-list-item'],
+              listItemCss,
               activeTag(UploaderPage.transferList, '')
             )}
           >
-            <img
-              className={styles['sidebar-container-sidebar-list-item-icon']}
-              src={DownloadIcon}
-              alt=""
-            />
-            <div className={styles['sidebar-container-sidebar-list-item-name']}>
-              传输列表
-            </div>
+            <img className={listItemIconCss} src={DownloadIcon} alt="" />
+            <div className="pl-[10px] text-sm">传输列表</div>
           </div>
           <div
             role="presentation"
             onClick={() => tabChange(UploaderPage.transferDone, '')}
             className={classnames(
-              styles['sidebar-container-sidebar-list-item'],
+              listItemCss,
               activeTag(UploaderPage.transferDone, '')
             )}
           >
-            <img
-              className={styles['sidebar-container-sidebar-list-item-icon']}
-              src={DoneIcon}
-              alt=""
-            />
-            <div className={styles['sidebar-container-sidebar-list-item-name']}>
-              传输完成
-            </div>
+            <img className={listItemIconCss} src={DoneIcon} alt="" />
+            <div className="pl-[10px] text-sm">传输完成</div>
           </div>
         </div>
       </section>
-      <section className={styles['sidebar-container']}>
-        <div className={styles['sidebar-container-title']}>
-          <div className={styles['sidebar-container-title-text']}>设置</div>
-        </div>
-        <div className={styles['sidebar-container-sidebar-list']}>
+      <section className="mb-[30px]">
+        <HeadingSmall>设置</HeadingSmall>
+        <div className="p-0 m-0">
           <div
             role="presentation"
             onClick={() => tabChange(UploaderPage.services, '')}
             className={classnames(
-              styles['sidebar-container-sidebar-list-item'],
+              listItemCss,
               activeTag(UploaderPage.services, '')
             )}
           >
-            <img
-              className={styles['sidebar-container-sidebar-list-item-icon']}
-              src={AppsIcon}
-              alt=""
-            />
-            <div className={styles['sidebar-container-sidebar-list-item-name']}>
-              apps
-            </div>
+            <img className={listItemIconCss} src={AppsIcon} alt="" />
+            <div className="pl-[10px] text-sm">apps</div>
           </div>
         </div>
       </section>

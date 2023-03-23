@@ -10,7 +10,16 @@ import { supportedImage, getIconName } from '@libs/utils'
 
 import { SvgIcon, WrapSelection } from '@components/index'
 
-import styles from './index.module.less'
+const mainGridCellCss =
+  'w-[80px] h-[80px] overflow-hidden hover:children:bg-gray-500'
+
+const mainGridCellInnerCss =
+  'p-[5px] radius-[5px] flex items-center flex-column'
+
+const iconCss = 'w-[60px] h-[57px] inline-block'
+
+const nameCss =
+  'inline-block w-full text-black text-center pt-[3px] overflow-hidden text-ellipsis whitespace-nowrap leading-5 text-sm'
 
 type PropTypes = {
   items: Item[]
@@ -41,11 +50,11 @@ const BodyGrid: React.FC<PropTypes> = ({
     return (
       <div
         className={classnames(
-          styles['main-grid__cell'],
+          mainGridCellCss,
           'main-grid__cell'
           /* selections.length &&
             selections.includes(String(item.shortId)) &&
-            styles['selection'] */
+            "bg-black border-1 border-solid border-gray-500" */
         )}
         key={item.name}
         onContextMenu={e => onFileContextMenu(e, item)}
@@ -53,26 +62,21 @@ const BodyGrid: React.FC<PropTypes> = ({
         data-id={item.shortId}
       >
         <div
-          className={classnames(
-            styles['main-grid__cell-inner'],
-            'main-grid__cell-inner'
-          )}
+          className={classnames(mainGridCellInnerCss, 'main-grid__cell-inner')}
           title={item.name}
         >
           {supportedImage(item.type) && domains.length > 0 ? (
-            <div className={styles['preview-image']}>
+            <div className="overflow-auto">
               <img
+                className="w-[50px] h-[50px] object-cover"
                 src={`http://${domains[0]}/${item.webkitRelativePath}`}
                 alt={item.name}
               />
             </div>
           ) : (
-            <SvgIcon
-              iconName={getIconName(item.name)}
-              iconClass={styles.icon}
-            />
+            <SvgIcon iconName={getIconName(item.name)} iconClass={iconCss} />
           )}
-          <span className={styles.name}>{item.name}</span>
+          <span className={nameCss}>{item.name}</span>
         </div>
       </div>
     )
@@ -81,14 +85,14 @@ const BodyGrid: React.FC<PropTypes> = ({
   const renderVFolder = (item: VFolder) => {
     return (
       <div
-        className={classnames(styles['main-grid__cell'], 'main-grid__cell')}
+        className={classnames(mainGridCellCss, 'main-grid__cell')}
         key={item.name}
         onContextMenu={e => onFolderContextMenu(e, item)}
         onDoubleClick={() => onFolderSelect(item.name)}
       >
-        <div className={styles['main-grid__cell-inner']} data-id={item.shortId}>
-          <SvgIcon iconName="folder" iconClass={styles.icon} />
-          <span className={styles.name}>{item.name}</span>
+        <div className={mainGridCellInnerCss} data-id={item.shortId}>
+          <SvgIcon iconName="folder" iconClass={iconCss} />
+          <span className={nameCss}>{item.name}</span>
         </div>
       </div>
     )
@@ -105,7 +109,13 @@ const BodyGrid: React.FC<PropTypes> = ({
   return (
     // <WrapSelection onSelected={onSelected} selectables=".main-grid__cell">
     <div
-      className={classnames(styles['main-grid'], 'main-grid')}
+      className={classnames(
+        'w-full h-full px-[20px] py-[14px] grid gap-x-[5px] gap-y-[5px] ',
+        'main-grid'
+      )}
+      style={{
+        gridTemplateColumns: 'repeat(auto-fill, 80px)',
+      }}
       onMouseDown={onPanelMouseDown}
       onContextMenu={onPanelContextMenu}
       role="presentation"

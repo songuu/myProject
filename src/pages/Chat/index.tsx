@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 
 import { Route, Routes } from 'react-router-dom'
 
@@ -12,7 +12,7 @@ function Chat() {
       <div className="h-full overflow-hidden border rounded-md shadow-md dark:border-neutral-800">
         <div className="z-40 flex h-full transition">
           <Sider />
-          <div className='flex-1 h-full'>
+          <div className="flex-1 h-full">
             <Routes>
               <Route path="/" element={<Content />}>
                 <Route path=":id" element={<Content />} />

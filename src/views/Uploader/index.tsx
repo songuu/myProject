@@ -18,8 +18,6 @@ import {
   Services,
 } from './components'
 
-import styles from './index.module.less'
-
 enum OssType {
   qiniu,
 }
@@ -114,7 +112,8 @@ function Uploader() {
   }
 
   const renderPage = (page: UploaderPage) => {
-    switch (page) {
+    return <Services activeApp={activeApp} onAppSwitch={onAppSwitch} />
+    /* switch (page) {
       case UploaderPage.bucket:
         return <Bucket bucketMeta={bucketMeta} />
       case UploaderPage.services:
@@ -125,7 +124,7 @@ function Uploader() {
         return <TransferList />
       default:
         return null
-    }
+    } */
   }
 
   const tabChange = async (page: UploaderPage, bucket: string) => {
@@ -171,7 +170,7 @@ function Uploader() {
   }
 
   return (
-    <div className={styles.main}>
+    <div className="w-full h-full pl-[20px] pt-[20px] flex relative overflow-hidden">
       <SiderBar
         bucketLoading={bucketLoading}
         bucketList={bucketList}
@@ -181,11 +180,12 @@ function Uploader() {
       />
 
       <section
-        className={styles['main-wrapper']}
+        className="overflow-auto w-full h-full box-border bg-no-repeat"
         style={{
           backgroundPosition: bgOffset,
           width: mainWrapperWidth,
           maxWidth: mainWrapperWidth,
+          backgroundImage: `url(${require('@static/imgs/global.png')})`,
         }}
       >
         {renderPage(activePage)}

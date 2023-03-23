@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from './index.module.less'
 
 type PropTypes = {
   totalItem: number
@@ -9,12 +8,10 @@ type PropTypes = {
 
 const Footer = ({ totalItem, selectedItem, domains }: PropTypes) => {
   return (
-    <div className={styles.footer}>
-      <div className={styles['footer-left']}>
-        <span
-          className={styles['current-select']}
-        >{`选中${selectedItem}项`}</span>
-        <span className={styles['current-total']}>{`/总共${totalItem}项`}</span>
+    <div className="h-[40px] min-h-[40px] box-border px-[10px] flex flex-row justify-between items-center text-sm border-t-[1px] border-t-solid border-t-[#fafafa] dark:text-white">
+      <div>
+        <span>{`选中${selectedItem}项`}</span>
+        <span>{`/总共${totalItem}项`}</span>
       </div>
       <span>{domains.length > 0 ? domains[0] : '没有绑定域名'}</span>
     </div>

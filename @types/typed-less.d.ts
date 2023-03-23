@@ -12,3 +12,9 @@ declare module '*.json' {
   const classes: { readonly [key: string]: string }
   export default classes
 }
+
+declare module '*.mp3' {
+  const classes: any
+  export default classes
+}
+

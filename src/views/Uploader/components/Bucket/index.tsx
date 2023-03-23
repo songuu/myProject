@@ -139,7 +139,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
 
   const handleDelete = async () => {
     const files = getOperationFiles()
-    
+
     await window.Main.deleteFiles({ fileList: [...files] })
 
     await onRefreshBucket()
@@ -218,7 +218,13 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   }, [])
 
   return (
-    <div className={styles['bucket-wrapper']}>
+    <div
+      className="h-full flex flex-col select-none"
+      style={{
+        // @ts-ignore
+        WebkitAppRegion: 'no-drag',
+      }}
+    >
       <HeaderButtonGroup
         selectedItems={selection.fileIds}
         fileUpload={() => {
@@ -237,7 +243,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
         navigators={vFolder.getNav()}
       />
 
-      <div className={styles['loading-wrapper']}>
+      <div className="h-full overflow-hidden relative box-border">
         <FileDrop
           onDrop={async files => {
             if (files) {
@@ -250,7 +256,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
             }
           }}
         >
-          <div className={styles['content-wrapper']}>{renderMainPanel()}</div>
+          <div className="z-50 h-full overflow-y-auto overflow-x-hidden">{renderMainPanel()}</div>
         </FileDrop>
       </div>
 

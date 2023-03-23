@@ -26,6 +26,8 @@ const defaultItemRender = (
   if (routes.indexOf(route) === routes.length - 1) {
     return <span>{route.breadcrumbName}</span>
   }
+
+  console.log('path=====>', `#/${paths.join('/').replace(/^\//, '')}`)
   return (
     <a href={`#/${paths.join('/').replace(/^\//, '')}`}>
       {route.breadcrumbName}
@@ -118,7 +120,7 @@ const Breadcrumb = (baseProps: PropsWithChildren<BreadcrumbProps>, ref) => {
       )
     })
   }
-  
+
   return (
     <div
       role="list"

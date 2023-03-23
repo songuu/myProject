@@ -152,3 +152,122 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+:global(.file-drop) {
+  height: 100%;
+
+  :global(.file-drop-target) {
+    height: 100%;
+
+    &.file-drop-dragging-over-frame {
+      &::after {
+        z-index: 100;
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    &.file-drop-dragging-over-target {
+      &::before {
+        z-index: 101;
+        content: '文件将储存到当前目录下';
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        bottom: 10px;
+        right: 10px;
+        border: 2px #00b3ff dashed;
+        border-radius: 10px;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .main-table {
+      height: 100%;
+
+      .file-meta {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .file-icon {
+          font-size: 25px;
+        }
+
+        .file-name {
+          overflow: hidden; //超出的文本隐藏
+          text-overflow: ellipsis; //溢出用省略号显示
+          white-space: nowrap; //溢出不换行
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .main-grid {
+      height: calc(100% - 30px);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 90px);
+      grid-template-rows: 90px;
+      grid-row-gap: 5px;
+      grid-column-gap: 5px;
+
+      .main-grid__cell {
+        // float: left;
+        height: 80px;
+        width: 80px;
+        // margin: 5px;
+        overflow: hidden;
+
+        &:hover {
+          .main-grid__cell-inner {
+            background: rgba(0, 0, 0, 0.3);
+
+            .name {
+              color: #fff;
+            }
+          }
+        }
+
+        .main-grid__cell-inner {
+          padding: 5px;
+          border-radius: 3px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .preview-image {
+            overflow: hidden;
+
+            img {
+              width: 50px;
+              height: 50px;
+              object-fit: cover;
+            }
+          }
+
+          .name {
+            display: inline-block;
+            font-size: 12px;
+            line-height: 17px;
+            width: 100%;
+            color: #000;
+            text-align: center;
+            padding-top: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+}

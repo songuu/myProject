@@ -8,7 +8,7 @@ import { useAppDispatch } from '@root/store/index'
 
 import { clearChatSessions, addChatSession } from '@root/store/actions'
 
-import { Button } from '@root/components'
+import { Button } from '@components/index'
 
 import List from './list'
 

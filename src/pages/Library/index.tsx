@@ -2,15 +2,15 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 import { useSearchParams } from 'react-router-dom'
 
-import { useAppSelector, useAppDispatch } from '@root/store/index'
-
 import classnames from 'classnames'
+
+import { HeadingMedium } from 'baseui/typography'
+
+import { useAppSelector, useAppDispatch } from '@root/store/index'
 
 import { updateApplycation } from '@root/store/actions'
 
 import { Apps } from './components'
-
-import styles from './index.module.less'
 
 function Library() {
   const [search, setSearch] = useSearchParams()
@@ -23,7 +23,9 @@ function Library() {
     state => state.settings.enabledPlaylistCategories
   )
 
-  const applycations = useAppSelector(state => state.application.applycations)
+  const applycations = useAppSelector(
+    state => state.application.applycations
+  ) as any
 
   const dispatch = useAppDispatch()
 
@@ -38,15 +40,17 @@ function Library() {
   }, [queryCate])
 
   return (
-    <div className={styles.content_outer}>
-      <h1>应用</h1>
-      <div className={styles.btns}>
+    <div className="w-full h-full p-[20px]">
+      <HeadingMedium>应用</HeadingMedium>
+      <div className="flex flex-wrap">
         {enabledPlaylistCategories.map((category: string) => {
           return (
             <div
               className={classnames(
-                styles.btn,
-                activeCategory === category ? styles.active : ''
+                'select-none cursor-pointer px-[16px] py-[8px] mt-[10px] mb-[6px] mr-[16px] flex items-center justify-center font-semibold rounded-[10px]  text-2xl transition-200 hover:bg-[#eaeffd] hover:text-[#335eea]',
+                activeCategory === category
+                  ? 'text-[#335eea] bg-[#eaeffd]'
+                  : 'bg-[#f5f5f7] text-[#7a7a7b]'
               )}
               key={category}
               onClick={() => goToCategory(category)}
@@ -56,7 +60,7 @@ function Library() {
           )
         })}
       </div>
-      <div className={styles['app-list']}>
+      <div className="mt-[24px]">
         <Apps apps={applycations} />
       </div>
     </div>
