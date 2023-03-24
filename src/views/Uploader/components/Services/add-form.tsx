@@ -6,8 +6,6 @@ import { Button, SIZE } from 'baseui/button'
 
 import { useAppDispatch } from '@root/store'
 
-import { addApp } from '@root/store/actions'
-
 import { FormType } from '@root/store/action-types'
 
 import { createForm } from '@components/Form'
@@ -33,7 +31,7 @@ const AddForm: React.FC<IProps> = ({ onSuccess }) => {
   const onSubmmit = useCallback(async (data: FormType) => {
     setLoading(true)
     try {
-      await dispatch(addApp(data))
+      await window.Main.addApp(values)
       onSuccess()
     } catch (err) {
       console.log(err)
@@ -50,30 +48,28 @@ const AddForm: React.FC<IProps> = ({ onSuccess }) => {
   )
 
   return (
-    <>
-      <Form
-        form={form}
-        style={{
-          padding: '0 10px',
-          overflowX: 'hidden',
-        }}
-        onFinish={onSubmmit}
-        initialValues={values}
-        onValuesChange={onChange}
-      >
-        <FormItem required name="name" label="名称">
-          <Input size="compact" />
-        </FormItem>
-        <FormItem required name="type" label="类型">
-          <Input size="compact" />
-        </FormItem>
-        <FormItem required name="ak" label="AK">
-          <Input size="compact" />
-        </FormItem>
-        <FormItem required name="sk" label="SK">
-          <Input size="compact" type="password" />
-        </FormItem>
-      </Form>
+    <Form
+      form={form}
+      style={{
+        padding: '0 10px',
+        overflowX: 'hidden',
+      }}
+      onFinish={onSubmmit}
+      initialValues={values}
+      onValuesChange={onChange}
+    >
+      <FormItem required name="name" label="名称">
+        <Input size="compact" />
+      </FormItem>
+      <FormItem required name="type" label="类型">
+        <Input size="compact" />
+      </FormItem>
+      <FormItem required name="ak" label="AK">
+        <Input size="compact" />
+      </FormItem>
+      <FormItem required name="sk" label="SK">
+        <Input size="compact" type="password" />
+      </FormItem>
       <Button
         isLoading={loading}
         onClick={() => form.submit()}
@@ -81,7 +77,7 @@ const AddForm: React.FC<IProps> = ({ onSuccess }) => {
       >
         确定
       </Button>
-    </>
+    </Form>
   )
 }
 

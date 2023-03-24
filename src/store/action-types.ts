@@ -40,16 +40,6 @@ export type SET_SESSION_TYPE = typeof SET_SESSION
 export const SET_USING_CONTEXT = 'SET_USING_CONTEXT'
 export type SET_USING_CONTEXT_TYPE = typeof SET_USING_CONTEXT
 
-// * bucket
-export const SET_ACTIVE_BUCKET = 'SET_ACTIVE_BUCKET'
-export type SET_ACTIVE_BUCKET_TYPE = typeof SET_ACTIVE_BUCKET
-export const SET_BUCKETS = 'SET_BUCKETS'
-export type SET_BUCKETS_TYPE = typeof SET_BUCKETS
-export const SET_ALL_APPS = 'SET_ALL_APPS'
-export type SET_ALL_APPS_TYPE = typeof SET_ALL_APPS
-export const SET_ACTIVE_APP = 'SET_ACTIVE_APP'
-export type SET_ACTIVE_APP_TYPE = typeof SET_ACTIVE_APP
-
 export type ShortcutType = {
   id: string
   name: string

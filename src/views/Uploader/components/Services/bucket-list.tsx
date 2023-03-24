@@ -6,8 +6,6 @@ import { AppStore } from '@mytypes/common'
 
 import { SvgIcon } from '@components/index'
 
-import styles from './index.module.less'
-
 interface IProps {
   apps: AppStore[]
   activeApp?: AppStore
@@ -22,7 +20,7 @@ const BucketList: React.FC<IProps> = ({ apps, activeApp, switchApp }) => {
   const renderIcon = (type: OssType) => {
     switch (type) {
       case OssType.qiniu:
-        return <SvgIcon iconName="qiniu" iconClass={styles['svg-icon']} />
+        return <SvgIcon iconName="qiniu" iconClass="h-[30px] w-[30px]" />
 
       default:
         return null
@@ -30,22 +28,24 @@ const BucketList: React.FC<IProps> = ({ apps, activeApp, switchApp }) => {
   }
 
   return (
-    <ul className={styles['apps-main-apps']}>
+    <ul className="h-[calc(100%_-_50px)] p-0 m-0 overflow-auto list-none">
       {apps.map((item: AppStore) => {
         return (
           <li
             className={classnames(
-              styles['apps-main-apps-item'],
-              item._id === activeApp?._id && styles.active
+              'h-[40px] px-[18px] flex flex-row justify-between items-center',
+              item._id === activeApp?._id && 'bg-gray-700 rounded-xl'
             )}
             key={item._id}
             onClick={() => {
               switchApp(item._id)
             }}
           >
-            <div className={styles['apps-main-apps-item-btn']}>
+            <div className="h-full w-full bg-none border-none outline-none text-left flex flex-row items-center text-white cursor-pointer">
               {renderIcon(item.type)}
-              <span>{item.name}</span>
+              <span className="overflow-hidden text-ellipsis whitespace-nowrap  indent-3">
+                {item.name}
+              </span>
             </div>
           </li>
         )

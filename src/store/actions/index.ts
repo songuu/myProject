@@ -38,10 +38,6 @@ import {
   toggleUsingContext
 } from './chat'
 
-import {
-  addApp
-} from './buckets'
-
 /** 自定义通用同步Action */
 export interface CommonAction<T = any> {
   type: Types
@@ -96,6 +92,5 @@ export {
   deleteChatSessionDataMsgById,
   deleteChatSessionDataById,
   getChatSessionDataMsgByIdAndIndex,
-  toggleUsingContext,
-  addApp
+  toggleUsingContext
 }

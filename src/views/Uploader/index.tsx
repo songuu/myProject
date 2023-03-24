@@ -108,8 +108,7 @@ function Uploader() {
   }
 
   const renderPage = (page: UploaderPage) => {
-    return <Services activeApp={activeApp} onAppSwitch={onAppSwitch} />
-    /* switch (page) {
+    switch (page) {
       case UploaderPage.bucket:
         return <Bucket bucketMeta={bucketMeta} />
       case UploaderPage.services:
@@ -120,7 +119,7 @@ function Uploader() {
         return <TransferList />
       default:
         return null
-    } */
+    }
   }
 
   const tabChange = async (page: UploaderPage, bucket: string) => {

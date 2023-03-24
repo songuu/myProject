@@ -10,16 +10,15 @@ import { supportedImage, getIconName } from '@libs/utils'
 
 import { SvgIcon, WrapSelection } from '@components/index'
 
-const mainGridCellCss =
-  'w-[80px] h-[80px] overflow-hidden hover:children:bg-gray-500'
+const mainGridCellCss = 'group w-[80px] h-[80px] overflow-hidden'
 
 const mainGridCellInnerCss =
-  'p-[5px] radius-[5px] flex items-center flex-column'
+  'p-[5px] radius-[5px] flex items-center flex-col group-hover:bg-gray-100 dark:group-hover:bg-gray-200'
 
-const iconCss = 'w-[60px] h-[57px] inline-block'
+const iconCss = 'w-[50px] h-[50px] inline-block'
 
 const nameCss =
-  'inline-block w-full text-black text-center pt-[3px] overflow-hidden text-ellipsis whitespace-nowrap leading-5 text-sm'
+  'inline-block w-full text-black text-center pt-[3px] overflow-hidden text-ellipsis whitespace-nowrap leading-5 text-sm dark:text-white group-hover:text-[#335EEA] dark:group-hover:text-black'
 
 type PropTypes = {
   items: Item[]

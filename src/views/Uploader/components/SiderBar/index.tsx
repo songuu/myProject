@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import classnames from 'classnames'
 
-import { HeadingMedium, HeadingSmall, HeadingXSmall } from 'baseui/typography'
+import { HeadingMedium, HeadingSmall } from 'baseui/typography'
 
 import { UploaderPage } from '@constants/enums'
 

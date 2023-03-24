@@ -12,12 +12,6 @@ import ActiveBucket from './active-bucket'
 
 import BucketList from './bucket-list'
 
-import styles from './index.module.less'
-
-enum OssType {
-  qiniu,
-}
-
 enum ServicesPage {
   list,
   add,
@@ -34,8 +28,6 @@ const appsMainWrapperCss =
 const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
   const [apps, setApps] = useState<AppStore[]>([])
   const [page, setPage] = useState<ServicesPage>(ServicesPage.list)
-  // 是否为中正在编辑的状态
-  const [loading, setLoading] = useState<boolean>(false)
 
   const _toAddPage = () => {
     setPage(ServicesPage.add)
@@ -47,13 +39,6 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
   // 删除
   const onBucketDelete = async (app: AppStore) => {
     try {
-      /* await window.Main.showConfirm({
-        title: '删除',
-        message: '确定要删除该应用吗？',
-      }) */
-
-      setLoading(true)
-
       const id = app._id
       await window.Main.deleteApp(String(id))
 
@@ -95,35 +80,25 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
     initState().then(r => r)
   }, [])
 
-  const submit = async () => {
-    /*  if (Object.keys(forms.current).every((item: any) => !forms.current[item])) {
-      alert('请完善信息')
-      return
-    }
- */
-    try {
-      onAppSwitch(apps[0])
+  const handleAddSuccess = () => {
+    const allApps: any = window.Main.getApps()
 
-      setPage(ServicesPage.list)
-    } catch (error: any) {
-    } finally {
-      setLoading(false)
-    }
+    setApps(allApps)
+
+    onAppSwitch(allApps[0])
+
+    setPage(ServicesPage.list)
   }
-
-  const handleAddSuccess = () => {}
 
   const renderSwitch = (param: ServicesPage) => {
     switch (param) {
       case ServicesPage.list:
         return apps.length > 0 ? (
           <section className={appsMainWrapperCss}>
-            <div className={styles['apps-main-wrapper-left']}>
-              <div className={styles['apps-main-wrapper-header']}>
-                <Button type="primary" onClick={_toAddPage}>
-                  添加
-                </Button>
-              </div>
+            <div className="w-[180px] flex-col px-[18x] h-full">
+              <Button type="primary" onClick={_toAddPage}>
+                添加
+              </Button>
               <BucketList
                 apps={apps}
                 activeApp={activeApp}

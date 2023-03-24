@@ -2,7 +2,6 @@ import React from 'react'
 
 import {
   HeadingXSmall,
-  MonoLabelSmall,
   MonoDisplayXSmall,
   ParagraphSmall,
   MonoLabelMedium,
@@ -21,8 +20,6 @@ enum OssType {
 const OssTypeMap: any = {
   [OssType.qiniu]: '七牛云',
 }
-
-import styles from './index.module.less'
 
 interface IProps {
   activeApp: AppStore
