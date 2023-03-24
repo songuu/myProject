@@ -6,7 +6,7 @@ import { Input, SIZE } from 'baseui/input'
 
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
-import { SvgIcon, Popconfirm } from '@root/components'
+import { Popconfirm, Icon } from '@root/components'
 
 import {
   getChatSessions,
@@ -81,7 +81,7 @@ const List = () => {
                     isActive(item.id) ? 'text-blue-700' : 'text-white'
                   }`}
                 >
-                  <SvgIcon iconName="chat" />
+                  <Icon type="icon-chat" />
                 </div>
                 <div className="relative flex-1 overflow-hidden leading-6 break-all text-ellipsis whitespace-nowrap">
                   {item.isEdit ? (
@@ -109,7 +109,9 @@ const List = () => {
                       }}
                     />
                   ) : (
-                    <span className='text-black dark:text-white'>{item.title}</span>
+                    <span className="text-black dark:text-white">
+                      {item.title}
+                    </span>
                   )}
                 </div>
               </div>
@@ -120,7 +122,7 @@ const List = () => {
                       className="p-1 w-[22px] h-[22px] flex items-center justify-center"
                       onClick={() => handleEdit(item, false)}
                     >
-                      <SvgIcon iconName="save" className="text-blue-700" />
+                      <Icon type="icon-wenku" className="text-blue-700" />
                     </button>
                   ) : (
                     <>
@@ -128,7 +130,7 @@ const List = () => {
                         className="p-1 w-[22px] h-[22px] flex items-center justify-center"
                         onClick={() => handleEdit(item, true)}
                       >
-                        <SvgIcon iconName="edit" className="text-blue-700" />
+                        <Icon type="icon-bianji" className="text-blue-700" />
                       </button>
                       <Popconfirm
                         title="确定删除么？"
@@ -138,10 +140,7 @@ const List = () => {
                         onCancel={() => {}}
                       >
                         <div className="p-1 w-[22px] h-[22px] flex items-center justify-center">
-                          <SvgIcon
-                            iconName="remove"
-                            className="text-blue-700"
-                          />
+                          <Icon type="icon-shanchu" className="text-blue-700" />
                         </div>
                       </Popconfirm>
                     </>

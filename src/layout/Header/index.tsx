@@ -2,11 +2,11 @@ import React, { useMemo, useRef, useState } from 'react'
 
 import { NavLink, useNavigate } from 'react-router-dom'
 
-import { Modal, ModalHeader, ModalBody, SIZE, ROLE } from 'baseui/modal'
+import { Modal, ModalHeader, ModalBody, ROLE } from 'baseui/modal'
 
 import { useAppDispatch } from '@root/store/index'
 
-import { ContextMenu, SvgIcon, ButtonIcon } from '@components/index'
+import { ContextMenu, ButtonIcon, Icon } from '@components/index'
 
 import { MenuImperativeProps, ContextItem } from '@components/ContextMenu/index'
 
@@ -14,7 +14,7 @@ import { setShowLogin } from '@root/store/actions'
 
 import defaultAvatar from '@imgs/default-avatar.png'
 
-import SettingModal from '@root/pages/Setting'
+import SettingModal from '@root/views/Setting'
 
 interface IBaseHeaderProps {}
 
@@ -65,10 +65,10 @@ const Header: React.FC<IBaseHeaderProps> = () => {
     <div className="box-border dark:bg-[#1a1a1a] text-[#040F42] text-opacity-90 flex  justify-between h-[59px] leading-[59px] overflow-hidden px-[18px]">
       <div className="flex items-center">
         <ButtonIcon onclick={() => navigate(-1)}>
-          <SvgIcon iconName="arrow-left" iconClass=" w-[16px] h-[16px]" />
+          <Icon type="icon-xiangyou" className="w-[16px] h-[16px]" />
         </ButtonIcon>
         <ButtonIcon onclick={() => navigate(1)}>
-          <SvgIcon iconName="arrow-right" iconClass=" w-[16px] h-[16px]" />
+          <Icon type="icon-xiangzuo" className="w-[16px] h-[16px]" />
         </ButtonIcon>
       </div>
       <div className="flex-1 min-w-[250px] h-full select-none overflow-x-auto overflow-y-hidden items-center flex">
@@ -102,9 +102,9 @@ const Header: React.FC<IBaseHeaderProps> = () => {
               inputFocus ? 'bg-[#BDCFFF] bg-opacity-30' : ''
             }`}
           >
-            <SvgIcon
-              iconName="search"
-              iconClass={`w-[15px] h-[15px] bg-opacity-25 ml-[8px] mr-[4px] ${focusClass}`}
+            <Icon
+              type="icon-sousuo"
+              className={`bg-opacity-25 ml-[8px] mr-[4px] ${focusClass}`}
             />
             <div className="font-sans">
               <input
@@ -138,7 +138,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
             setIsOpen(true)
           }
         >
-          <SvgIcon iconName="settings" iconClass="w-[15px] h-[15px]" />
+          <Icon type="icon-shezhi" className="w-[15px] h-[15px] mr-2" />
           <span>设置</span>
         </ContextItem>
         <ContextItem
@@ -146,11 +146,11 @@ const Header: React.FC<IBaseHeaderProps> = () => {
             dispatch(setShowLogin())
           }}
         >
-          <SvgIcon iconName="login" iconClass="w-[15px] h-[15px]" />
+          <Icon type="icon-sign-in-alt" className="w-[15px] h-[15px] mr-2" />
           <span>登录</span>
         </ContextItem>
         <ContextItem>
-          <SvgIcon iconName="logout" iconClass="w-[15px] h-[15px]" />
+          <Icon type="icon-sign-out-alt" className="w-[15px] h-[15px] mr-2" />
           <span>登出</span>
         </ContextItem>
       </ContextMenu>

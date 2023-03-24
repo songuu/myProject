@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import { SvgIcon } from '@components/index'
+import { Icon } from '@components/index'
 
 type applyType = {
   name: string
@@ -53,11 +53,14 @@ const Apps: React.FC<IProps> = ({ apps }) => {
               {focusName === app.name && (
                 <div className="absolute top-0 w-full h-[calc(100%_-_3px)] bg-transparent flex justify-center items-center">
                   <button
-                    className="flex justify-center items-center text-white bg-gray-500 rounded-full w-[34%] h-[34%] cursor-pointer duration-200 hover:bg-gray-600 active:scale-95 backdrop-blur"
+                    className="flex justify-center items-center bg-gray-500 dark:bg-gray-100 rounded-full w-[34%] h-[34%] cursor-pointer duration-200 hover:bg-gray-600 active:scale-95 backdrop-blur"
                     title="执行"
                     onClick={app.handler}
                   >
-                    <SvgIcon iconName="play" iconClass="h-[14px] ml-[4px]" />
+                    <Icon
+                      type="icon-play"
+                      className="h-[14px] dark:text-white"
+                    />
                   </button>
                 </div>
               )}

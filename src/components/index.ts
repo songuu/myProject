@@ -20,6 +20,8 @@ import Drawer from './Drawer'
 import Breadcrumb from './Breadcrumb'
 import Input from './Input'
 import Switch from './Switch'
+import MyIcon from './My-Icon'
+import Icon from './Antd-Icon'
 
 export {
   AppLoading,
@@ -43,5 +45,7 @@ export {
   Drawer,
   Breadcrumb,
   Input,
-  Switch
+  Switch,
+  MyIcon,
+  Icon
 }

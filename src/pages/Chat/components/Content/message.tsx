@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SvgIcon } from '@root/components'
+import { SvgIcon, Icon } from '@root/components'
 
 import Avatar from './avatar'
 
@@ -74,13 +74,13 @@ const Message: React.FC<IProps> = ({
               className="transition text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-300"
               onClick={handleCopy}
             >
-              <SvgIcon iconName="copy" iconClass="w-[14px] h-[14px]" />
+              <Icon type="icon-fuzhi" iconClass="w-[14px] h-[14px]" />
             </div>
             <div
               className="transition text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-300"
               onClick={handleDelete}
             >
-              <SvgIcon iconName="del" iconClass="w-[14px] h-[14px]" />
+              <Icon type="icon-shanchu" iconClass="w-[14px] h-[14px]" />
             </div>
           </div>
         </div>
@@ -102,7 +102,7 @@ const Message: React.FC<IProps> = ({
                 className="mb-2 transition text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-300"
                 onClick={handleRegenerate}
               >
-                <SvgIcon iconName="send" iconClass="w-[14px] h-[14px]" />
+                <Icon type="icon-fasong" iconClass="w-[14px] h-[14px]" />
               </div>
             )}
           </div>

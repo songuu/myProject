@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
-import { SvgIcon } from '@components/index'
+import { Icon } from '@components/index'
 
 import { setShowLogin } from '@root/store/actions'
 
@@ -30,20 +30,7 @@ const Login = () => {
               dispatch(setShowLogin())
             }}
           >
-            <svg
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              p-id="1996"
-              width="24"
-              height="24"
-            >
-              <path
-                d="M810.666667 273.493333L750.506667 213.333333 512 451.84 273.493333 213.333333 213.333333 273.493333 451.84 512 213.333333 750.506667 273.493333 810.666667 512 572.16 750.506667 810.666667 810.666667 750.506667 572.16 512z"
-                p-id="1997"
-                fill="#676767"
-              ></path>
-            </svg>
+            <Icon type="icon-guanbi" />
           </div>
           <div
             className={styles['login-box-main-header-type']}
@@ -52,9 +39,9 @@ const Login = () => {
             }}
           >
             {loginType === 'account' ? (
-              <SvgIcon iconName="qrcode" iconClass={styles['svg-icon']} />
+              <Icon type="icon-qrcode" className={styles['svg-icon']} />
             ) : (
-              <SvgIcon iconName="computer" iconClass={styles['svg-icon']} />
+              <Icon type="icon-diannao" className={styles['svg-icon']} />
             )}
           </div>
         </div>
@@ -93,7 +80,7 @@ const Login = () => {
           <div className={styles['login-box-main-contain']}>
             <h2>微信扫码登陆</h2>
             <div className={styles['login-box-main-qrcode']}>
-              <SvgIcon iconName="qrcode" iconClass={styles['svg-icon']} />
+              <Icon type="icon-qrcode" className={styles['svg-icon']} />
             </div>
           </div>
         )}

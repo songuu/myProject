@@ -10,7 +10,7 @@ import { useTheme } from './hooks/useTheme'
 
 import Router from '@router/index'
 
-import { AppLoading } from '@components/index'
+import { AppLoading, Icon } from '@components/index'
 
 const engine = new Styletron()
 

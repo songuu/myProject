@@ -43,8 +43,7 @@ root.render(
   <Provider store={store}>
     {/* <StrictMode> */}
     <HashRouter>
-      
-          <App />
+      <App />
     </HashRouter>
     {/* </StrictMode> */}
   </Provider>

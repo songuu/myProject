@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 
-import { SvgIcon, ButtonIcon } from '@components/index'
+import { ButtonIcon, Icon } from '@components/index'
 
 import classnames from 'classnames'
 
@@ -48,12 +48,12 @@ const themeOptions: { label: string; theme: Theme; icon: string }[] = [
   {
     label: 'Light',
     theme: 'light',
-    icon: 'sun',
+    icon: 'icon-sun',
   },
   {
     label: 'Dark',
     theme: 'dark',
-    icon: 'moon',
+    icon: 'icon-dark',
   },
 ]
 
@@ -293,9 +293,9 @@ const Setting = () => {
           </div>
           <div>
             <button className="flex items-center text-lg px-[12px] py-[8px] opacity-60 text-black duration-200 mx-[12px] hover:opacity-100 hover:bg-[#eaeffd] hover:text-[#335eea] active:opacity-100 active:scale-95 active:duration-200">
-              <SvgIcon
-                iconName="logout"
-                iconClass="w-[18px] h-[18px] mr-[4px]"
+              <Icon
+                type="icon-sign-out-alt"
+                className="w-[18px] h-[18px] mr-[4px]"
               />
               <span>登出</span>
             </button>
@@ -304,7 +304,9 @@ const Setting = () => {
         <div className="mt-[24px]">
           <HeadingSmall>快捷键</HeadingSmall>
           <div className="my-[24px] flex items-center justify-between text-black">
-            <div className="text-lg font-medium dark:text-white">启用全局快捷键</div>
+            <div className="text-lg font-medium dark:text-white">
+              启用全局快捷键
+            </div>
             <div>
               <Switch checked={enableGlobalShortcut} onChange={handleToggle} />
             </div>
@@ -398,9 +400,9 @@ const Setting = () => {
                       dispatch(setTheme(item.theme))
                     }}
                   >
-                    <SvgIcon
-                      iconName={item.icon}
-                      iconClass={`w-4 h-4 ${
+                    <Icon
+                      type={item.icon}
+                      className={`w-4 h-4 ${
                         item.theme === theme ? 'text-blue-600' : ''
                       }`}
                     />

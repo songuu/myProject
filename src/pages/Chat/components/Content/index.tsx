@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
-import { SvgIcon, Button, Input, Message } from '@components/index'
+import { Button, Input, Message, Icon } from '@components/index'
 
 import html2canvas from 'html2canvas'
 
@@ -503,9 +503,9 @@ const ChatContent = () => {
               onClick={handleClear}
             >
               <span className="text-xl">
-                <SvgIcon
-                  iconClass="w-[20px] h-[20px] text-[#4f555e] dark:text-white"
-                  iconName="del"
+                <Icon
+                  className="w-[20px] h-[20px] text-[#4f555e] dark:text-white"
+                  type="icon-shanchu1"
                 />
               </span>
             </Button>
@@ -515,9 +515,9 @@ const ChatContent = () => {
               onClick={handleExport}
             >
               <span className="text-xl">
-                <SvgIcon
-                  iconClass="w-[20px] h-[20px] text-[#4f555e] dark:text-white"
-                  iconName="download1"
+                <Icon
+                  className="w-[20px] h-[20px] text-[#4f555e] dark:text-white"
+                  type="icon-xiazai"
                 />
               </span>
             </Button>
@@ -530,10 +530,7 @@ const ChatContent = () => {
                   usingContext ? 'text-[#335eea]' : 'text-[#a8071a]'
                 }`}
               >
-                <SvgIcon
-                  mystyle={{ width: '20px', height: '20px' }}
-                  iconName="note"
-                />
+                <Icon className="w-[20px] y-[20px]" type="icon-suoyouwenjian" />
               </span>
             </Button>
             <div className="n-auto-complete">
@@ -546,10 +543,7 @@ const ChatContent = () => {
             </div>
             <Button type="primary" onClick={handleSubmit}>
               <span className="text-xl text-[#fff] dark:text-white">
-                <SvgIcon
-                  mystyle={{ width: '20px', height: '20px' }}
-                  iconName="send"
-                />
+                <Icon className="w-[20px] y-[20px]" type="icon-fasong" />
               </span>
             </Button>
           </div>

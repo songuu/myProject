@@ -6,8 +6,6 @@ import Content from './Content'
 
 import Login from '@pages/Login'
 
-import styles from './index.module.less'
-
 interface IBaseLayoutProps {}
 
 const BaseLayout: React.FC<IBaseLayoutProps> = () => {
