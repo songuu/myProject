@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SvgIcon, Icon } from '@root/components'
+import { Icon } from '@root/components'
 
 import Avatar from './avatar'
 

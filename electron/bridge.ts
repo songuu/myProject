@@ -105,6 +105,10 @@ export const api = {
     return asyncSend('get-transfer', query)
   },
 
+  clearApps(): Promise<void> {
+    return asyncSend('clear-apps')
+  },
+
   // 添加应用[绑定应用]
   addApp(params: {
     name: string

@@ -6,7 +6,7 @@ import useMergeProps from '@hooks/useMergeProps'
 
 import omit from '@utils/omit'
 
-import SvgIcon from '../SvgIcon'
+import Icon from '../Antd-Icon'
 
 import Item from './item'
 
@@ -15,7 +15,7 @@ import { RouteProps, BreadcrumbProps } from './interface'
 import styles from './index.module.less'
 
 const defaultProps: BreadcrumbProps = {
-  separator: <SvgIcon iconName="oblique" iconClass={styles['svg-icon']} />,
+  separator: <Icon type="icon-oblique-line" className={styles['svg-icon']} />,
 }
 
 const defaultItemRender = (
@@ -27,7 +27,6 @@ const defaultItemRender = (
     return <span>{route.breadcrumbName}</span>
   }
 
-  console.log('path=====>', `#/${paths.join('/').replace(/^\//, '')}`)
   return (
     <a href={`#/${paths.join('/').replace(/^\//, '')}`}>
       {route.breadcrumbName}

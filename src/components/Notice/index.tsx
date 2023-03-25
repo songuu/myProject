@@ -2,7 +2,7 @@ import React, { Component, ReactNode, CSSProperties } from 'react'
 
 import classnames from 'classnames'
 
-import SvgIcon from '../SvgIcon'
+import Icon from '../Antd-Icon'
 
 import styles from './index.module.less'
 
@@ -84,17 +84,15 @@ class Notice extends Component<NoticeProps, {}> {
     } else if (showIcon) {
       switch (type) {
         case 'success':
-          content = (
-            <SvgIcon iconName="success" iconClass={styles['svg-icon']} />
-          )
+          content = <Icon type="icon-done" className={styles['svg-icon']} />
         case 'error':
-          content = <SvgIcon iconName="error" iconClass={styles['svg-icon']} />
+          content = <Icon type="icon-Error" className={styles['svg-icon']} />
         case 'loading':
-          content = (
-            <SvgIcon iconName="loading" iconClass={styles['svg-icon']} />
-          )
+          content = <Icon type="icon-loading" className={styles['svg-icon']} />
         case 'info':
-          content = <SvgIcon iconName="info" iconClass={styles['svg-icon']} />
+          content = (
+            <Icon type="icon-info-circle" className={styles['svg-icon']} />
+          )
         default:
           break
       }

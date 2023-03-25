@@ -2,8 +2,6 @@ import React, { useMemo } from 'react'
 
 import classnames from 'classnames'
 
-// require('../../static/icons/search.svg')
-
 type Iprops = {
   iconClass?: string
   iconName: string

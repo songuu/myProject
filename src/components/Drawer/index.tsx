@@ -24,7 +24,7 @@ import useOverflowHidden from '@hooks/useOverflowHidden'
 
 import Button from '../Button'
 import Portal from '../Portal'
-import SvgIcon from '../SvgIcon'
+import Icon from '../Antd-Icon'
 
 import { DrawerProps } from './interface'
 
@@ -132,9 +132,9 @@ const Drawer = (baseProps: DrawerProps, ref) => {
       )}
       {closable && (
         <div onClick={props.onCancel} className={styles[`${prefixCls}-close`]}>
-          <SvgIcon
-            iconName="close"
-            iconClass={styles[`${prefixCls}-close-icon`]}
+          <Icon
+            type="icon-guanbi"
+            className={styles[`${prefixCls}-close-icon`]}
           />
         </div>
       )}
@@ -156,7 +156,7 @@ const Drawer = (baseProps: DrawerProps, ref) => {
               : contentWrapperRef.current
           }}
         > */}
-          {children}
+        {children}
         {/* </ConfigProvider> */}
       </div>
 

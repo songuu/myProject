@@ -4,9 +4,7 @@ import classnames from 'classnames'
 
 import { fileSizeFormatter, getIconName } from '@libs/utils'
 
-import { SvgIcon, Empty, Progress } from '@components/index'
-
-import styles from './index.module.less'
+import { Empty, Progress, Icon } from '@components/index'
 
 enum TaskType {
   download,
@@ -56,9 +54,11 @@ function TransferList() {
   const typeFormatter = (type: TaskType) => {
     switch (type) {
       case TaskType.download:
-        return <SvgIcon iconName="download" iconClass={styles.icon1} />
+        return (
+          <Icon type="icon-download" className="h-[24px] w-[24px] p-[5px] dark:text-white" />
+        )
       case TaskType.upload:
-        return <SvgIcon iconName="upload" iconClass={styles.icon1} />
+        return <Icon type="icon-upload" className="h-[24px] w-[24px] p-[5px] dark:text-white" />
       default:
         return ''
     }
@@ -96,61 +96,44 @@ function TransferList() {
     }
   }, [])
 
-  console.log(transfers)
-
   return (
-    <div className={styles['transfer-list-wrapper']}>
+    <div className="h-full flex flex-col">
       {transfers.length > 0 ? (
         <>
-          <div className={styles.toolbar}>
-            <span
-              className={styles['toolbar-left']}
-            >{`总共 ${transfers.length} 项`}</span>
-            <div className={styles['toolbar-right']} />
+          <div className="h-[30px] px-[10px] flex flex-row justify-between items-center">
+            <span className="dark:text-white">{`总共 ${transfers.length} 项`}</span>
           </div>
-          <section className={styles['transfer-table__wrapper']}>
-            <table className={styles['transfer-table']}>
+          <section className="flex-1 overflow-auto">
+            <table className="w-full">
               <tbody>
                 {transfers.map(item => (
-                  <tr className={styles['transfer-table__row']} key={item.id}>
-                    <td
-                      className={classnames(
-                        styles['transfer-table__row_item'],
-                        styles.meta
-                      )}
-                    >
-                      <SvgIcon
-                        iconName={getIconName(item.name)}
-                        iconClass={styles.icon}
+                  <tr
+                    className="p-[10px] border-t-solid border-t-[1px] border-t-gray-100 h-[50px] box-border flex items-center"
+                    key={item.id}
+                  >
+                    <td className="w-[300px] flex flex-row items-center">
+                      <Icon
+                        type={getIconName(item.name)}
+                        className="w-[40px] y-[40px] text-[30px] p-[5x]"
                       />
-                      <div className={styles['name-wrapper']}>
-                        <div className={styles.name}>{item.name}</div>
-                        <div className={styles.size}>
+                      <div className="flex flex-row justify-center items-center">
+                        <div className="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap dark:text-white text-xs">
+                          {item.name}
+                        </div>
+                        <div className="text-[12px] text-[#999] dark:text-white">
                           {fileSizeFormatter(item.size)}
                         </div>
                       </div>
                     </td>
-                    <td
-                      className={classnames(
-                        styles['transfer-table__row_item'],
-                        styles.progress
-                      )}
-                    >
+                    <td className="w-[200px]">
                       <Progress
                         percent={item.progress}
                         size="small"
                         // status="warning"
                       />
                     </td>
-                    <td className={styles['transfer-table__row_item']}>
-                      {typeFormatter(item.type)}
-                    </td>
-                    <td
-                      className={classnames(
-                        styles['transfer-table__row_item'],
-                        styles.action
-                      )}
-                    >
+                    <td className="w-[60px]">{typeFormatter(item.type)}</td>
+                    <td className={classnames('w-[60px] dark:text-white text-xs')}>
                       操作
                     </td>
                   </tr>

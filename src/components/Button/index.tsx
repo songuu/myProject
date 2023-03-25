@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useContext,
   useEffect,
   useRef,
   ReactNode,
@@ -9,7 +8,7 @@ import React, {
 
 import classnames from 'classnames'
 
-import { SvgIcon } from '@components/index'
+import Icon from '../Antd-Icon'
 
 import useMergeProps from '@hooks/useMergeProps'
 
@@ -70,7 +69,7 @@ const Button = (baseProps: ButtonProps, ref) => {
     ...rest
   } = props
   const iconNode = loading ? (
-    <SvgIcon iconName="loading" iconClass={styles['svg-icon']} />
+    <Icon type="icon-loading" className={styles['svg-icon']} />
   ) : (
     icon
   )

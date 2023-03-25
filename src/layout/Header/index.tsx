@@ -64,10 +64,10 @@ const Header: React.FC<IBaseHeaderProps> = () => {
   return (
     <div className="box-border dark:bg-[#1a1a1a] text-[#040F42] text-opacity-90 flex  justify-between h-[59px] leading-[59px] overflow-hidden px-[18px]">
       <div className="flex items-center">
-        <ButtonIcon onclick={() => navigate(-1)}>
+        <ButtonIcon classname="text-gray-500" onclick={() => navigate(-1)}>
           <Icon type="icon-xiangyou" className="w-[16px] h-[16px]" />
         </ButtonIcon>
-        <ButtonIcon onclick={() => navigate(1)}>
+        <ButtonIcon classname="text-gray-500" onclick={() => navigate(1)}>
           <Icon type="icon-xiangzuo" className="w-[16px] h-[16px]" />
         </ButtonIcon>
       </div>

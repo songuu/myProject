@@ -4,7 +4,7 @@ import classnames from 'classnames'
 
 import { AppStore } from '@mytypes/common'
 
-import { SvgIcon } from '@components/index'
+import { Icon } from '@components/index'
 
 interface IProps {
   apps: AppStore[]
@@ -20,7 +20,9 @@ const BucketList: React.FC<IProps> = ({ apps, activeApp, switchApp }) => {
   const renderIcon = (type: OssType) => {
     switch (type) {
       case OssType.qiniu:
-        return <SvgIcon iconName="qiniu" iconClass="h-[30px] w-[30px]" />
+        return (
+          <Icon type="icon-qiniu" className="h-[30px] w-[30px] text-[30px]" />
+        )
 
       default:
         return null

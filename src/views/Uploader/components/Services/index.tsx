@@ -69,6 +69,20 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
     } catch (err) {}
   }
 
+  const handelClear = async () => {
+    try {
+      await window.Main.clearApps()
+
+      const allApps: any = await window.Main.getApps()
+
+      setApps(allApps)
+
+      onAppSwitch(allApps[0])
+    } catch (error: any) {
+      Message.error(error.message)
+    }
+  }
+
   // 初始化应用
   const initState = async () => {
     const allApps: any = await window.Main.getApps()
@@ -76,12 +90,8 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
     setApps(allApps)
   }
 
-  useEffect(() => {
-    initState().then(r => r)
-  }, [])
-
-  const handleAddSuccess = () => {
-    const allApps: any = window.Main.getApps()
+  const handleAddSuccess = async () => {
+    const allApps: any = await window.Main.getApps()
 
     setApps(allApps)
 
@@ -90,15 +100,25 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
     setPage(ServicesPage.list)
   }
 
+  useEffect(() => {
+    initState().then(r => r)
+  }, [])
+
   const renderSwitch = (param: ServicesPage) => {
     switch (param) {
       case ServicesPage.list:
         return apps.length > 0 ? (
           <section className={appsMainWrapperCss}>
             <div className="w-[180px] flex-col px-[18x] h-full">
-              <Button type="primary" onClick={_toAddPage}>
-                添加
-              </Button>
+              <>
+                <Button type="primary" onClick={_toAddPage}>
+                  添加
+                </Button>
+                <Button status="danger" onClick={handelClear}>
+                  清空
+                </Button>
+              </>
+
               <BucketList
                 apps={apps}
                 activeApp={activeApp}

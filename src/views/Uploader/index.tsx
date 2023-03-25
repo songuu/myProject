@@ -108,6 +108,7 @@ function Uploader() {
   }
 
   const renderPage = (page: UploaderPage) => {
+    return <TransferDone />
     switch (page) {
       case UploaderPage.bucket:
         return <Bucket bucketMeta={bucketMeta} />

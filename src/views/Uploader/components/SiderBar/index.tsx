@@ -6,11 +6,7 @@ import { HeadingMedium, HeadingSmall } from 'baseui/typography'
 
 import { UploaderPage } from '@constants/enums'
 
-import FileIcon from '@imgs/file.png'
-import SettingIcon from '@imgs/setting.png'
-import DoneIcon from '@imgs/done.png'
-import DownloadIcon from '@imgs/download.png'
-import AppsIcon from '@imgs/apps.png'
+import { Icon } from '@components/index'
 
 interface IProps {
   bucketList: string[]
@@ -28,7 +24,7 @@ type ProgressItem = {
 const listItemCss =
   'h-[36px] flex items-center px-[8px] my-[6px] mr-[8px] cursor-pointer text-[#7a7a7b] hover:text-[#335EEA] flex-row text-lg'
 
-const listItemIconCss = 'inline-block w-[12px] h-[12px]'
+const listItemIconCss = 'inline-block w-[14px] h-[14px] text-[14px]'
 
 const SiderBar: React.FC<IProps> = ({
   activePage,
@@ -76,7 +72,7 @@ const SiderBar: React.FC<IProps> = ({
                 key={bucket}
                 onClick={() => tabChange(UploaderPage.bucket, bucket)}
               >
-                <img className="icon" src={FileIcon} alt="" />
+                <Icon type="icon-folder" />
                 <div className="ml-2 text-sm" title={bucket}>
                   {bucket}
                 </div>
@@ -89,8 +85,8 @@ const SiderBar: React.FC<IProps> = ({
                 'opacity-30 cursor-not-allowed'
               )}
             >
-              <img className="icon" src={FileIcon} alt="" />
-              <div className="name">暂无储存桶</div>
+              <Icon type="icon-folder" />
+              <div className="name ml-2 text-sm">暂无储存桶</div>
             </li>
           )}
         </ul>
@@ -106,7 +102,7 @@ const SiderBar: React.FC<IProps> = ({
               activeTag(UploaderPage.transferList, '')
             )}
           >
-            <img className={listItemIconCss} src={DownloadIcon} alt="" />
+            <Icon type="icon-download" className={listItemIconCss} />
             <div className="pl-[10px] text-sm">传输列表</div>
           </div>
           <div
@@ -117,7 +113,7 @@ const SiderBar: React.FC<IProps> = ({
               activeTag(UploaderPage.transferDone, '')
             )}
           >
-            <img className={listItemIconCss} src={DoneIcon} alt="" />
+            <Icon type="icon-done" className={listItemIconCss} />
             <div className="pl-[10px] text-sm">传输完成</div>
           </div>
         </div>
@@ -133,7 +129,7 @@ const SiderBar: React.FC<IProps> = ({
               activeTag(UploaderPage.services, '')
             )}
           >
-            <img className={listItemIconCss} src={AppsIcon} alt="" />
+            <Icon type="icon-app" className={listItemIconCss} />
             <div className="pl-[10px] text-sm">apps</div>
           </div>
         </div>

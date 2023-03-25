@@ -13,6 +13,7 @@ const mapType: Record<string, string> = {
   'application/octet-stream': 'exe',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
     'txt',
+  'video/mp4': 'mp4',
 }
 
 export function supportedImage(mimeType: string) {
@@ -47,16 +48,17 @@ export function dateFormatter(dateVal = 0) {
 export function getIconName(filename: string): string {
   let iconName: string
   if (filename === 'folder') {
-    iconName = 'folder'
+    iconName = 'icon-folder'
   } else {
     const mimeType = mime.getType(filename)
     if (mimeType) {
-      iconName = mapType[mimeType]
+      iconName = `icon-${mapType[mimeType]}`
     } else {
-      iconName = 'doc'
+      iconName = 'icon-doc'
     }
   }
-  if (!iconName) iconName = 'doc'
+  if (!iconName) iconName = 'icon-doc'
+
   return iconName
 }
 

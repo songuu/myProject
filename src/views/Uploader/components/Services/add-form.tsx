@@ -4,11 +4,10 @@ import { Input } from 'baseui/input'
 
 import { Button, SIZE } from 'baseui/button'
 
-import { useAppDispatch } from '@root/store'
-
 import { FormType } from '@root/store/action-types'
 
 import { createForm } from '@components/Form'
+import { OssType } from '@root/constants/enums'
 
 const { Form, FormItem, useForm } = createForm<any>()
 
@@ -17,14 +16,13 @@ interface IProps {
 }
 
 const AddForm: React.FC<IProps> = ({ onSuccess }) => {
-  const dispatch = useAppDispatch()
   const [form] = useForm()
 
   const [loading, setLoading] = useState<boolean>(false)
 
   const [values, setValues] = useState<FormType>({
-    name: 'test',
-    type: 'qiniu',
+    name: new Date().toString(), // 'test1',
+    type: OssType.qiniu,
     ak: 'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU',
     sk: 'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y',
   })

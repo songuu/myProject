@@ -102,6 +102,15 @@ class InitOssIpcMain {
       }
     })
 
+    registerIpc('clear-apps', async () => {
+      try {
+        await this.appChannels.clearApps()
+        return success(true)
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
+
     registerIpc('get-buckets', async params => {
       try {
         const buckets = await this.appChannels.getBuckets(params)

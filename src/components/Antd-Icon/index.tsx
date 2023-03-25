@@ -5,7 +5,7 @@ const AntdIcon = (props: any): JSX.Element => {
   const { className, type, ...otherParams } = props
 
   const Component = createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/c/font_1888492_b2csxd3jmhd.js',
+    scriptUrl: '//at.alicdn.com/t/c/font_1888492_y0jw949uabf.js',
   })
 
   return <Component className={className} type={type} {...otherParams} />

@@ -2,11 +2,9 @@ import React, { forwardRef, memo } from 'react'
 
 import classnames from 'classnames'
 
-import SvgIcon from '../SvgIcon'
+import Icon from '../Antd-Icon'
 
 import { EmptyProps } from './interface'
-
-import styles from './index.module.less'
 
 function Empty(baseProps: EmptyProps, ref: React.Ref<any>) {
   const { style, className, description, icon, imgSrc, title, children } =
@@ -27,9 +25,9 @@ function Empty(baseProps: EmptyProps, ref: React.Ref<any>) {
           {imgSrc ? (
             <img alt={alt} src={imgSrc} />
           ) : (
-            <SvgIcon
-              iconName="empty"
-              iconClass="stroke-current fill-none inline-block text-current align-[-2px]"
+            <Icon
+              type="icon-empty"
+              classsName="stroke-current fill-none inline-block text-current align-[-2px]"
             />
           )}
         </div>

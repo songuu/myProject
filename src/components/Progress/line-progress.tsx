@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import classnames from 'classnames'
 import { isFunction, isObject } from '@utils/is'
 import styles from './index.module.less'
-import SvgIcon from '../SvgIcon'
+import Icon from '../Antd-Icon'
 
 const getBackground = (color: string | any, percent?: number) => {
   if (isObject(color)) {
@@ -59,7 +59,10 @@ function LineProgress(props: any) {
         return (
           <span>
             {percent}%
-            <SvgIcon iconName="error-mini" iconClass={classnames(styles[`${cls}-text-icon`])} />
+            <Icon
+              type="icon-Error"
+              className={classnames(styles[`${cls}-text-icon`])}
+            />
           </span>
         )
       default:
