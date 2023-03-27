@@ -7,7 +7,6 @@ import {
 } from 'electron'
 
 import {
-  OssType,
   IpcResponse,
   AppStore,
   BucketMeta,
@@ -112,7 +111,7 @@ export const api = {
   // 添加应用[绑定应用]
   addApp(params: {
     name: string
-    type: OssType
+    type: Oss.OssType
     ak: string
     sk: string
   }): Promise<AppStore> {
@@ -126,7 +125,7 @@ export const api = {
 
   // 获取bucket列表
   getBuckets(config?: {
-    type: OssType
+    type: Oss.OssType
     ak: string
     sk: string
   }): Promise<string[]> {

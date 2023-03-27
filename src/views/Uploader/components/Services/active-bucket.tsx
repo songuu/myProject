@@ -13,12 +13,8 @@ import { hiddenTextFilter } from '@libs/utils'
 
 import { Button } from '@components/index'
 
-enum OssType {
-  qiniu,
-}
-
 const OssTypeMap: any = {
-  [OssType.qiniu]: '七牛云',
+  [Oss.OssType.qiniu]: '七牛云',
 }
 
 interface IProps {

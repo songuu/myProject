@@ -12,14 +12,10 @@ interface IProps {
   switchApp: (id?: string) => void
 }
 
-enum OssType {
-  qiniu,
-}
-
 const BucketList: React.FC<IProps> = ({ apps, activeApp, switchApp }) => {
-  const renderIcon = (type: OssType) => {
+  const renderIcon = (type: Oss.OssType) => {
     switch (type) {
-      case OssType.qiniu:
+      case Oss.OssType.qiniu:
         return (
           <Icon type="icon-qiniu" className="h-[30px] w-[30px] text-[30px]" />
         )

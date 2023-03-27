@@ -68,12 +68,6 @@ export type DeleteHistoryType = {}
 
 export enum Types {}
 
-export enum OssType {
-  qiniu,
-  ali,
-  tencent,
-}
-
 export type FormType = {
   name: string
   type: any

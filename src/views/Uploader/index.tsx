@@ -18,10 +18,6 @@ import {
   Services,
 } from './components'
 
-enum OssType {
-  qiniu,
-}
-
 const audio = new Audio(audioSrc)
 
 function Uploader() {

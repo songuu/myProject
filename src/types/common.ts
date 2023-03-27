@@ -1,14 +1,10 @@
-enum OssType {
-  qiniu,
-}
-
 export enum Layout {
   grid,
   table,
 }
 
 export type AppStore = {
-  type: number // OssType
+  type: Oss.OssType
   ak: string
   sk: string
   name: string

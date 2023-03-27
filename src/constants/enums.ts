@@ -13,12 +13,6 @@ export enum Direction {
   right = 'right',
 }
 
-export enum OssType {
-  qiniu,
-  ali,
-  tencent,
-}
-
 export enum TaskType {
   download,
   upload,

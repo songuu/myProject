@@ -1,11 +1,5 @@
 import { BrowserWindow, Tray } from 'electron'
 // import { Task, VFile } from 'types/common'
-export enum OssType {
-  qiniu,
-  ali,
-  tencent,
-}
-
 declare class VFile {
   name: string
   webkitRelativePath: string
@@ -86,7 +80,7 @@ export interface ILogger {
 }
 
 export interface IOSS {
-  type: OssType
+  type: Oss.OssType
   appId: string
 
   uploadFile(
@@ -121,7 +115,7 @@ export interface IOSS {
 export interface IOssService {
   getService(): IOSS
 
-  changeContext(type: OssType, ak: string, sk: string): void
+  changeContext(type: Oss.OssType, ak: string, sk: string): void
 
   clearContext(): void
 }
@@ -133,7 +127,7 @@ export interface IpcResponse {
 }
 
 export type AppStore = {
-  type: OssType
+  type: Oss.OssType
   ak: string
   sk: string
   name: string
@@ -147,5 +141,5 @@ export type AppStore = {
 export type BucketMeta = {
   domains: string[]
   files: VFile[]
-  type: OssType
+  type: Oss.OssType
 }
