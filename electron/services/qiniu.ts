@@ -3,6 +3,7 @@ import * as fs from 'fs'
 import qiniu from 'qiniu'
 import shortid from 'shortid'
 import { IOSS } from './interface'
+import { OssType } from '../typing'
 import { download } from '../helper/utils'
 
 declare class VFile {
@@ -18,7 +19,7 @@ declare class VFile {
 
 export default class Qiniu implements IOSS {
   appId: string
-  type: Oss.OssType = Oss.OssType.qiniu
+  type: OssType = OssType.qiniu
   private bucket = ''
   private readonly mac: qiniu.auth.digest.Mac
   private readonly config: qiniu.conf.Config

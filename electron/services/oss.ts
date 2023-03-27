@@ -8,6 +8,8 @@ import AppStoreService from './appStore'
 
 import TransferStoreService from './TransferStoreService'
 
+import { OssType } from '../typing'
+
 import {
   IOSS,
   IOssService,
@@ -35,13 +37,13 @@ function pathStatsSync(path: string): Stats {
 class OssService implements IOssService {
   public instance: IOSS | null = null
 
-  public static create(type: Oss.OssType, ak: string, sk: string): IOSS {
+  public static create(type: OssType, ak: string, sk: string): IOSS {
     switch (type) {
-      case Oss.OssType.qiniu:
+      case OssType.qiniu:
         return new Qiniu(ak, sk)
-      /* case Oss.OssType.ali:
+      /* case OssType.ali:
         return new Ali(ak, sk)
-      case Oss.OssType.tencent:
+      case OssType.tencent:
         return new Tencent(ak, sk) */
       default:
         throw Error('暂时还不支持该云存储厂商')
@@ -55,7 +57,7 @@ class OssService implements IOssService {
     return this.instance
   }
 
-  changeContext(type: Oss.OssType, ak: string, sk: string) {
+  changeContext(type: OssType, ak: string, sk: string) {
     this.instance = OssService.create(type, ak, sk)
   }
 
@@ -86,7 +88,7 @@ class IpcChannelsService {
       const findApps = await this.appStore.find({ _id: params.id })
 
       if (findApps.length <= 0) throw new Error('没有可初始化的 app')
-      ;[finallyApp] = findApps
+        ;[finallyApp] = findApps
     } else {
       // 软件初始化
       const currentAppId = configStore.get('currentAppId')
@@ -94,11 +96,11 @@ class IpcChannelsService {
         // 有默认值
         const findApps = await this.appStore.find({ _id: currentAppId })
         if (findApps.length <= 0) throw new Error('没有可初始化的 app')
-        ;[finallyApp] = findApps
+          ;[finallyApp] = findApps
       } else {
         const findApps = await this.appStore.find({})
         if (findApps.length <= 0) throw new Error('没有可初始化的 app')
-        ;[finallyApp] = findApps
+          ;[finallyApp] = findApps
       }
     }
 
@@ -121,7 +123,7 @@ class IpcChannelsService {
     return this.appStore.insert({ ...params })
   }
 
-  async updateApp(params: any) {}
+  async updateApp(params: any) { }
 
   async deleteApp(id: string) {
     // 查找数据库中是否存在
@@ -141,7 +143,7 @@ class IpcChannelsService {
     return this.appStore.remove({}, { multi: true })
   }
 
-  async getBuckets(params?: { type: Oss.OssType; ak: string; sk: string }) {
+  async getBuckets(params?: { type: OssType; ak: string; sk: string }) {
     if (params && Object.keys(params).length > 0) {
       // 返回当前配置的 bucket 列表
       const { type, ak, sk } = params

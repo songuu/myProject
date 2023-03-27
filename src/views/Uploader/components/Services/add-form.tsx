@@ -4,9 +4,15 @@ import { Input } from 'baseui/input'
 
 import { Button, SIZE } from 'baseui/button'
 
-import { FormType } from '@root/store/action-types'
+import { Select } from 'baseui/select'
 
 import { createForm } from '@components/Form'
+
+import { FormType } from '@root/store/action-types'
+
+import { OssTypeMap } from '@mytypes/common'
+
+import { OssType } from '@constants/enums'
 
 const { Form, FormItem, useForm } = createForm<any>()
 
@@ -21,7 +27,7 @@ const AddForm: React.FC<IProps> = ({ onSuccess }) => {
 
   const [values, setValues] = useState<FormType>({
     name: new Date().toString(), // 'test1',
-    type: Oss.OssType.qiniu,
+    type: OssType.qiniu,
     ak: 'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU',
     sk: 'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y',
   })
@@ -58,9 +64,22 @@ const AddForm: React.FC<IProps> = ({ onSuccess }) => {
       <FormItem required name="name" label="名称">
         <Input size="compact" />
       </FormItem>
-      <FormItem required name="type" label="类型">
+      {/* <FormItem required name="type" label="类型">
         <Input size="compact" />
+      </FormItem> */}
+      <FormItem required name="type" label="类型">
+        <Select
+          options={Object.keys(OssTypeMap).map((item: any) => {
+            return {
+              id: item,
+              label: OssTypeMap[item],
+              value: item,
+            }
+          })}
+          placeholder="选择类型"
+        />
       </FormItem>
+
       <FormItem required name="ak" label="AK">
         <Input size="compact" />
       </FormItem>

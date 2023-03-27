@@ -7,15 +7,11 @@ import {
   MonoLabelMedium,
 } from 'baseui/typography'
 
-import { AppStore } from '@mytypes/common'
+import { AppStore, OssTypeMap } from '@mytypes/common'
 
 import { hiddenTextFilter } from '@libs/utils'
 
 import { Button } from '@components/index'
-
-const OssTypeMap: any = {
-  [Oss.OssType.qiniu]: '七牛云',
-}
 
 interface IProps {
   activeApp: AppStore

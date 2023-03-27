@@ -1,3 +1,5 @@
+import { OssType } from '@constants/enums'
+
 // * applycation
 export const SET_APPLYCATIONS = 'SET_APPLYCATIONS'
 export type SET_APPLYCATIONS_TYPE = typeof SET_APPLYCATIONS
@@ -66,11 +68,11 @@ export type UpdateHistoryType = {}
 
 export type DeleteHistoryType = {}
 
-export enum Types {}
+export enum Types { }
 
 export type FormType = {
   name: string
-  type: any
+  type: OssType
   ak: string
   sk: string
 }

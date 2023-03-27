@@ -1,10 +1,12 @@
+import { OssType } from '@constants/enums'
+
 export enum Layout {
   grid,
   table,
 }
 
 export type AppStore = {
-  type: Oss.OssType
+  type: OssType
   ak: string
   sk: string
   name: string
@@ -40,4 +42,10 @@ export interface BucketItem {
   size: number
   lastModified: number
   lastModifiedDate: Date
+}
+
+export const OssTypeMap: Record<string, string> = {
+  [OssType.qiniu]: '七牛云',
+  [OssType.ali]: '阿里云',
+  [OssType.tencent]: '腾讯云',
 }

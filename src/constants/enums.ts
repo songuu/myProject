@@ -23,3 +23,9 @@ export enum TransferStatus {
   done,
   failed,
 }
+
+export enum OssType {
+  qiniu,
+  ali,
+  tencent,
+}

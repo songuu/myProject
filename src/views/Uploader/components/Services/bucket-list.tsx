@@ -4,6 +4,8 @@ import classnames from 'classnames'
 
 import { AppStore } from '@mytypes/common'
 
+import { OssType } from '@constants/enums'
+
 import { Icon } from '@components/index'
 
 interface IProps {
@@ -13,13 +15,12 @@ interface IProps {
 }
 
 const BucketList: React.FC<IProps> = ({ apps, activeApp, switchApp }) => {
-  const renderIcon = (type: Oss.OssType) => {
+  const renderIcon = (type: OssType) => {
     switch (type) {
-      case Oss.OssType.qiniu:
+      case OssType.qiniu:
         return (
           <Icon type="icon-qiniu" className="h-[30px] w-[30px] text-[30px]" />
         )
-
       default:
         return null
     }

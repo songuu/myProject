@@ -2,8 +2,6 @@ import {
   contextBridge,
   ipcRenderer,
   IpcRendererEvent,
-  Menu,
-  Clipboard,
 } from 'electron'
 
 import {
@@ -13,6 +11,8 @@ import {
   TransferStore,
   TransferStatus,
 } from './services/interface'
+
+import { OssType } from './typing'
 
 const asyncSend = (eventName: string, options = {}): any => {
   const data = options
@@ -111,7 +111,7 @@ export const api = {
   // 添加应用[绑定应用]
   addApp(params: {
     name: string
-    type: Oss.OssType
+    type: OssType
     ak: string
     sk: string
   }): Promise<AppStore> {
@@ -125,7 +125,7 @@ export const api = {
 
   // 获取bucket列表
   getBuckets(config?: {
-    type: Oss.OssType
+    type: OssType
     ak: string
     sk: string
   }): Promise<string[]> {

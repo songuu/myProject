@@ -1,4 +1,6 @@
 import { BrowserWindow, Tray } from 'electron'
+
+import { OssType } from '../typing'
 // import { Task, VFile } from 'types/common'
 declare class VFile {
   name: string
@@ -80,7 +82,7 @@ export interface ILogger {
 }
 
 export interface IOSS {
-  type: Oss.OssType
+  type: OssType
   appId: string
 
   uploadFile(
@@ -115,7 +117,7 @@ export interface IOSS {
 export interface IOssService {
   getService(): IOSS
 
-  changeContext(type: Oss.OssType, ak: string, sk: string): void
+  changeContext(type: OssType, ak: string, sk: string): void
 
   clearContext(): void
 }
@@ -127,7 +129,7 @@ export interface IpcResponse {
 }
 
 export type AppStore = {
-  type: Oss.OssType
+  type: OssType
   ak: string
   sk: string
   name: string
@@ -141,5 +143,5 @@ export type AppStore = {
 export type BucketMeta = {
   domains: string[]
   files: VFile[]
-  type: Oss.OssType
+  type: OssType
 }
