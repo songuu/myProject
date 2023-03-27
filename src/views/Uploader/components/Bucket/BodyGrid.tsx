@@ -25,7 +25,7 @@ type PropTypes = {
   domains: string[]
   onFolderSelect: (name: string) => void
   onFolderContextMenu: (event: MouseEvent<HTMLElement>, item: VFolder) => void
-  onFileSelect: () => void
+  onFileSelect: (item: VFile) => void
   onFileContextMenu: (event: MouseEvent<HTMLElement>, item: VFile) => void
   onPanelContextMenu: () => void
   onPanelMouseDown: (event: MouseEvent<HTMLElement>) => void
@@ -57,7 +57,7 @@ const BodyGrid: React.FC<PropTypes> = ({
         )}
         key={item.name}
         onContextMenu={e => onFileContextMenu(e, item)}
-        onDoubleClick={onFileSelect}
+        onDoubleClick={() => onFileSelect(item)}
         data-id={item.shortId}
       >
         <div
@@ -87,7 +87,9 @@ const BodyGrid: React.FC<PropTypes> = ({
         className={classnames(mainGridCellCss, 'main-grid__cell')}
         key={item.name}
         onContextMenu={e => onFolderContextMenu(e, item)}
-        onDoubleClick={() => onFolderSelect(item.name)}
+        onDoubleClick={() => {
+          onFolderSelect(item.name)
+        }}
       >
         <div className={mainGridCellInnerCss} data-id={item.shortId}>
           <Icon type="icon-folder" className={iconCss} />
@@ -114,6 +116,7 @@ const BodyGrid: React.FC<PropTypes> = ({
       )}
       style={{
         gridTemplateColumns: 'repeat(auto-fill, 80px)',
+        gridTemplateRows: 'repeat(auto-fill, 80px)',
       }}
       onMouseDown={onPanelMouseDown}
       onContextMenu={onPanelContextMenu}

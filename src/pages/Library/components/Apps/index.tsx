@@ -47,7 +47,7 @@ const Apps: React.FC<IProps> = ({ apps }) => {
                 className="w-full select-none rounded-xl dark:border-[1px] dark:border-solid dark:border-gray-800"
                 style={{
                   // @ts-ignore
-                  'aspect-ratio': '1/1',
+                  'aspectRatio': '1/1',
                 }}
               />
               {focusName === app.name && (

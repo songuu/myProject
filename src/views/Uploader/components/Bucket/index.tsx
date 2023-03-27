@@ -20,8 +20,6 @@ import HeaderToolbar from './HeaderToolbar'
 
 import Footer from './Footer'
 
-import styles from './index.module.less'
-
 type PropTypes = {
   bucketMeta: BucketMeta
 }
@@ -175,8 +173,12 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
         domains={domains}
         onFolderSelect={onFolderSelect}
         onFolderContextMenu={onFolderContextMenu}
-        onFileSelect={() => {
-          console.log()
+        onFileSelect={(file: VFile) => {
+          if (file) {
+            const pp = `http://${domains[0]}/${file.webkitRelativePath}`
+            // console.log('file', file)
+            window.Main.openExternal(pp)
+          }
         }}
         onFileContextMenu={onFileContextMenu}
         onPanelContextMenu={onPanelContextMenu}
@@ -232,6 +234,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
         }}
         onDownload={handleDownload}
         onDelete={handleDelete}
+        bucketMeta={bucketMeta}
       />
 
       <HeaderToolbar
@@ -255,14 +258,17 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
               await handleUpload(filePaths)
             }
           }}
+          className="h-full"
         >
-          <div className="z-50 h-full overflow-y-auto overflow-x-hidden">{renderMainPanel()}</div>
+          <div className="z-50 h-full overflow-y-auto overflow-x-hidden">
+            {renderMainPanel()}
+          </div>
         </FileDrop>
       </div>
 
       <Footer
         totalItem={vFolder.getTotalItem()}
-        selectedItem={0}
+        selectedItem={selection.fileIds.length}
         domains={domains}
       />
 

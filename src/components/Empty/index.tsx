@@ -27,7 +27,7 @@ function Empty(baseProps: EmptyProps, ref: React.Ref<any>) {
           ) : (
             <Icon
               type="icon-empty"
-              classsName="stroke-current fill-none inline-block text-current align-[-2px]"
+              className="stroke-current fill-none inline-block text-current align-[-2px]"
             />
           )}
         </div>

@@ -1,8 +1,4 @@
-import {
-  contextBridge,
-  ipcRenderer,
-  IpcRendererEvent,
-} from 'electron'
+import { contextBridge, ipcRenderer, IpcRendererEvent, shell } from 'electron'
 
 import {
   IpcResponse,
@@ -274,6 +270,11 @@ export const api = {
   // 获取chat 指定消息
   getChatSessionDataMsgByIdAndIndex: (payload: any) => {
     return asyncSend('getChatSessionDataMsgByIdAndIndex', payload)
+  },
+
+  // 打开文件
+  openExternal: (path: any) => {
+    shell.openExternal(path)
   },
 }
 

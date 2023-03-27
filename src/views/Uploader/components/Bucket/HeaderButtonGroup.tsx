@@ -2,12 +2,14 @@ import React from 'react'
 
 import { Button } from '@components/index'
 
+import { BucketMeta } from '@mytypes/common'
+
 interface PropTypes {
   fileUpload: () => void
   selectedItems: string[]
   onDownload: () => void
   onDelete: () => void
-  bucketMeta?: any
+  bucketMeta?: BucketMeta
 }
 
 const HeaderButtonGroup: React.FC<PropTypes> = ({
