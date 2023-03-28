@@ -9,12 +9,14 @@ export interface ChatsStateProps {
   session: any[]
   usingContext: boolean
 }
+const currentDate = new Date().toISOString().split('T')[0]
 
 const initialState: ChatsStateProps = {
   historys: [],
   chatSetting: {
     apiKey: '',
     apiURL: 'https://api.openai.com',
+    systemMessage: `You are ChatGPT, a large language model trained by OpenAI. Answer as concisely as possible.\nKnowledge cutoff: 2021-09-01\nCurrent date: ${currentDate}`,
   },
   activeSession: '',
   sessions: [],

@@ -40,6 +40,8 @@ const ChatContent = () => {
 
   const usingContext = useAppSelector(state => state.chat.usingContext)
 
+  const { systemMessage = '' } = useAppSelector(state => state.chat.chatSetting)
+
   const [value, setValue] = useState('')
 
   const [loading, setLoading] = useState(false)
@@ -130,6 +132,8 @@ const ChatContent = () => {
 
     let message = value
 
+    controller = new AbortController()
+
     const data = {
       id: activeId || '',
       data: {
@@ -185,6 +189,7 @@ const ChatContent = () => {
           prompt: message,
           options,
           signal: controller.signal,
+          systemMessage,
           onDownloadProgress: ({ event }: any) => {
             const xhr = event.target
             const { responseText } = xhr
@@ -338,6 +343,7 @@ const ChatContent = () => {
           prompt: message,
           options,
           signal: controller.signal,
+          systemMessage,
           onDownloadProgress: ({ event }: any) => {
             const xhr = event.target
             const { responseText } = xhr
@@ -472,7 +478,7 @@ const ChatContent = () => {
           <div
             id="image-wrapper"
             ref={bottomRef}
-            className="w-full max-w-screen-xl m-auto  p-4"
+            className="w-full max-w-screen-xl p-4 m-auto"
           >
             {dataSources.length > 0 ? (
               <div>

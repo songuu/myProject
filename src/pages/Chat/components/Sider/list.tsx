@@ -70,7 +70,7 @@ const List = () => {
               key={item.id}
               className={`relative px-2 flex items-center gap-3 px-3 py-3 break-all border rounded-md cursor-pointer hover:bg-neutral-100 dark:border-neutral-600 dark:hover:bg-[#24272e] ${
                 isActive(item.id)
-                  ? 'border-blue-700 bg-neutral-100 text-blue-700 dark:bg-[#24272e] dark:border-blue-700 pr-14'
+                  ? 'border-blue-700 bg-neutral-100 text-blue-700 dark:bg-[#24272e] dark:border-white pr-14'
                   : ''
               }`}
               onClick={() => handleSelect(item.id)}
@@ -116,7 +116,7 @@ const List = () => {
                 </div>
               </div>
               {isActive(item.id) && (
-                <div className="absolute z-1 flex visible right-1">
+                <div className="absolute flex visible z-1 right-1">
                   {item.isEdit ? (
                     <button
                       className="p-1 w-[22px] h-[22px] flex items-center justify-center"

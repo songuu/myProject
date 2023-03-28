@@ -10,6 +10,9 @@ import {
 } from 'baseui/modal'
 import { KIND as ButtonKind } from 'baseui/button'
 import { Input } from 'baseui/input'
+import { Tabs, Tab } from 'baseui/tabs-motion'
+import { LabelSmall } from 'baseui/typography'
+import { Spinner } from 'baseui/spinner'
 
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
@@ -19,12 +22,23 @@ import { ChatSettingType } from '@root/store/action-types'
 
 import { getChatSetting, setChatSetting } from '@root/store/actions'
 
+import { fetchChatConfig } from '@root/api/chat'
+
 const { Form, FormItem, useForm } = createForm<any>()
 
 interface IProps {
   isOpen: boolean
   onClose: () => void
   onOk: () => void
+}
+
+interface ConfigState {
+  timeoutMs?: number
+  reverseProxy?: string
+  apiModel?: string
+  socksProxy?: string
+  httpsProxy?: string
+  balance?: string
 }
 
 const SettingModal: React.FC<IProps> = ({ isOpen, onClose, onOk }) => {
@@ -39,7 +53,14 @@ const SettingModal: React.FC<IProps> = ({ isOpen, onClose, onOk }) => {
   const [values, setValues] = useState<ChatSettingType>({
     apiKey: '',
     apiURL: '',
+    systemMessage: '',
   })
+
+  const [activeKey, setActiveKey] = useState<string | number>('configuration')
+
+  const [config, setConfig] = useState<ConfigState>({})
+
+  const [loadingConfig, setLoadingConfig] = useState(false)
 
   const handleClose = () => {
     form.resetFields()
@@ -64,9 +85,18 @@ const SettingModal: React.FC<IProps> = ({ isOpen, onClose, onOk }) => {
     []
   )
 
+  const initData = async () => {
+    setLoadingConfig(true)
+    const { data } = await fetchChatConfig()
+    dispatch(getChatSetting())
+    await setConfig(data)
+
+    setLoadingConfig(false)
+  }
+
   useEffect(() => {
     if (isOpen) {
-      dispatch(getChatSetting())
+      initData()
     } else {
       form.resetFields()
     }
@@ -91,34 +121,75 @@ const SettingModal: React.FC<IProps> = ({ isOpen, onClose, onOk }) => {
     >
       <ModalHeader>ChatGpt配置</ModalHeader>
       <ModalBody>
-        <Form
-          form={form}
-          style={{
-            padding: '0 10px',
-            overflowX: 'hidden',
-          }}
-          onFinish={onSubmmit}
-          initialValues={values}
-          onValuesChange={onChange}
-        >
-          <FormItem
-            required
-            name="apiKey"
-            label="API Key"
-            caption="https://platform.openai.com/account/api-keys 生成key"
+        {loadingConfig ? (
+          <Spinner />
+        ) : (
+          <Form
+            form={form}
+            style={{
+              padding: '0 10px',
+              overflowX: 'hidden',
+            }}
+            onFinish={onSubmmit}
+            initialValues={values}
+            onValuesChange={onChange}
           >
-            <Input autoFocus type="password" size="compact" />
-          </FormItem>
-          <FormItem name="apiURL" label="API URL">
-            <Input size="compact" />
-          </FormItem>
-        </Form>
+            <Tabs
+              activeKey={activeKey}
+              onChange={({ activeKey }) => {
+                setActiveKey(activeKey)
+              }}
+              activateOnFocus
+            >
+              <Tab key="configuration" title="配置">
+                <FormItem
+                  required
+                  name="apiKey"
+                  label="API Key"
+                  caption="https://platform.openai.com/account/api-keys 生成key"
+                >
+                  <Input autoFocus type="password" size="compact" />
+                </FormItem>
+                <FormItem name="apiURL" label="API URL">
+                  <Input size="compact" />
+                </FormItem>
+              </Tab>
+              <Tab key="advanced" title="高级">
+                <FormItem name="systemMessage" label="角色设置">
+                  <Input size="compact" />
+                </FormItem>
+              </Tab>
+              <Tab key="info" title="信息">
+                <div className="flex mb-4">
+                  <LabelSmall>api：</LabelSmall>
+                  <div>{config?.apiModel ?? '-'}</div>
+                </div>
+                <div className="flex">
+                  <LabelSmall>余量：</LabelSmall>
+                  <div>{config?.balance ?? '-'}</div>
+                </div>
+                {/* <div>
+                <LabelXSmall>timeoutMs</LabelXSmall>
+                <div>{config.timeoutMs}</div>
+              </div>
+              <div>
+                <LabelXSmall>reverseProxy</LabelXSmall>
+                <div>{config.reverseProxy}</div>
+              </div> */}
+              </Tab>
+            </Tabs>
+          </Form>
+        )}
       </ModalBody>
       <ModalFooter>
         <ModalButton kind={ButtonKind.tertiary} onClick={handleClose}>
           取消
         </ModalButton>
-        <ModalButton onClick={handleOk} loading={loading}>
+        <ModalButton
+          onClick={handleOk}
+          loading={loading}
+          disabled={loadingConfig}
+        >
           确认
         </ModalButton>
       </ModalFooter>

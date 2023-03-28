@@ -58,11 +58,14 @@ export type UpdatecutType = {
 export type ChatSettingType = {
   apiKey: string
   apiURL: string
+  systemMessage: string
 }
 
 export type Theme = 'light' | 'dark'
 
-export type ChatHistoryType = {}
+export type ChatHistoryType = {
+  id: string
+}
 
 export type UpdateHistoryType = {}
 
