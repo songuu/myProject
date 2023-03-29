@@ -2,11 +2,13 @@ import React, { useEffect, useMemo, useState, useRef } from 'react'
 
 import { useSearchParams } from 'react-router-dom'
 
+import html2canvas from 'html2canvas'
+
+import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
 import { Button, Input, Message, Icon } from '@components/index'
-
-import html2canvas from 'html2canvas'
 
 import {
   getChatSessionById,
@@ -28,6 +30,19 @@ import MessageCom from './message'
 const openLongReply = true
 
 let controller = new AbortController()
+
+    const items = [
+      {
+        id: 0,
+        title: 'Titanic',
+        description: 'A movie about love',
+      },
+      {
+        id: 1,
+        title: 'Dead Poets Society',
+        description: 'A movie about poetry and the meaning of life',
+      },
+    ]
 
 const ChatContent = () => {
   const [search] = useSearchParams()
@@ -241,8 +256,6 @@ const ChatContent = () => {
       await fetchChatAPIOnce()
     } catch (error: any) {
       const errorMessage = error?.message || '请求失败'
-      console.log('errorMessage', errorMessage)
-
       if (error.message === 'canceled') {
         const olaData = dataRef.current[dataRef.current.length - 1]
 
@@ -438,6 +451,43 @@ const ChatContent = () => {
     dispatch(toggleUsingContext(!usingContext))
   }
 
+  const buttonDisabled = useMemo(() => {
+    return loading || !activeId || value === ''
+  }, [loading])
+
+  const handleOnSearch = (string, results) => {
+    // onSearch will have as the first callback parameter
+    // the string searched and for the second the results.
+    console.log(string, results)
+  }
+
+  const handleOnHover = result => {
+    // the item hovered
+    console.log(result)
+  }
+
+  const handleOnSelect = item => {
+    // the item selected
+    console.log(item)
+  }
+
+  const handleOnFocus = () => {
+    console.log('Focused')
+  }
+
+  const formatResult = item => {
+    return (
+      <>
+        <span style={{ display: 'block', textAlign: 'left' }}>
+          id: {item.id}
+        </span>
+        <span style={{ display: 'block', textAlign: 'left' }}>
+          name: {item.name}
+        </span>
+      </>
+    )
+  }
+
   useEffect(() => {
     dispatch(getActiveChatSession())
   }, [search])
@@ -540,14 +590,27 @@ const ChatContent = () => {
               </span>
             </Button>
             <div className="n-auto-complete">
-              <Input
+              {/* <Input
                 value={value}
                 onChange={e => setValue(e)}
                 placeholder="来说点什么吧"
                 onKeyDown={handleSend}
+              /> */}
+              <ReactSearchAutocomplete
+                items={items}
+                onSearch={handleOnSearch}
+                onHover={handleOnHover}
+                onSelect={handleOnSelect}
+                onFocus={handleOnFocus}
+                autoFocus
+                formatResult={formatResult}
               />
             </div>
-            <Button type="primary" onClick={handleSubmit}>
+            <Button
+              type="primary"
+              disabled={buttonDisabled}
+              onClick={handleSubmit}
+            >
               <span className="text-xl text-[#fff] dark:text-white">
                 <Icon className="w-[20px] y-[20px]" type="icon-fasong" />
               </span>

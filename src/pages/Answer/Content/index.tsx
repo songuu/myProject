@@ -45,7 +45,6 @@ const ChatBot = () => {
     const ll = [...chatHistorys, { message: inputValue, isBot: false }]
 
     // https://platform.openai.com/account/api-keys
-// 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
     const response = await axios
       .post(
         `${chatSetting.apiURL || defaultApiUrl}/v1/completions`,
