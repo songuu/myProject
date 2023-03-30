@@ -4,11 +4,9 @@ import { useSearchParams } from 'react-router-dom'
 
 import html2canvas from 'html2canvas'
 
-import { ReactSearchAutocomplete } from 'react-search-autocomplete'
-
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
-import { Button, Input, Message, Icon } from '@components/index'
+import { Button, Input, Message, Icon, Autocomplete } from '@components/index'
 
 import {
   getChatSessionById,
@@ -31,18 +29,12 @@ const openLongReply = true
 
 let controller = new AbortController()
 
-    const items = [
-      {
-        id: 0,
-        title: 'Titanic',
-        description: 'A movie about love',
-      },
-      {
-        id: 1,
-        title: 'Dead Poets Society',
-        description: 'A movie about poetry and the meaning of life',
-      },
-    ]
+const options = [
+  {
+    label: '123',
+    value: '123',
+  },
+]
 
 const ChatContent = () => {
   const [search] = useSearchParams()
@@ -453,40 +445,16 @@ const ChatContent = () => {
 
   const buttonDisabled = useMemo(() => {
     return loading || !activeId || value === ''
-  }, [loading])
+  }, [loading, value, activeId])
 
-  const handleOnSearch = (string, results) => {
-    // onSearch will have as the first callback parameter
-    // the string searched and for the second the results.
-    console.log(string, results)
-  }
+  const searchOptions = useMemo(() => {
+    console.log("value", value)
+    if (value.startsWith('/')) {
+      return options
+    }
 
-  const handleOnHover = result => {
-    // the item hovered
-    console.log(result)
-  }
-
-  const handleOnSelect = item => {
-    // the item selected
-    console.log(item)
-  }
-
-  const handleOnFocus = () => {
-    console.log('Focused')
-  }
-
-  const formatResult = item => {
-    return (
-      <>
-        <span style={{ display: 'block', textAlign: 'left' }}>
-          id: {item.id}
-        </span>
-        <span style={{ display: 'block', textAlign: 'left' }}>
-          name: {item.name}
-        </span>
-      </>
-    )
-  }
+    return []
+  }, [value])
 
   useEffect(() => {
     dispatch(getActiveChatSession())
@@ -518,6 +486,7 @@ const ChatContent = () => {
     }
   }, [emitter, activeId])
 
+  console.log("searchOptions", searchOptions)
   return (
     <div className="flex flex-col w-full h-full">
       <main className="flex-1 overflow-hidden">
@@ -596,14 +565,11 @@ const ChatContent = () => {
                 placeholder="来说点什么吧"
                 onKeyDown={handleSend}
               /> */}
-              <ReactSearchAutocomplete
-                items={items}
-                onSearch={handleOnSearch}
-                onHover={handleOnHover}
-                onSelect={handleOnSelect}
-                onFocus={handleOnFocus}
-                autoFocus
-                formatResult={formatResult}
+              <Autocomplete
+                placeholder="来说点什么吧"
+                options={searchOptions}
+                onKeyDown={handleSend}
+                onChange={value => setValue(value)}
               />
             </div>
             <Button

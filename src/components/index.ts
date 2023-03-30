@@ -22,6 +22,7 @@ import Input from './Input'
 import Switch from './Switch'
 import MyIcon from './My-Icon'
 import Icon from './Antd-Icon'
+import Autocomplete from './Autocomplete'
 
 export {
   AppLoading,
@@ -47,5 +48,6 @@ export {
   Input,
   Switch,
   MyIcon,
-  Icon
+  Icon,
+  Autocomplete
 }
