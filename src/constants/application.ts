@@ -2,7 +2,7 @@ export const list = [
   {
     name: '截屏',
     category: ['全部应用', '系统'],
-    cover: 'http://qiniu.songuu.top/icon/shortcut.svg',
+    cover: "icon-shortcut",
     local: '@views/Snapshot',
     short: 'snapshot',
     handler: () => window.Main.captureScreen(),
@@ -10,21 +10,21 @@ export const list = [
   {
     name: '上传文件',
     category: ['全部应用', '系统'],
-    cover: 'http://qiniu.songuu.top/icon/upload.svg',
+    cover: "icon-upload1",
     local: '@views/Uploader',
     short: 'uploader',
   },
   {
     name: '流水账',
     category: ['全部应用', '生活'],
-    cover: 'http://qiniu.songuu.top/icon/account.svg',
+    cover: 'icon-liushui',
     local: '@views/Daybook',
     short: 'daybook',
   },
   {
     name: '书摘',
     category: ['全部应用', '学习', '读书'],
-    cover: 'http://qiniu.songuu.top/icon/book.svg',
+    cover: "icon-book",
     local: '@views/Book',
     short: 'book',
   },

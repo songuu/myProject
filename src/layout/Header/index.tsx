@@ -157,6 +157,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
       <Modal
         title="设置"
         onCancel={handleClose}
+        onOk={handleClose}
         visible={isOpen}
         autoFocus={true}
         wrapClassName="w-[720px]"

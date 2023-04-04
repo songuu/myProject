@@ -33,40 +33,34 @@ const Apps: React.FC<IProps> = ({ apps }) => {
       {apps.map((app: applyType) => {
         return (
           <div
-            className="text-black relative transition-transform duration-200 cursor-pointer"
+            className="relative cursor-pointer text-black transition-transform duration-200"
             key={app.name}
           >
             <div
-              className="relative"
+              className="relative flex justify-center"
               onMouseOver={() => handleOver(app.name)}
               onMouseLeave={handleLeave}
             >
-              <img
-                src={app.cover}
-                alt={app.name}
-                className="w-full select-none rounded-xl dark:border-[1px] dark:border-solid dark:border-gray-800"
+              <Icon
+                type={app.cover}
+                className="select-none rounded-xl text-7xl dark:border-[1px] dark:border-solid dark:border-gray-800"
                 style={{
                   // @ts-ignore
-                  'aspectRatio': '1/1',
+                  aspectRatio: '1/1',
                 }}
               />
               {focusName === app.name && (
-                <div className="absolute top-0 w-full h-[calc(100%_-_3px)] bg-transparent flex justify-center items-center">
-                  <button
-                    className="flex justify-center items-center bg-gray-500 dark:bg-gray-100 rounded-full w-[34%] h-[34%] cursor-pointer duration-200 hover:bg-gray-600 active:scale-95 backdrop-blur"
-                    title="执行"
-                    onClick={app.handler}
-                  >
-                    <Icon
-                      type="icon-play"
-                      className="h-[14px] dark:text-white"
-                    />
-                  </button>
+                <div
+                  className="absolute inset-x-1/2 inset-y-1/2 flex h-[30px] w-[30px] -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-gray-400 backdrop-blur duration-200 hover:bg-gray-600 active:scale-95 dark:bg-gray-800"
+                  title="执行"
+                  onClick={app.handler}
+                >
+                  <Icon type="icon-play" className="text-lg dark:text-white" />
                 </div>
               )}
             </div>
             <div
-              className="text-center mt-[8px] font-base font-semibold hover:underline hover:underline-offset-4 line-clamp-2 text-black dark:text-white"
+              className="font-base line-clamp-2 mt-[8px] text-center font-semibold text-black hover:underline hover:underline-offset-4 dark:text-white"
               onClick={() => navigate(app.short)}
             >
               {app.name}
