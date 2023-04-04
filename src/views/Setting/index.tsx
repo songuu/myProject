@@ -4,7 +4,9 @@ import { ButtonIcon, Icon } from '@components/index'
 
 import classnames from 'classnames'
 
-import { HeadingMedium, HeadingSmall } from 'baseui/typography'
+import { Typography } from '@arco-design/web-react'
+
+const { Title } = Typography
 
 import defaultAvatar from '@imgs/default-avatar.png'
 
@@ -54,6 +56,11 @@ const themeOptions: { label: string; theme: Theme; icon: string }[] = [
     label: 'Dark',
     theme: 'dark',
     icon: 'icon-dark',
+  },
+  {
+    label: 'Auto',
+    theme: 'auto',
+    icon: 'icon-wbauto',
   },
 ]
 
@@ -278,12 +285,12 @@ const Setting = () => {
 
   return (
     <div className="flex" onClick={clickOutside}>
-      <div className="w-[720px] mt-[24px] mb-[64px]">
-        <HeadingMedium>版本 - {pkg.version}</HeadingMedium>
-        <div className="mt-[24px] flex items-center justify-between bg-[#eaeffd] text-[#000] px-[20px] py-[16px] rounded-[16px]">
+      <div className="mt-[24px] mb-[64px] w-full">
+        <Title heading={4}>版本 - {pkg.version}</Title>
+        <div className="mt-[24px] flex items-center justify-between rounded-[16px] bg-[#eaeffd] px-[20px] py-[16px] text-[#000]">
           <div className="flex items-center">
             <img
-              className="w-[64px] h-[64px] rounded-full"
+              className="h-[64px] w-[64px] rounded-full"
               src={defaultAvatar}
             />
             <div className="ml-[24px]">
@@ -292,17 +299,17 @@ const Setting = () => {
             </div>
           </div>
           <div>
-            <button className="flex items-center text-lg px-[12px] py-[8px] opacity-60 text-black duration-200 mx-[12px] hover:opacity-100 hover:bg-[#eaeffd] hover:text-[#335eea] active:opacity-100 active:scale-95 active:duration-200">
+            <button className="mx-[12px] flex items-center px-[12px] py-[8px] text-lg text-black opacity-60 duration-200 hover:bg-[#eaeffd] hover:text-[#335eea] hover:opacity-100 active:scale-95 active:opacity-100 active:duration-200">
               <Icon
                 type="icon-sign-out-alt"
-                className="w-[18px] h-[18px] mr-[4px]"
+                className="mr-[4px] h-[18px] w-[18px]"
               />
               <span>登出</span>
             </button>
           </div>
         </div>
         <div className="mt-[24px]">
-          <HeadingSmall>快捷键</HeadingSmall>
+          <Title heading={6}>快捷键</Title>
           <div className="my-[24px] flex items-center justify-between text-black">
             <div className="text-lg font-medium dark:text-white">
               启用全局快捷键
@@ -313,13 +320,13 @@ const Setting = () => {
           </div>
           <div
             id="shortcut-table"
-            className="text-black select-none focus:outline-none"
+            className="select-none text-black focus:outline-none"
             tabIndex={0}
             onKeyDown={(e: React.KeyboardEvent) => handleShortcutKeydown(e)}
             onKeyUp={(e: React.KeyboardEvent) => handleShortcutKeyup(e)}
           >
             <div
-              className={`flex opcaity-60 text-sm font-medium ${
+              className={`opcaity-60 flex text-sm font-medium ${
                 !enableGlobalShortcut && 'last:opacity-50'
               }`}
             >
@@ -381,7 +388,7 @@ const Setting = () => {
               )
             })}
             <button
-              className="bg-gray-100 text-black font-semibold duration-200 mt-[12px] px-[12px] py-[8px] rounded-[8px] hover:scale-105  active:scale-95"
+              className="mt-[12px] rounded-[8px] bg-gray-100 px-[12px] py-[8px] font-semibold text-black duration-200 hover:scale-105  active:scale-95"
               onClick={restoreDefaultShortcuts}
             >
               恢复默认快捷键
@@ -389,9 +396,9 @@ const Setting = () => {
           </div>
         </div>
         <div className="mt-[24px]">
-          <HeadingSmall>其他</HeadingSmall>
+          <Title heading={6}>其他</Title>
           <div className="flex items-center space-x-4">
-            <span className="flex-shrink-0 w-[40px]">主题</span>
+            <span className="w-[40px] flex-shrink-0">主题</span>
             <div className="flex flex-wrap items-center gap-4">
               {themeOptions.map((item: any) => {
                 return (
@@ -402,7 +409,7 @@ const Setting = () => {
                   >
                     <Icon
                       type={item.icon}
-                      className={`w-4 h-4 ${
+                      className={`h-4 w-4 ${
                         item.theme === theme ? 'text-blue-600' : ''
                       }`}
                     />

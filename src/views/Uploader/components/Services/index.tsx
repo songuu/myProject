@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
-import { HeadingXSmall } from 'baseui/typography'
+import { Typography } from '@arco-design/web-react'
+
+const { Title } = Typography
 
 import { AppStore } from '@mytypes/common'
 
@@ -109,7 +111,7 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
       case ServicesPage.list:
         return apps.length > 0 ? (
           <section className={appsMainWrapperCss}>
-            <div className="w-[180px] flex-col px-[18x] h-full">
+            <div className="h-full w-[180px] flex-col px-[18x]">
               <>
                 <Button type="primary" onClick={_toAddPage}>
                   添加
@@ -145,8 +147,8 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
             <div className="absolute top-[20px] left-[20px]">
               <Button onClick={_toListPage}>返回</Button>
             </div>
-            <div className="w-full h-full flex items-center flex-col justify-center overflow-hidden">
-              <HeadingXSmall>新增配置</HeadingXSmall>
+            <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden">
+              <Title heading={6}>新增配置</Title>
               <AddForm onSuccess={handleAddSuccess} />
             </div>
           </section>
@@ -156,7 +158,7 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
     }
   }
 
-  return <section className="w-full h-full">{renderSwitch(page)}</section>
+  return <section className="h-full w-full">{renderSwitch(page)}</section>
 }
 
 export default Services

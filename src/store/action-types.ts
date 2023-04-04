@@ -42,6 +42,10 @@ export type SET_SESSION_TYPE = typeof SET_SESSION
 export const SET_USING_CONTEXT = 'SET_USING_CONTEXT'
 export type SET_USING_CONTEXT_TYPE = typeof SET_USING_CONTEXT
 
+// * prompt
+export const SET_PROMPT_LIST = 'SET_PROMPT_LIST'
+export type SET_PROMPT_LIST_TYPE = typeof SET_PROMPT_LIST
+
 export type ShortcutType = {
   id: string
   name: string
@@ -61,7 +65,7 @@ export type ChatSettingType = {
   systemMessage: string
 }
 
-export type Theme = 'light' | 'dark'
+export type Theme = 'light' | 'dark' | 'auto'
 
 export type ChatHistoryType = {
   id: string

@@ -23,7 +23,7 @@ const Sider = () => {
 
   const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
 
-  const [isPrompStoreModalOpen, setIsPrompStoreModalOpen] = useState(true)
+  const [isPrompStoreModalOpen, setIsPrompStoreModalOpen] = useState(false)
 
   const handleClose = () => {
     setIsSettingModalOpen(false)

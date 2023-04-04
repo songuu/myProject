@@ -38,6 +38,8 @@ import {
   toggleUsingContext
 } from './chat'
 
+import { getPromptList, setPromptList, addPrompt, updatePrompt , deletePrompt} from './prompt'
+
 /** 自定义通用同步Action */
 export interface CommonAction<T = any> {
   type: Types
@@ -92,5 +94,10 @@ export {
   deleteChatSessionDataMsgById,
   deleteChatSessionDataById,
   getChatSessionDataMsgByIdAndIndex,
-  toggleUsingContext
+  toggleUsingContext,
+  getPromptList,
+  setPromptList,
+  addPrompt,
+  updatePrompt,
+  deletePrompt
 }

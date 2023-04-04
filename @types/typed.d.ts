@@ -9,7 +9,7 @@ declare module '*.module.less' {
 }
 
 declare module '*.json' {
-  const classes: { readonly [key: string]: string }
+  const classes: { readonly [key: string]: any }
   export default classes
 }
 

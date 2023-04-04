@@ -9,6 +9,8 @@ import application, { ApplycationsStateProps } from './application'
 
 import chat, { ChatsStateProps } from './chat'
 
+import prompt, { PromptStateProps } from './prompt'
+
 export type StoreActions = AnyAction | RootActions
 
 export interface StoreStateProps {
@@ -16,6 +18,7 @@ export interface StoreStateProps {
   app: AppStateProps
   application: ApplycationsStateProps
   chat: ChatsStateProps
+  prompt: PromptStateProps
 }
 
 const reducers: ReducersMapObject<StoreStateProps, StoreActions> = {
@@ -23,6 +26,7 @@ const reducers: ReducersMapObject<StoreStateProps, StoreActions> = {
   app,
   application,
   chat,
+  prompt,
 }
 
 const reducer: Reducer<StoreStateProps, StoreActions> =

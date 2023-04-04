@@ -1,11 +1,8 @@
 import React from 'react'
 
-import {
-  HeadingXSmall,
-  MonoDisplayXSmall,
-  ParagraphSmall,
-  MonoLabelMedium,
-} from 'baseui/typography'
+import { Typography } from '@arco-design/web-react'
+
+const { Title } = Typography
 
 import { AppStore, OssTypeMap } from '@mytypes/common'
 
@@ -57,16 +54,18 @@ const ActiveBucket: React.FC<IProps> = ({ activeApp, onBucketDelete }) => {
   ]
   return (
     <div className="w-[calc(100%_-_180px)] overflow-hidden">
-      <MonoDisplayXSmall>查看配置</MonoDisplayXSmall>
+      <Title heading={2}>查看配置</Title>
       {items.map((item, index) => {
         return (
           <article className="mt-5" key={index}>
-            <HeadingXSmall className="mb-2">{item.label}</HeadingXSmall>
+            <Title heading={4} className="mb-2">
+              {item.label}
+            </Title>
             {item.children.map((child, idx) => {
               return (
-                <p className="flex mt-1" key={idx}>
-                  <MonoLabelMedium>{child.label}</MonoLabelMedium>
-                  <ParagraphSmall>{child.value}</ParagraphSmall>
+                <p className="mt-1 flex" key={idx}>
+                  <Title heading={6}>{child.label}</Title>
+                  <Title heading={6}>{child.value}</Title>
                 </p>
               )
             })}
@@ -74,7 +73,7 @@ const ActiveBucket: React.FC<IProps> = ({ activeApp, onBucketDelete }) => {
         )
       })}
       <article className="mt-5">
-        <HeadingXSmall>操作</HeadingXSmall>
+        <Title heading={2}>操作</Title>
         <Button
           className="mt-[5px]"
           status="danger"

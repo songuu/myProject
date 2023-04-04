@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 import mime from 'mime'
 
@@ -42,7 +42,7 @@ export function fileSizeFormatter(value = 0): string {
 }
 
 export function dateFormatter(dateVal = 0) {
-  return moment(dateVal).format('YYYY年MM月DD日 HH:mm:ss')
+  return dayjs(dateVal).format('YYYY年MM月DD日 HH:mm:ss')
 }
 
 export function getIconName(filename: string): string {

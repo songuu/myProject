@@ -1,12 +1,6 @@
 import React, { useCallback, useState } from 'react'
 
-import { Input } from 'baseui/input'
-
-import { Button, SIZE } from 'baseui/button'
-
-import { Select } from 'baseui/select'
-
-import { createForm } from '@components/Form'
+import { Button, Select, Input, Form } from '@arco-design/web-react'
 
 import { FormType } from '@root/store/action-types'
 
@@ -14,14 +8,12 @@ import { OssTypeMap } from '@mytypes/common'
 
 import { OssType } from '@constants/enums'
 
-const { Form, FormItem, useForm } = createForm<any>()
-
 interface IProps {
   onSuccess: () => void
 }
 
 const AddForm: React.FC<IProps> = ({ onSuccess }) => {
-  const [form] = useForm()
+  const [form] = Form.useForm()
 
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -31,7 +23,7 @@ const AddForm: React.FC<IProps> = ({ onSuccess }) => {
     ak: 'JVjrJkUHRN7xLwWkJZBbg_CNbB2UBcdcN-td6wrU',
     sk: 'AcwhVLTA905CYqI-_-1ScWNBXulOJFYAE82ZL1-y',
   })
-  const onSubmmit = useCallback(async (data: FormType) => {
+  const onSubmit = useCallback(async (data: FormType) => {
     setLoading(true)
     try {
       await window.Main.addApp(values)
@@ -43,12 +35,9 @@ const AddForm: React.FC<IProps> = ({ onSuccess }) => {
     }
   }, [])
 
-  const onChange = useCallback(
-    (_changes: Partial<FormType>, values_: FormType) => {
-      setValues(values_)
-    },
-    []
-  )
+  const onChange = useCallback((_changes: Partial<any>, values_: any) => {
+    setValues(values_)
+  }, [])
 
   return (
     <Form
@@ -57,17 +46,17 @@ const AddForm: React.FC<IProps> = ({ onSuccess }) => {
         padding: '0 10px',
         overflowX: 'hidden',
       }}
-      onFinish={onSubmmit}
+      onSubmit={onSubmit}
       initialValues={values}
       onValuesChange={onChange}
     >
-      <FormItem required name="name" label="名称">
-        <Input size="compact" />
-      </FormItem>
+      <Form.Item required field="name" label="名称">
+        <Input />
+      </Form.Item>
       {/* <FormItem required name="type" label="类型">
         <Input size="compact" />
       </FormItem> */}
-      <FormItem required name="type" label="类型">
+      <Form.Item required field="type" label="类型">
         <Select
           options={Object.keys(OssTypeMap).map((item: any) => {
             return {
@@ -78,19 +67,15 @@ const AddForm: React.FC<IProps> = ({ onSuccess }) => {
           })}
           placeholder="选择类型"
         />
-      </FormItem>
+      </Form.Item>
 
-      <FormItem required name="ak" label="AK">
-        <Input size="compact" />
-      </FormItem>
-      <FormItem required name="sk" label="SK">
-        <Input size="compact" type="password" />
-      </FormItem>
-      <Button
-        isLoading={loading}
-        onClick={() => form.submit()}
-        size={SIZE.compact}
-      >
+      <Form.Item required field="ak" label="AK">
+        <Input />
+      </Form.Item>
+      <Form.Item required field="sk" label="SK">
+        <Input type="password" />
+      </Form.Item>
+      <Button loading={loading} onClick={() => form.submit()} size="mini">
         确定
       </Button>
     </Form>

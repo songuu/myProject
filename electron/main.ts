@@ -13,6 +13,7 @@ import { makeTray } from './tray'
 import InitOssIpcMain from './ipcMain/oss'
 import InitSettingIpcMain from './ipcMain/setting'
 import InitChatIpcMain from './ipcMain/chat'
+import InitPrompStoreIpcMain from './ipcMain/promp-store'
 
 const path = require('path')
 
@@ -123,11 +124,15 @@ function registerListeners() {
 
   const chatIpc = new InitChatIpcMain()
 
+  const prompStoreIpc = new InitPrompStoreIpcMain()
+
   ossIpc.init()
 
   settingIpc.init()
 
   chatIpc.init()
+
+  prompStoreIpc.init()
 }
 
 // * 系统层面的功能

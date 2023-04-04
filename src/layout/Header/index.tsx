@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState } from 'react'
 
 import { NavLink, useNavigate } from 'react-router-dom'
 
-import { Modal, ModalHeader, ModalBody, ROLE } from 'baseui/modal'
+import { Modal } from '@arco-design/web-react'
 
 import { useAppDispatch } from '@root/store/index'
 
@@ -62,16 +62,16 @@ const Header: React.FC<IBaseHeaderProps> = () => {
   }, [inputFocus])
 
   return (
-    <div className="box-border dark:bg-[#1a1a1a] text-[#040F42] text-opacity-90 flex  justify-between h-[59px] leading-[59px] overflow-hidden px-[18px]">
+    <div className="box-border flex h-[59px] justify-between overflow-hidden  px-[18px] leading-[59px] text-[#040F42] text-opacity-90 dark:bg-[#1a1a1a]">
       <div className="flex items-center">
         <ButtonIcon classname="text-gray-500" onclick={() => navigate(-1)}>
-          <Icon type="icon-xiangyou" className="w-[16px] h-[16px]" />
+          <Icon type="icon-xiangyou" className="h-[16px] w-[16px]" />
         </ButtonIcon>
         <ButtonIcon classname="text-gray-500" onclick={() => navigate(1)}>
-          <Icon type="icon-xiangzuo" className="w-[16px] h-[16px]" />
+          <Icon type="icon-xiangzuo" className="h-[16px] w-[16px]" />
         </ButtonIcon>
       </div>
-      <div className="flex-1 min-w-[250px] h-full select-none overflow-x-auto overflow-y-hidden items-center flex">
+      <div className="flex h-full min-w-[250px] flex-1 select-none items-center overflow-x-auto overflow-y-hidden">
         {links.map((item, index) => {
           return (
             <NavLink
@@ -82,14 +82,14 @@ const Header: React.FC<IBaseHeaderProps> = () => {
                 color: status.isActive ? '#335eea' : '',
               })}
               to={item.to}
-              className="flex-shrink-0 mx-[12px] py-[6px] px-[10px] text-[18px] font-bold  text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 active:scale-[0.92] transition-colors duration-200 cursor-default"
+              className="mx-[12px] flex-shrink-0 cursor-default py-[6px] px-[10px] text-[18px]  font-bold text-black transition-colors duration-200 hover:bg-gray-200 active:scale-[0.92] dark:text-white dark:hover:bg-gray-600"
             >
               {item.name}
             </NavLink>
           )
         })}
       </div>
-      <div className="w-[242px] flex items-center justify-end">
+      <div className="flex w-[242px] items-center justify-end">
         <div
           className="flex justify-end"
           style={{
@@ -98,17 +98,17 @@ const Header: React.FC<IBaseHeaderProps> = () => {
           }}
         >
           <div
-            className={`flex items-center h-[32px] rounded-[8px] w-[200px] bg-[#D1D1D6] bg-opacity-25  ${
+            className={`flex h-[32px] w-[200px] items-center rounded-[8px] bg-[#D1D1D6] bg-opacity-25  ${
               inputFocus ? 'bg-[#BDCFFF] bg-opacity-30' : ''
             }`}
           >
             <Icon
               type="icon-sousuo"
-              className={`bg-opacity-25 ml-[8px] mr-[4px] ${focusClass}`}
+              className={`ml-[8px] mr-[4px] bg-opacity-25 ${focusClass}`}
             />
             <div className="font-sans">
               <input
-                className={`text-lg border-0 bg-transparent mt-[-1px] w-full font-semibold ${focusClass}`}
+                className={`mt-[-1px] w-full border-0 bg-transparent text-lg font-semibold ${focusClass}`}
                 type="search"
                 placeholder="搜索"
                 onFocus={() => {
@@ -122,7 +122,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
           </div>
         </div>
         <img
-          className="h-[30px] select-none ml-[10px] rounded-full cursor-pointer app-region-drag user-drag-none hover:filter hover:brightness-75 transition-all duration-200"
+          className="app-region-drag user-drag-none ml-[10px] h-[30px] cursor-pointer select-none rounded-full transition-all duration-200 hover:brightness-75 hover:filter"
           src={defaultAvatar}
           onClick={(e: React.MouseEvent<HTMLDivElement>) => {
             contextRef.current?.openMenu(e)
@@ -138,7 +138,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
             setIsOpen(true)
           }
         >
-          <Icon type="icon-shezhi" className="w-[15px] h-[15px] mr-2" />
+          <Icon type="icon-shezhi" className="mr-2 h-[15px] w-[15px]" />
           <span>设置</span>
         </ContextItem>
         <ContextItem
@@ -146,29 +146,22 @@ const Header: React.FC<IBaseHeaderProps> = () => {
             dispatch(setShowLogin())
           }}
         >
-          <Icon type="icon-sign-in-alt" className="w-[15px] h-[15px] mr-2" />
+          <Icon type="icon-sign-in-alt" className="mr-2 h-[15px] w-[15px]" />
           <span>登录</span>
         </ContextItem>
         <ContextItem>
-          <Icon type="icon-sign-out-alt" className="w-[15px] h-[15px] mr-2" />
+          <Icon type="icon-sign-out-alt" className="mr-2 h-[15px] w-[15px]" />
           <span>登出</span>
         </ContextItem>
       </ContextMenu>
       <Modal
-        onClose={handleClose}
-        closeable
-        isOpen={isOpen}
-        animate
-        autoFocus
-        size={720}
-        role={ROLE.dialog}
+        title="设置"
+        onCancel={handleClose}
+        visible={isOpen}
+        autoFocus={true}
+        wrapClassName="w-[720px]"
       >
-        <div className="w-[720px]">
-          <ModalHeader>设置</ModalHeader>
-          <ModalBody>
-            <SettingModal />
-          </ModalBody>
-        </div>
+        <SettingModal />
       </Modal>
     </div>
   )

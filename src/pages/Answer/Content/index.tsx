@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import axios from 'axios'
-import { Button } from 'baseui/button'
+import { Button } from '@arco-design/web-react'
 
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
@@ -97,7 +97,7 @@ const ChatBot = () => {
     <div className={styles['chat-bot-container']}>
       <div className={styles['chat-bot-messages']}>
         {chatHistorys.length === 0 ? (
-          <div className="flex items-center justify-center mt-4 text-center text-neutral-300">
+          <div className="mt-4 flex items-center justify-center text-center text-neutral-300">
             <span>欢迎你~</span>
           </div>
         ) : (
@@ -119,7 +119,7 @@ const ChatBot = () => {
               />
               <div className={styles['message']}>
                 {chat.loading ? (
-                  <div className="w-[4px] h-[20px] block animate-blink" />
+                  <div className="block h-[20px] w-[4px] animate-blink" />
                 ) : (
                   chat.message
                 )}
@@ -138,7 +138,7 @@ const ChatBot = () => {
           onKeyDown={handleInputKeyDown}
           disabled={loading}
         />
-        <Button disabled={!idAllow || loading} size="compact">
+        <Button disabled={!idAllow || loading} size="small">
           发送
         </Button>
       </form>

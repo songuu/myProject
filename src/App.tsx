@@ -1,48 +1,60 @@
-import React, { Suspense, useMemo, useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 
-import { LightTheme, DarkTheme, BaseProvider } from 'baseui'
-import { Provider as StyletronProvider } from 'styletron-react'
-import { Client as Styletron } from 'styletron-engine-atomic'
+import { BrowserRouter } from 'react-router-dom'
+
+import { ConfigProvider } from '@arco-design/web-react'
 
 import { useAppSelector } from '@root/store/index'
 
-import { useTheme } from './hooks/useTheme'
-
 import Router from '@router/index'
 
-import { AppLoading, Icon } from '@components/index'
-
-const engine = new Styletron()
-
-// const { theme } = useTheme()
+import { AppLoading } from '@components/index'
 
 interface IAppProps {}
 
 const App: React.FC<IAppProps> = () => {
   const theme = useAppSelector(state => state.settings.theme)
 
-  const innerTheme = useMemo(() => {
-    return theme === 'light' ? LightTheme : DarkTheme
-  }, [theme])
-
   useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
+    switch (theme) {
+      case 'light':
+        document.documentElement.classList.remove('dark')
+        document.body.removeAttribute('arco-theme')
+        break
+      case 'dark':
+        document.documentElement.classList.add('dark')
+        document.body.setAttribute('arco-theme', 'dark')
+        break
+      case 'auto':
+        document.documentElement.classList.toggle(
+          'dark',
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+        )
+        break
     }
   }, [theme])
 
   return (
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={innerTheme}>
-        <div className="h-[100vh]">
-          <Suspense fallback={<AppLoading />}>
-            <Router />
-          </Suspense>
-        </div>
-      </BaseProvider>
-    </StyletronProvider>
+    <ConfigProvider
+      // locale={getArcoLocale()}
+      componentConfig={{
+        Card: {
+          bordered: false,
+        },
+        List: {
+          bordered: false,
+        },
+        Table: {
+          border: false,
+        },
+      }}
+    >
+      <div className="h-[100vh]">
+        <Suspense fallback={<AppLoading />}>
+          <Router />
+        </Suspense>
+      </div>
+    </ConfigProvider>
   )
 }
 

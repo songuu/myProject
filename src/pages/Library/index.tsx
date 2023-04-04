@@ -4,7 +4,8 @@ import { useSearchParams } from 'react-router-dom'
 
 import classnames from 'classnames'
 
-import { HeadingMedium } from 'baseui/typography'
+import { Typography } from '@arco-design/web-react'
+const { Title } = Typography
 
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
@@ -40,16 +41,16 @@ function Library() {
   }, [queryCate])
 
   return (
-    <div className="w-full h-full p-[20px]">
-      <HeadingMedium>应用</HeadingMedium>
+    <div className="h-full w-full p-[20px]">
+      <Title heading={2}>应用</Title>
       <div className="flex flex-wrap">
         {enabledPlaylistCategories.map((category: string) => {
           return (
             <div
               className={classnames(
-                'select-none cursor-pointer px-[16px] py-[8px] mt-[10px] mb-[6px] mr-[16px] flex items-center justify-center font-semibold rounded-[10px]  text-2xl transition-200 hover:bg-[#eaeffd] hover:text-[#335eea]',
+                'transition-200 mt-[10px] mb-[6px] mr-[16px] flex cursor-pointer select-none items-center justify-center rounded-[10px] px-[16px] py-[8px]  text-2xl font-semibold hover:bg-[#eaeffd] hover:text-[#335eea]',
                 activeCategory === category
-                  ? 'text-[#335eea] bg-[#eaeffd]'
+                  ? 'bg-[#eaeffd] text-[#335eea]'
                   : 'bg-[#f5f5f7] text-[#7a7a7b]'
               )}
               key={category}

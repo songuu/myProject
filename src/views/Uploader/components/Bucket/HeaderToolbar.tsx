@@ -1,8 +1,7 @@
 import React from 'react'
 
-import { Breadcrumbs } from 'baseui/breadcrumbs'
-
-import { StyledLink } from 'baseui/link'
+import { Breadcrumb as ArcoBreadcrumb } from '@arco-design/web-react'
+const ArcoBreadcrumbItem = ArcoBreadcrumb.Item
 
 import { Layout } from '@mytypes/common'
 
@@ -32,7 +31,7 @@ const HeaderToolbar: React.FC<PropTypes> = ({
   }
 
   return (
-    <div className="flex items-center flex-row justify-between text-white box-border px-[12px] py-[8px] border-b-[1px] border-b-[#fafafa] border-b-solid">
+    <div className="border-b-solid box-border flex flex-row items-center justify-between border-b-[1px] border-b-[#fafafa] px-[12px] py-[8px] text-white">
       <div className="flex items-center">
         <ButtonIcon classname={buttonCss} onclick={backspace}>
           <Icon type="icon-xiangyou" className={IconCss} />
@@ -41,11 +40,11 @@ const HeaderToolbar: React.FC<PropTypes> = ({
           <Icon type="icon-reload" className={IconCss} />
         </ButtonIcon>
 
-        <Breadcrumbs>
+        <ArcoBreadcrumb>
           {myNavigators().map(item => {
-            return item // <StyledLink href={`#/${item}`}>{item}</StyledLink>
+            return <ArcoBreadcrumbItem key={item}>{item}</ArcoBreadcrumbItem>
           })}
-        </Breadcrumbs>
+        </ArcoBreadcrumb>
         {/* <Breadcrumb separator=">">
           {myNavigators().map((item, index) => {
             return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>

@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 
 import classnames from 'classnames'
 
-import { HeadingMedium, HeadingSmall } from 'baseui/typography'
+import { Typography } from '@arco-design/web-react'
+
+const { Title } = Typography
 
 import { UploaderPage } from '@constants/enums'
 
@@ -59,8 +61,8 @@ const SiderBar: React.FC<IProps> = ({
   return (
     <div className="w-[225px] overflow-auto">
       <section className="mb-[30px]">
-        <HeadingMedium>储存空间</HeadingMedium>
-        <ul className="p-0 m-0">
+        <Title heading={4}>储存空间</Title>
+        <ul className="m-0 p-0">
           {bucketList.length ? (
             bucketList.map((bucket: string) => (
               <div
@@ -82,7 +84,7 @@ const SiderBar: React.FC<IProps> = ({
             <li
               className={classnames(
                 listItemCss,
-                'opacity-30 cursor-not-allowed'
+                'cursor-not-allowed opacity-30'
               )}
             >
               <Icon type="icon-folder" />
@@ -92,8 +94,8 @@ const SiderBar: React.FC<IProps> = ({
         </ul>
       </section>
       <section className="mb-[30px]">
-        <HeadingSmall>传输列表{showProgress && '进度条'}</HeadingSmall>
-        <div className="p-0 m-0">
+        <Title heading={4}>传输列表{showProgress && '进度条'}</Title>
+        <div className="m-0 p-0">
           <div
             role="presentation"
             onClick={() => tabChange(UploaderPage.transferList, '')}
@@ -119,8 +121,8 @@ const SiderBar: React.FC<IProps> = ({
         </div>
       </section>
       <section className="mb-[30px]">
-        <HeadingSmall>设置</HeadingSmall>
-        <div className="p-0 m-0">
+        <Title heading={4}>设置</Title>
+        <div className="m-0 p-0">
           <div
             role="presentation"
             onClick={() => tabChange(UploaderPage.services, '')}

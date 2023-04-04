@@ -22,6 +22,9 @@ const initialConfig = {
     },
     sessions: [],
   },
+  prompt: {
+    list: []
+  }
 }
 
 export interface ConfigStore {
@@ -41,6 +44,10 @@ export interface ConfigStore {
     activeSession: string
     setting?: Chat.Setting
     sessions: any[]
+  }
+
+  prompt: {
+    list: any[]
   }
 }
 

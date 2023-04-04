@@ -272,6 +272,31 @@ export const api = {
     return asyncSend('getChatSessionDataMsgByIdAndIndex', payload)
   },
 
+  // 获取prompStore 数据
+  getPromptList: () => {
+    return asyncSend('getPromptList')
+  },
+
+  // 设置prompStore 数据
+  setPromptList: (payload: any) => {
+    return asyncSend('setPromptList', payload)
+  },
+
+  // 修改prompStore 数据
+  updatePrompt: (payload: any) => {
+    return asyncSend('updatePrompt', payload)
+  },
+
+  // 添加prompStore 数据
+  addPrompt: (payload: any) => {
+    return asyncSend('addPrompt', payload)
+  },
+
+  // 删除prompStore 数据
+  deletePrompt: (payload: any) => {
+    return asyncSend('deletePrompt', payload)
+  },
+
   // 打开文件
   openExternal: (path: any) => {
     shell.openExternal(path)

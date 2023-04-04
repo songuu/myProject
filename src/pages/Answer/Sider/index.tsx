@@ -2,26 +2,15 @@ import React, { useCallback, useState, useEffect } from 'react'
 
 import toast, { Toaster } from 'react-hot-toast'
 
-import { Select, Value, Option } from 'baseui/select'
-
-import { Input } from 'baseui/input'
-
-import { Button } from 'baseui/button'
+import { Input, Button, Form } from '@arco-design/web-react'
 
 import { useAppSelector, useAppDispatch } from '@root/store/index'
-
-import { createForm } from '@components/Form'
 
 import { ChatSettingType } from '@root/store/action-types'
 
 import { setChatSetting } from '@root/store/actions'
 
 import { ss } from '@utils/storage/local'
-
-import styles from './index.module.less'
-
-
-const { Form, FormItem, useForm } = createForm<any>()
 
 const Sider = () => {
   const dispatch = useAppDispatch()
@@ -33,9 +22,10 @@ const Sider = () => {
   const [values, setValues] = useState<ChatSettingType>({
     apiKey: '',
     apiURL: '',
+    systemMessage: '',
   })
 
-  const [form] = useForm()
+  const [form] = Form.useForm()
 
   useEffect(() => {
     form.setFieldsValue(values)
@@ -75,7 +65,7 @@ const Sider = () => {
     })()
   }, [])
 
-  const onSubmmit = useCallback(async (data: any) => {
+  const onSubmit = useCallback(async (data: any) => {
     setLoading(true)
     await ss.set('chatSetting', data)
     await dispatch(setChatSetting(data))
@@ -86,36 +76,37 @@ const Sider = () => {
     setLoading(false)
   }, [])
 
-  const onChange = useCallback(
-    (_changes: Partial<ChatSettingType>, values_: ChatSettingType) => {
-      setValues(values_)
-    },
-    []
-  )
+  const onChange = useCallback((_changes: Partial<any>, values_: any) => {
+    setValues(values_)
+  }, [])
 
   return (
-    <div className={styles['sider']}>
+    <div className="flex w-[260px] flex-col justify-items-start">
       <Form
         form={form}
-        style={{
-          padding: '0 10px',
-          overflowX: 'hidden',
-        }}
-        onFinish={onSubmmit}
+        className="overflow-hidden px-[10px] py-[5px]"
+        onSubmit={onSubmit}
         initialValues={values}
         onValuesChange={onChange}
       >
-        <FormItem
+        <Form.Item
           required
-          name="apiKey"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          field="apiKey"
           label="API Key"
-          caption="https://platform.openai.com/account/api-keys 生成key"
+          // caption="https://platform.openai.com/account/api-keys 生成key"
         >
-          <Input autoFocus type="password" size="compact" />
-        </FormItem>
-        <FormItem name="apiURL" label="API URL">
-          <Input size="compact" />
-        </FormItem>
+          <Input autoFocus type="password" />
+        </Form.Item>
+        <Form.Item
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          field="apiURL"
+          label="API URL"
+        >
+          <Input />
+        </Form.Item>
         <div
           style={{
             display: 'flex',
@@ -129,9 +120,7 @@ const Sider = () => {
               marginRight: 'auto',
             }}
           />
-          <Button isLoading={loading} size="compact">
-            Save
-          </Button>
+          <Button loading={loading}>保存</Button>
         </div>
         <Toaster />
       </Form>
