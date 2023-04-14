@@ -66,7 +66,7 @@ const HeaderToolbar: React.FC<PropTypes> = ({
           })}
         </div> */}
       </div>
-      <div>搜索</div>
+      {/* <div>搜索</div> */}
     </div>
   )
 }

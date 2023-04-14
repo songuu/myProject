@@ -6,6 +6,8 @@ import { Typography } from '@arco-design/web-react'
 
 const { Title } = Typography
 
+import { useTranslation } from 'react-i18next'
+
 import { UploaderPage } from '@constants/enums'
 
 import { Icon } from '@components/index'
@@ -34,6 +36,7 @@ const SiderBar: React.FC<IProps> = ({
   tabChange,
   bucketList,
 }) => {
+  const { t } = useTranslation()
   const [progress, setProgress] = useState<number>(0)
   const [showProgress, setShowProgress] = useState<boolean>(false)
 
@@ -61,7 +64,7 @@ const SiderBar: React.FC<IProps> = ({
   return (
     <div className="w-[225px] overflow-auto">
       <section className="mb-[30px]">
-        <Title heading={4}>储存空间</Title>
+        <Title heading={4}>{t('file.storageSpace')}</Title>
         <ul className="m-0 p-0">
           {bucketList.length ? (
             bucketList.map((bucket: string) => (
@@ -88,13 +91,19 @@ const SiderBar: React.FC<IProps> = ({
               )}
             >
               <Icon type="icon-folder" />
-              <div className="name ml-2 text-sm">暂无储存桶</div>
+              <div className="name ml-2 text-sm">
+                {t('file.noStorageSpace')}
+              </div>
             </li>
           )}
         </ul>
       </section>
       <section className="mb-[30px]">
-        <Title heading={4}>传输列表{showProgress && '进度条'}</Title>
+        <Title heading={4}>
+          {t('file.transfer')}
+          {t('file.list')}
+          {showProgress && t('file.progressBar')}
+        </Title>
         <div className="m-0 p-0">
           <div
             role="presentation"
@@ -105,7 +114,10 @@ const SiderBar: React.FC<IProps> = ({
             )}
           >
             <Icon type="icon-download" className={listItemIconCss} />
-            <div className="pl-[10px] text-sm">传输列表</div>
+            <div className="pl-[10px] text-sm">
+              {t('file.transfer')}
+              {t('file.list')}
+            </div>
           </div>
           <div
             role="presentation"
@@ -116,12 +128,15 @@ const SiderBar: React.FC<IProps> = ({
             )}
           >
             <Icon type="icon-done" className={listItemIconCss} />
-            <div className="pl-[10px] text-sm">传输完成</div>
+            <div className="pl-[10px] text-sm">
+              {t('file.transfer')}
+              {t('common.success')}
+            </div>
           </div>
         </div>
       </section>
       <section className="mb-[30px]">
-        <Title heading={4}>设置</Title>
+        <Title heading={4}>{t('home.setting')}</Title>
         <div className="m-0 p-0">
           <div
             role="presentation"

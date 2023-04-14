@@ -2,6 +2,8 @@ import React, { useEffect, useState, MouseEvent } from 'react'
 
 import { FileDrop } from 'react-file-drop'
 
+import { useTranslation } from 'react-i18next'
+
 import VFolder from '@libs/vdir/VFolder'
 import VFile from '@libs/vdir/VFile'
 import { Item } from '@libs/vdir/types'
@@ -25,6 +27,7 @@ type PropTypes = {
 }
 
 const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
+  const { t } = useTranslation()
   const [vFolder, setVFolder] = useState<VFolder>(new VFolder('root'))
   const [domains, setDomains] = useState<string[]>([])
   const [items, setItems] = useState<Item[]>([])
@@ -106,6 +109,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
     await window.Main.showContextMenu({
       files: item,
       remoteDir: vFolder.getPathPrefix(),
+      titles: [t('file.copyLink'), t('common.download'), t('common.delete')],
     })
   }
 
@@ -131,7 +135,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
         fileList: files,
       })
     } catch (e: any) {
-      Message.error(`下载文件出错：${e.message}`)
+      Message.error(`${t('common.failed')}：${e.message}`)
     }
   }
 
@@ -160,11 +164,21 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
 
   const renderMainPanel = () => {
     if (!bucketMeta.name) {
-      return <Empty title="没有 Bucket" description="当前没有选中的存储桶" />
+      return (
+        <Empty
+          title={`${t('file.none')}Bucket`}
+          description={t('file.noBucketCurrentlySelected')}
+        />
+      )
     }
 
     if (items.length <= 0) {
-      return <Empty title="没有文件" description="当前 bucket 中没有文件" />
+      return (
+        <Empty
+          title={`${t('file.none')}${t('file.file')}`}
+          description={t('file.noFilesInTheCurrentBucket')}
+        />
+      )
     }
 
     return (
@@ -196,19 +210,19 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
   useEffect(() => {
     window.Main.on('deleteFile', (remotePath: string) => {
       if (remotePath) {
-        Message.success('删除成功')
+        Message.success(t('common.deleteSuccess'))
         onRefreshBucket()
       }
     })
 
     window.Main.on('uploadFileSuccess', () => {
-      Message.success('上传成功')
+      Message.success(t('common.importSuccess'))
       onRefreshBucket()
     })
 
     window.Main.on('downloadFile', (downloadPath: string) => {
       if (downloadPath) {
-        Message.success('下载成功')
+        Message.success(t('common.exportSuccess'))
       }
     })
 
@@ -221,7 +235,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
 
   return (
     <div
-      className="h-full flex flex-col select-none"
+      className="flex h-full select-none flex-col"
       style={{
         // @ts-ignore
         WebkitAppRegion: 'no-drag',
@@ -246,7 +260,7 @@ const Bucket: React.FC<PropTypes> = ({ bucketMeta }) => {
         navigators={vFolder.getNav()}
       />
 
-      <div className="h-full overflow-hidden relative box-border">
+      <div className="relative box-border h-full overflow-hidden">
         <FileDrop
           onDrop={async files => {
             if (files) {

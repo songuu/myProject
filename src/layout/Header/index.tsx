@@ -23,22 +23,22 @@ import SettingModal from '@root/views/Setting'
 interface IBaseHeaderProps {}
 
 const links = [
-  {
+  /* {
     name: i18n.t('home.home'),
     to: '/main_window/home',
   },
   {
     name: i18n.t('home.explore'),
     to: '/main_window/explore',
-  },
+  }, */
   {
     name: i18n.t('home.library'),
     to: '/main_window/library?category=全部应用',
   },
-  {
+  /* {
     name: i18n.t('home.answer'),
     to: '/main_window/answer',
-  },
+  }, */
   {
     name: i18n.t('home.chat'),
     to: '/main_window/chat',
@@ -75,6 +75,9 @@ const Header: React.FC<IBaseHeaderProps> = () => {
         </ButtonIcon>
         <ButtonIcon classname="text-gray-500" onclick={() => navigate(1)}>
           <Icon type="icon-xiangzuo" className="h-[16px] w-[16px]" />
+        </ButtonIcon>
+        <ButtonIcon classname="text-gray-500" onclick={() => navigate(0)}>
+          <Icon type="icon-reload" className="h-[16px] w-[16px]" />
         </ButtonIcon>
       </div>
       <div className="flex h-full min-w-[250px] flex-1 select-none items-center overflow-x-auto overflow-y-hidden">
@@ -116,7 +119,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
               <input
                 className={`mt-[-1px] w-full border-0 bg-transparent text-lg font-semibold ${focusClass}`}
                 type="search"
-                placeholder="搜索"
+                placeholder={t('home.search')}
                 onFocus={() => {
                   setInputFocus(true)
                 }}

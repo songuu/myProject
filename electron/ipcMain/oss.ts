@@ -77,7 +77,7 @@ class InitOssIpcMain {
       }
     })
 
-    registerIpc('update-app', async params => {})
+    registerIpc('update-app', async params => { })
 
     registerIpc('delete-app', async id => {
       if (!id) {
@@ -162,10 +162,10 @@ class InitOssIpcMain {
       }
     })
 
-    registerIpc('right-temp', async ({ files, remoteDir }) => {
+    registerIpc('right-temp', async ({ files, remoteDir, titles = [] }) => {
       const templates = [
         {
-          label: '复制链接',
+          label: titles[0], //'复制链接',
           click: async () => {
             const url = await this.appChannels.getFileUrl(
               files.webkitRelativePath
@@ -174,13 +174,13 @@ class InitOssIpcMain {
           },
         },
         {
-          label: '下载',
+          label: titles[1], //'下载',
           click: async () => {
             await this.appChannels.downloadFile({ files: [files], remoteDir })
           },
         },
         {
-          label: '删除',
+          label: titles[2], // '删除',
           click: async () => {
             await this.appChannels.deleteFile({
               files: [files],

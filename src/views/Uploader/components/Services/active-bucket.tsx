@@ -4,6 +4,8 @@ import { Typography } from '@arco-design/web-react'
 
 const { Title } = Typography
 
+import { useTranslation } from 'react-i18next'
+
 import { AppStore, OssTypeMap } from '@mytypes/common'
 
 import { hiddenTextFilter } from '@libs/utils'
@@ -16,45 +18,47 @@ interface IProps {
 }
 
 const ActiveBucket: React.FC<IProps> = ({ activeApp, onBucketDelete }) => {
+  const { t } = useTranslation()
+
   const items = [
     {
-      label: '基本信息：',
+      label: `${t('file.basic')}：`,
       children: [
         {
-          label: '云服务厂商：',
-          value: OssTypeMap[activeApp.type] || '暂无配置',
+          label: `${t('file.cloudService')}：`,
+          value: OssTypeMap[activeApp.type] || t('file.noConfiguration'),
         },
         {
           label: 'AK：',
-          value: activeApp.ak || '暂无配置',
+          value: activeApp.ak || t('file.noConfiguration'),
         },
         {
           label: 'SK：',
-          value: hiddenTextFilter(activeApp.sk || '暂无配置'),
+          value: hiddenTextFilter(activeApp.sk || t('file.noConfiguration')),
         },
       ],
     },
     {
-      label: '软件配置：',
+      label: `${t('file.software')}：`,
       children: [
         {
-          label: '默认上传路径：',
-          value: activeApp.uploadBucket || '暂无配置',
+          label: `${t('file.defaultUploadPath')}：`,
+          value: activeApp.uploadBucket || t('file.noConfiguration'),
         },
         {
-          label: '默认上传前缀：',
-          value: activeApp.uploadPrefix || '暂无配置',
+          label: `${t('file.defaultUploadPrefix')}：`,
+          value: activeApp.uploadPrefix || t('file.noConfiguration'),
         },
         {
-          label: '默认域名：',
-          value: activeApp.defaultDomain || '暂无配置',
+          label: `${t('file.defaultDomainName')}：`,
+          value: activeApp.defaultDomain || t('file.noConfiguration'),
         },
       ],
     },
   ]
   return (
-    <div className="w-[calc(100%_-_180px)] overflow-hidden">
-      <Title heading={2}>查看配置</Title>
+    <div className="w-[calc(100%_-_180px)] overflow-y-auto overflow-x-hidden">
+      <Title heading={2}>{t('file.profile')}</Title>
       {items.map((item, index) => {
         return (
           <article className="mt-5" key={index}>
@@ -73,13 +77,13 @@ const ActiveBucket: React.FC<IProps> = ({ activeApp, onBucketDelete }) => {
         )
       })}
       <article className="mt-5">
-        <Title heading={2}>操作</Title>
+        <Title heading={2}>{t('file.operation')}</Title>
         <Button
           className="mt-[5px]"
           status="danger"
           onClick={() => onBucketDelete(activeApp)}
         >
-          删除
+          {t('delete')}
         </Button>
       </article>
     </div>

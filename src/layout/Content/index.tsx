@@ -36,7 +36,7 @@ const Content: React.FC<IBaseContentProps> = () => {
           {/* <Route path="setting" element={<Setting />} /> */}
           <Route path="answer" element={<Answer />} />
           <Route path="chat" element={<Chat />} />
-          <Route path="*" element={<Navigate to="home" />} />
+          <Route path="*" element={<Navigate to="library" />} />
         </Routes>
       </Suspense>
     </div>

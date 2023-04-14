@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 import { Button } from '@components/index'
 
 import { BucketMeta } from '@mytypes/common'
@@ -19,24 +21,25 @@ const HeaderButtonGroup: React.FC<PropTypes> = ({
   selectedItems,
   bucketMeta,
 }) => {
+  const { t } = useTranslation()
   return (
-    <div className="box-border pr-[12px] py-[8px] w-full leading-[56px] border-b-[1px] border-b-[#f0f0f0] border-b-solid">
+    <div className="border-b-solid box-border w-full border-b-[1px] border-b-[#f0f0f0] py-[8px] pr-[12px] leading-[56px]">
       <Button disabled={!bucketMeta} onClick={fileUpload}>
-        上传文件
+        {t('file.upload')}
       </Button>
       <Button
         disabled={selectedItems.length === 0}
         onClick={onDownload}
         className="ml-5"
       >
-        下载
+        {t('file.download')}
       </Button>
       <Button
         disabled={selectedItems.length === 0}
         onClick={onDelete}
         className="ml-5"
       >
-        删除
+        {t('file.delete')}
       </Button>
     </div>
   )

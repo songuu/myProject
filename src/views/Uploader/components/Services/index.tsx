@@ -4,6 +4,8 @@ import { Typography } from '@arco-design/web-react'
 
 const { Title } = Typography
 
+import { useTranslation } from 'react-i18next'
+
 import { AppStore } from '@mytypes/common'
 
 import { Empty, Message, Button } from '@components/index'
@@ -28,6 +30,7 @@ const appsMainWrapperCss =
   'w-full h-full flex overflow-hidden relative pb-[18px]'
 
 const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
+  const { t } = useTranslation()
   const [apps, setApps] = useState<AppStore[]>([])
   const [page, setPage] = useState<ServicesPage>(ServicesPage.list)
 
@@ -114,10 +117,10 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
             <div className="h-full w-[180px] flex-col px-[18x]">
               <>
                 <Button type="primary" onClick={_toAddPage}>
-                  添加
+                  {t('common.add')}
                 </Button>
                 <Button status="danger" onClick={handelClear}>
-                  清空
+                  {t('common.clear')}
                 </Button>
               </>
 
@@ -136,8 +139,11 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
           </section>
         ) : (
           <section className={appsMainWrapperCss}>
-            <Empty title="没有 Apps" description="暂时没有搜索到 apps">
-              <Button onClick={_toAddPage}>添加</Button>
+            <Empty
+              title={`${t('file.none')} Apps`}
+              description={`${t('file.notFound')} Apps`}
+            >
+              <Button onClick={_toAddPage}>{t('common.add')}</Button>
             </Empty>
           </section>
         )
@@ -145,10 +151,12 @@ const Services: React.FC<IProps> = ({ activeApp, onAppSwitch }) => {
         return (
           <section className={appsMainWrapperCss}>
             <div className="absolute top-[20px] left-[20px]">
-              <Button onClick={_toListPage}>返回</Button>
+              <Button onClick={_toListPage}>{t('common.back')}</Button>
             </div>
             <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden">
-              <Title heading={6}>新增配置</Title>
+              <Title heading={6}>
+                {t('file.add')} {t('file.profile')}
+              </Title>
               <AddForm onSuccess={handleAddSuccess} />
             </div>
           </section>

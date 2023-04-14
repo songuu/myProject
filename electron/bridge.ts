@@ -171,13 +171,16 @@ export const api = {
   showContextMenu: ({
     files,
     remoteDir,
+    titles
   }: {
     files: any
     remoteDir: string
+    titles: string[]
   }) => {
     return asyncSend('right-temp', {
       files,
       remoteDir,
+      titles
     })
   },
 
