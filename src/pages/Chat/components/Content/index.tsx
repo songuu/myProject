@@ -4,9 +4,11 @@ import { useSearchParams } from 'react-router-dom'
 
 import html2canvas from 'html2canvas'
 
+import { useTranslation } from 'react-i18next'
+
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
-import { Button, Input, Message, Icon, Autocomplete } from '@components/index'
+import { Button, Message, Icon, Autocomplete } from '@components/index'
 
 import {
   getChatSessionById,
@@ -37,6 +39,7 @@ const options = [
 ]
 
 const ChatContent = () => {
+  const { t } = useTranslation()
   const [search] = useSearchParams()
 
   const dispatch = useAppDispatch()
@@ -98,12 +101,12 @@ const ChatContent = () => {
       window.URL.revokeObjectURL(imgUrl)
       setExportLoading(false)
       Message.info({
-        content: '导出成功',
+        content: t('chat.exportSuccess'),
       })
       Promise.resolve()
     } catch (error: any) {
       Message.error({
-        content: error.message || '导出失败',
+        content: error.message || t('chat.exportFailed'),
       })
     } finally {
       setExportLoading(false)
@@ -247,7 +250,7 @@ const ChatContent = () => {
 
       await fetchChatAPIOnce()
     } catch (error: any) {
-      const errorMessage = error?.message || '请求失败'
+      const errorMessage = error?.message || t('common.failed')
       if (error.message === 'canceled') {
         const olaData = dataRef.current[dataRef.current.length - 1]
 
@@ -395,7 +398,7 @@ const ChatContent = () => {
 
       await fetchChatAPIOnce()
     } catch (error: any) {
-      const errorMessage = error?.message || '请求失败'
+      const errorMessage = error?.message || t('common.failed')
 
       if (error.message === 'canceled') {
         const olaData = dataRef.current[index]
@@ -448,7 +451,7 @@ const ChatContent = () => {
   }, [loading, value, activeId])
 
   const searchOptions = useMemo(() => {
-    console.log("value", value)
+    console.log('value', value)
     if (value.startsWith('/')) {
       return options
     }
@@ -486,9 +489,9 @@ const ChatContent = () => {
     }
   }, [emitter, activeId])
 
-  console.log("searchOptions", searchOptions)
+  console.log('searchOptions', searchOptions)
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex h-full w-full flex-col">
       <main className="flex-1 overflow-hidden">
         <div
           id="scrollRef"
@@ -497,7 +500,7 @@ const ChatContent = () => {
           <div
             id="image-wrapper"
             ref={bottomRef}
-            className="w-full max-w-screen-xl p-4 m-auto"
+            className="m-auto w-full max-w-screen-xl p-4"
           >
             {dataSources.length > 0 ? (
               <div>
@@ -507,13 +510,13 @@ const ChatContent = () => {
                 <div className="sticky bottom-0 left-0 flex justify-center">
                   {loading && (
                     <Button status="warning" onClick={handleStop}>
-                      停止响应
+                      {t('chat.stopResponse')}
                     </Button>
                   )}
                 </div>
               </div>
             ) : (
-              <div className="flex items-center justify-center mt-4 text-center text-neutral-300">
+              <div className="mt-4 flex items-center justify-center text-center text-neutral-300">
                 <span>你好~</span>
               </div>
             )}
@@ -521,7 +524,7 @@ const ChatContent = () => {
         </div>
       </main>
       <footer className="p-4">
-        <div className="w-full max-w-screen-xl m-auto">
+        <div className="m-auto w-full max-w-screen-xl">
           <div className="flex items-center justify-between space-x-2">
             <Button
               className="bg-white dark:bg-[#24272e] dark:text-white"
@@ -529,7 +532,7 @@ const ChatContent = () => {
             >
               <span className="text-xl">
                 <Icon
-                  className="w-[20px] h-[20px] text-[#4f555e] dark:text-white"
+                  className="h-[20px] w-[20px] text-[#4f555e] dark:text-white"
                   type="icon-shanchu1"
                 />
               </span>
@@ -541,7 +544,7 @@ const ChatContent = () => {
             >
               <span className="text-xl">
                 <Icon
-                  className="w-[20px] h-[20px] text-[#4f555e] dark:text-white"
+                  className="h-[20px] w-[20px] text-[#4f555e] dark:text-white"
                   type="icon-xiazai"
                 />
               </span>
@@ -555,7 +558,7 @@ const ChatContent = () => {
                   usingContext ? 'text-[#335eea]' : 'text-[#a8071a]'
                 }`}
               >
-                <Icon className="w-[20px] y-[20px]" type="icon-suoyouwenjian" />
+                <Icon className="y-[20px] w-[20px]" type="icon-suoyouwenjian" />
               </span>
             </Button>
             <div className="n-auto-complete">
@@ -566,7 +569,7 @@ const ChatContent = () => {
                 onKeyDown={handleSend}
               /> */}
               <Autocomplete
-                placeholder="来说点什么吧"
+                placeholder={t('chat.placeholder')}
                 options={searchOptions}
                 onKeyDown={handleSend}
                 onChange={value => setValue(value)}
@@ -578,7 +581,7 @@ const ChatContent = () => {
               onClick={handleSubmit}
             >
               <span className="text-xl text-[#fff] dark:text-white">
-                <Icon className="w-[20px] y-[20px]" type="icon-fasong" />
+                <Icon className="y-[20px] w-[20px]" type="icon-fasong" />
               </span>
             </Button>
           </div>

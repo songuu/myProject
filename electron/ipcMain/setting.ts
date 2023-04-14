@@ -144,6 +144,54 @@ class InitSettingIpcMain {
         return fail(1, err.message)
       }
     })
+
+    // 设置语言
+    registerIpc('setLanguage', async language => {
+      log('setLanguage')
+
+      try {
+        configStore.set('settings.language', language)
+
+        return success(true)
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
+
+    // 获取语言
+    registerIpc('getLanguage', async () => {
+      log('getLanguage')
+
+      try {
+        return success(configStore.get('settings.language'))
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
+
+    // 设置主题
+    registerIpc('setTheme', async theme => {
+      log('setTheme')
+
+      try {
+        configStore.set('settings.theme', theme)
+
+        return success(true)
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
+
+    // 获取主题
+    registerIpc('getTheme', async () => {
+      log('getTheme')
+
+      try {
+        return success(configStore.get('settings.theme'))
+      } catch (err: any) {
+        return fail(1, err.message)
+      }
+    })
   }
 }
 

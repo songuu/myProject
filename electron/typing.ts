@@ -3,3 +3,9 @@ export enum OssType {
   ali,
   tencent,
 }
+
+export enum languages {
+  'zh-CN',
+  'en-US',
+  'zh-TW'
+}

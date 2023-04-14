@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { useSearchParams } from 'react-router-dom'
 
+import { useTranslation } from 'react-i18next'
+
 import { useAppDispatch } from '@root/store/index'
 
 import { clearChatSessions, addChatSession } from '@root/store/actions'
@@ -17,6 +19,7 @@ import SettingModal from './setting-modal'
 import PrompStoreModal from './prompStore'
 
 const Sider = () => {
+  const { t } = useTranslation()
   const [, setSearch] = useSearchParams()
 
   const dispatch = useAppDispatch()
@@ -65,7 +68,7 @@ const Sider = () => {
             className="bg-white w-full dark:bg-[#24272e] dark:text-white"
             onClick={handleNewSession}
           >
-            新对话
+            New chat
           </Button>
         </div>
         <div className="flex-1 min-h-0 pb-0 overflow-y-auto">
@@ -88,7 +91,7 @@ const Sider = () => {
             className="bg-white w-full dark:bg-[#24272e] dark:text-white"
             onClick={handleClearAllSession}
           >
-            清除所有对话
+            {t('chat.clearChat')}
           </Button>
         </div>
         <div className="p-4">
@@ -99,7 +102,7 @@ const Sider = () => {
               setIsSettingModalOpen(true)
             }}
           >
-            设置
+            {t('home.setting')}
           </Button>
         </div>
         <SettingModal

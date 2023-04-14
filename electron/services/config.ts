@@ -5,6 +5,8 @@ import { app } from 'electron'
 import { cloneDeep } from 'lodash'
 import shortcuts from '../../src/constants/shortcuts'
 
+import { languages } from '../typing'
+
 export const appDir = path.join(app.getPath('appData'), 'storage')
 export const downloadDir = app.getPath('downloads')
 
@@ -24,7 +26,9 @@ const initialConfig = {
   },
   prompt: {
     list: []
-  }
+  },
+  theme: 'auto',
+  language: languages['zh-CN'],
 }
 
 export interface ConfigStore {
@@ -49,6 +53,10 @@ export interface ConfigStore {
   prompt: {
     list: any[]
   }
+
+  theme: string
+
+  language: languages
 }
 
 export const configStore = new Store<ConfigStore>({

@@ -19,6 +19,8 @@ export const UPDATE_SHORTCUT = 'UPDATE_SHORTCUT'
 export type UPDATE_SHORTCUT_TYPE = typeof UPDATE_SHORTCUT
 export const SET_THEME = 'SET_THEME'
 export type SET_THEME_TYPE = typeof SET_THEME
+export const SET_LANGUAGE = 'SET_LANGUAGE'
+export type SET_LANGUAGE_TYPE = typeof SET_LANGUAGE
 
 // * login
 export const SHOW_LOGIN = 'SHOW_LOGIN'
@@ -66,6 +68,12 @@ export type ChatSettingType = {
 }
 
 export type Theme = 'light' | 'dark' | 'auto'
+
+export enum languages {
+  'zh-CN',
+  'en-US',
+  'zh-TW'
+}
 
 export type ChatHistoryType = {
   id: string

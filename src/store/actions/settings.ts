@@ -15,6 +15,11 @@ export interface SetThemeAction {
   payload: types.Theme
 }
 
+export interface SetLanguageAction {
+  type: types.SET_LANGUAGE_TYPE
+  payload: types.languages
+}
+
 export const getShortcuts = () => {
   return async (dispatch: AppDispatch) => {
     const shortcuts = await window.Main.getShortcuts()
@@ -85,12 +90,50 @@ export const updateShortcut = (payload: types.UpdatecutType) => {
   }
 }
 
-export const setTheme = (payload: types.Theme): SetThemeAction => ({
-  type: types.SET_THEME,
-  payload,
-})
+export const setTheme = (payload: types.Theme) => {
+  return async (dispatch: AppDispatch) => {
+    const r = await window.Main.setTheme(payload)
+    if (r) {
+      dispatch({
+        type: types.SET_THEME,
+        payload,
+      })
+    }
+  }
+}
+
+export const setLanguage = (payload: types.languages) => {
+  return async (dispatch: AppDispatch) => {
+    const r = await window.Main.setLanguage(payload)
+    if (r) {
+      dispatch({
+        type: types.SET_LANGUAGE,
+        payload,
+      })
+    }
+  }
+}
+
+export const getTheme = () => {
+  return async (dispatch: AppDispatch) => {
+    const theme = await window.Main.getTheme()
+    dispatch({
+      type: types.SET_THEME,
+      payload: theme,
+    })
+  }
+}
+
+export const getLanguage = () => {
+  return async (dispatch: AppDispatch) => {
+    const language = await window.Main.getLanguage()
+    dispatch({
+      type: types.SET_LANGUAGE,
+      payload: language,
+    })
+  }
+}
 
 export type SettingsActions =
   | ResetShortcutsAction
   | UpdateShortcutAction
-  | SetThemeAction

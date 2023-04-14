@@ -6,6 +6,10 @@ import { Modal } from '@arco-design/web-react'
 
 import { useAppDispatch } from '@root/store/index'
 
+import i18n from 'i18next'
+
+import { useTranslation } from 'react-i18next'
+
 import { ContextMenu, ButtonIcon, Icon } from '@components/index'
 
 import { MenuImperativeProps, ContextItem } from '@components/ContextMenu/index'
@@ -20,23 +24,23 @@ interface IBaseHeaderProps {}
 
 const links = [
   {
-    name: '首页',
+    name: i18n.t('home.home'),
     to: '/main_window/home',
   },
   {
-    name: '发现',
+    name: i18n.t('home.explore'),
     to: '/main_window/explore',
   },
   {
-    name: '我的',
+    name: i18n.t('home.library'),
     to: '/main_window/library?category=全部应用',
   },
   {
-    name: '问答',
+    name: i18n.t('home.answer'),
     to: '/main_window/answer',
   },
   {
-    name: '对话',
+    name: i18n.t('home.chat'),
     to: '/main_window/chat',
   },
 ]
@@ -44,6 +48,8 @@ const links = [
 const Header: React.FC<IBaseHeaderProps> = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  const { t } = useTranslation()
 
   const [inputFocus, setInputFocus] = useState<boolean>(false)
 
@@ -139,7 +145,7 @@ const Header: React.FC<IBaseHeaderProps> = () => {
           }
         >
           <Icon type="icon-shezhi" className="mr-2 h-[15px] w-[15px]" />
-          <span>设置</span>
+          <span>{t('home.setting')}</span>
         </ContextItem>
         <ContextItem
           onclick={() => {
@@ -147,20 +153,20 @@ const Header: React.FC<IBaseHeaderProps> = () => {
           }}
         >
           <Icon type="icon-sign-in-alt" className="mr-2 h-[15px] w-[15px]" />
-          <span>登录</span>
+          <span>{t('home.login')}</span>
         </ContextItem>
         <ContextItem>
           <Icon type="icon-sign-out-alt" className="mr-2 h-[15px] w-[15px]" />
-          <span>登出</span>
+          <span>{t('home.logout')}</span>
         </ContextItem>
       </ContextMenu>
       <Modal
-        title="设置"
+        title={t('home.setting')}
         onCancel={handleClose}
         onOk={handleClose}
         visible={isOpen}
         autoFocus={true}
-        wrapClassName="w-[720px]"
+        className="w-[720px]"
       >
         <SettingModal />
       </Modal>

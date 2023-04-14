@@ -26,7 +26,7 @@ function OperationHeader() {
       className="w-full select-none h-[30px] bg-white dark:bg-[#24272e] border-[#f2f2f2] dark:border-[#1a1a1a] border-[1px] border-solid flex justify-between items-center"
     >
       <div className="pl-[5px] tracking-widest dark:text-white">
-        {APPCATIONTITLE}
+        {/* {APPCATIONTITLE} */}
       </div>
       <div
         className="select-auto flex items-center w-[75px]"

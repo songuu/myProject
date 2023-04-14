@@ -12,6 +12,7 @@ export interface SettingsStateProps {
   shortcuts: types.ShortcutType[]
   enabledPlaylistCategories: string[]
   theme: types.Theme
+  language: types.languages
 }
 
 const initialState: SettingsStateProps = {
@@ -19,6 +20,7 @@ const initialState: SettingsStateProps = {
   shortcuts,
   enabledPlaylistCategories,
   theme: 'dark',
+  language: types.languages['zh-CN'],
 }
 
 export default (
@@ -53,6 +55,11 @@ export default (
       return {
         ...state,
         theme: action.payload,
+      }
+    case types.SET_LANGUAGE:
+      return {
+        ...state,
+        language: action.payload,
       }
     default:
       return state

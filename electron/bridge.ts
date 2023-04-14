@@ -8,7 +8,7 @@ import {
   TransferStatus,
 } from './services/interface'
 
-import { OssType } from './typing'
+import { OssType, languages } from './typing'
 
 const asyncSend = (eventName: string, options = {}): any => {
   const data = options
@@ -85,6 +85,25 @@ export const api = {
     return asyncSend('restoreDefaultShortcuts')
   },
 
+  // 获取语言
+  getLanguage: () => {
+    return asyncSend('getLanguage')
+  },
+
+  // 设置语言
+  setLanguage: (language: languages) => {
+    return asyncSend('setLanguage', language)
+  },
+
+  // 获取主题
+  getTheme: () => {
+    return asyncSend('getTheme')
+  },
+
+  // 设置主题
+  setTheme: (theme: string) => {
+    return asyncSend('setTheme', theme)
+  },
   // 截屏功能
   captureScreen: () => {
     ipcRenderer.send('captureScreen')

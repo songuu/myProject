@@ -8,7 +8,10 @@ import {
   getShortcuts,
   resetShortcuts,
   updateShortcut,
-  setTheme
+  setTheme,
+  setLanguage,
+  getTheme,
+  getLanguage
 } from './settings'
 
 import { setShowLogin } from './app'
@@ -38,7 +41,7 @@ import {
   toggleUsingContext
 } from './chat'
 
-import { getPromptList, setPromptList, addPrompt, updatePrompt , deletePrompt} from './prompt'
+import { getPromptList, setPromptList, addPrompt, updatePrompt, deletePrompt } from './prompt'
 
 /** 自定义通用同步Action */
 export interface CommonAction<T = any> {
@@ -75,6 +78,9 @@ export {
   setShowLogin,
   updateApplycation,
   setTheme,
+  setLanguage,
+  getTheme,
+  getLanguage,
   setChatHistory,
   updateChatHistory,
   deleteChatHistory,

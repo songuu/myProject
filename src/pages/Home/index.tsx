@@ -12,6 +12,8 @@ import {
   Breadcrumb,
 } from '@components/index'
 
+import { useTranslation } from 'react-i18next'
+
 const BreadcrumbItem = Breadcrumb.Item
 
 const routers = [
@@ -31,6 +33,9 @@ const routers = [
 
 function Home() {
   const [visible, setVisible] = useState(false)
+
+  const { t } = useTranslation()
+
   // return <Tooltip content="123123" trigger='hover' color="#1880ff"><button>点击一下</button></Tooltip>
   // return <Skeleton animation></Skeleton>
   // return <Button type="primary">点击一下</Button>
@@ -92,10 +97,12 @@ function Home() {
     </>
   ) */
   return (
-    <Breadcrumb routes={routers}>
-      {/* <BreadcrumbItem>Home1</BreadcrumbItem>
+    <>
+      <Breadcrumb routes={routers}>
+        {/* <BreadcrumbItem>Home1</BreadcrumbItem>
       <BreadcrumbItem>Home2</BreadcrumbItem> */}
-    </Breadcrumb>
+      </Breadcrumb>
+    </>
   )
 }
 

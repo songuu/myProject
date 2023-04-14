@@ -43,7 +43,7 @@ export default [
   }, */
   {
     id: 'getCapture',
-    name: '截屏',
+    name: '截图',
     shortcut: 'CommandOrControl+C',
     globalShortcut: 'Alt+CommandOrControl+C',
     type: 'system',

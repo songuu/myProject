@@ -1,18 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react'
 
-import { ButtonIcon, Icon } from '@components/index'
-
 import classnames from 'classnames'
 
-import { Typography } from '@arco-design/web-react'
+import { Typography, Select } from '@arco-design/web-react'
 
 const { Title } = Typography
+
+const Option = Select.Option
+
+import { useTranslation } from 'react-i18next'
+
+import { ButtonIcon, Icon } from '@components/index'
 
 import defaultAvatar from '@imgs/default-avatar.png'
 
 import { useAppSelector, useAppDispatch } from '@root/store/index'
 
-import { ShortcutType, Theme } from '@root/store/action-types'
+import { ShortcutType, Theme, languages } from '@root/store/action-types'
 
 import {
   changeEnableGlobalShortcut,
@@ -21,6 +25,7 @@ import {
   resetShortcuts,
   updateShortcut,
   setTheme,
+  setLanguage,
 } from '@root/store/actions'
 
 import { Switch } from '@components/index'
@@ -64,6 +69,21 @@ const themeOptions: { label: string; theme: Theme; icon: string }[] = [
   },
 ]
 
+const languageOptions = [
+  {
+    label: '简体中文',
+    value: languages['zh-CN'],
+  },
+  {
+    label: 'English',
+    value: languages['en-US'],
+  },
+  {
+    label: '繁體中文',
+    value: languages['zh-TW'],
+  },
+]
+
 const shortcutTableCol =
   'min-w-[192px] p-[8px] flex items-center first:pl-0 first:min-w-[128px] dark:text-white'
 
@@ -73,6 +93,8 @@ const keyboardInput =
 const keyboardInputActive = 'text-[#335eea] bg-[#eaeffd]'
 
 const Setting = () => {
+  const { t } = useTranslation()
+
   const dispatch = useAppDispatch()
 
   const shortcuts = useAppSelector(
@@ -84,6 +106,8 @@ const Setting = () => {
   ) as boolean
 
   const theme = useAppSelector(state => state.settings.theme)
+
+  const language = useAppSelector(state => state.settings.language)
 
   const [shortcutInput, setShortcutInput] = useState({
     id: '',
@@ -284,9 +308,14 @@ const Setting = () => {
   }
 
   return (
-    <div className="flex" onClick={clickOutside}>
-      <div className="mt-[24px] mb-[64px] w-full">
-        <Title heading={4}>版本 - {pkg.version}</Title>
+    <div
+      className="flex h-[480px] overflow-y-auto overflow-x-hidden"
+      onClick={clickOutside}
+    >
+      <div className="w-full">
+        <Title heading={4} style={{ marginTop: 0 }}>
+          {t('home.version')} - {pkg.version}
+        </Title>
         <div className="mt-[24px] flex items-center justify-between rounded-[16px] bg-[#eaeffd] px-[20px] py-[16px] text-[#000]">
           <div className="flex items-center">
             <img
@@ -304,15 +333,17 @@ const Setting = () => {
                 type="icon-sign-out-alt"
                 className="mr-[4px] h-[18px] w-[18px]"
               />
-              <span>登出</span>
+              <span>{t('home.logout')}</span>
             </button>
           </div>
         </div>
         <div className="mt-[24px]">
-          <Title heading={6}>快捷键</Title>
+          <Title heading={6}>{t('home.hotkeys')}</Title>
           <div className="my-[24px] flex items-center justify-between text-black">
             <div className="text-lg font-medium dark:text-white">
-              启用全局快捷键
+              {t('home.enable')}
+              {t('home.global')}
+              {t('home.hotkeys')}
             </div>
             <div>
               <Switch checked={enableGlobalShortcut} onChange={handleToggle} />
@@ -330,9 +361,12 @@ const Setting = () => {
                 !enableGlobalShortcut && 'last:opacity-50'
               }`}
             >
-              <div className={shortcutTableCol}>功能</div>
-              <div className={shortcutTableCol}>快捷键</div>
-              <div className={shortcutTableCol}>全局快捷键</div>
+              <div className={shortcutTableCol}>{t('home.function')}</div>
+              <div className={shortcutTableCol}>{t('home.hotkeys')}</div>
+              <div className={shortcutTableCol}>
+                {t('home.global')}
+                {t('home.hotkeys')}
+              </div>
             </div>
             {shortcuts.map((shortcut: ShortcutType) => {
               return (
@@ -391,14 +425,16 @@ const Setting = () => {
               className="mt-[12px] rounded-[8px] bg-gray-100 px-[12px] py-[8px] font-semibold text-black duration-200 hover:scale-105  active:scale-95"
               onClick={restoreDefaultShortcuts}
             >
-              恢复默认快捷键
+              {t('home.restore')}
+              {t('home.default')}
+              {t('home.hotkeys')}
             </button>
           </div>
         </div>
         <div className="mt-[24px]">
-          <Title heading={6}>其他</Title>
+          <Title heading={6}>{t('home.other')}</Title>
           <div className="flex items-center space-x-4">
-            <span className="w-[40px] flex-shrink-0">主题</span>
+            <span className="w-[40px] flex-shrink-0">{t('home.theme')}</span>
             <div className="flex flex-wrap items-center gap-4">
               {themeOptions.map((item: any) => {
                 return (
@@ -417,6 +453,24 @@ const Setting = () => {
                 )
               })}
             </div>
+          </div>
+          <div className="flex items-center space-x-4">
+            <span className="m  flex-shrink-0">{t('home.language')}</span>
+            <Select
+              placeholder="请选择语言"
+              style={{ width: 154 }}
+              onChange={value => {
+                dispatch(setLanguage(value))
+                history.go(0)
+              }}
+              value={language}
+            >
+              {languageOptions.map((option, index) => (
+                <Option key={option.value} value={option.value}>
+                  {option.label}
+                </Option>
+              ))}
+            </Select>
           </div>
         </div>
       </div>
